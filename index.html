@@ -197,6 +197,8 @@
     <div class="quote" data-reveal>
       <blockquote data-i18n="quote.text">“The most beautiful bouquet I've ever received in Tirana.”</blockquote>
       <cite data-i18n="quote.cite">— Eriona K., Blloku</cite>
+      <p class="text-muted" style="margin-top:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase"
+         data-i18n="quote.note">Sample review</p>
     </div>
   </div>
 </section>
@@ -211,6 +213,12 @@
           <span class="kicker" data-i18n="section.reviews.kicker">Testimonials</span>
         </div>
         <h2 data-i18n="section.reviews.title">Loved across Tirana</h2>
+        <!-- These three are written, not collected. Labelling them as samples
+             keeps the page honest until real customer feedback replaces them;
+             presenting invented reviews as genuine is a consumer-protection
+             problem, not just a matter of taste. -->
+        <p class="text-muted" style="margin-top:14px;max-width:46ch;font-size:13.5px"
+           data-i18n="section.reviews.note">Sample reviews, shown as examples of the service while we collect feedback from our first customers.</p>
       </div>
     </div>
     <div class="grid-3" data-reveal-stagger>
@@ -316,10 +324,19 @@
       <span class="kicker" data-i18n="newsletter.kicker">Stay in bloom</span>
       <h2 style="font-size:clamp(28px,3.6vw,44px);margin-top:16px" data-i18n="newsletter.title">Get first access to seasonal arrangements</h2>
       <p style="color:#bab6b6;margin-top:14px" data-i18n="newsletter.sub">One email a month, no spam — just what's fresh in Tirana.</p>
-      <form class="newsletter" style="margin-top:26px;border-color:rgba(255,255,255,.35)" onsubmit="event.preventDefault();this.reset();showToast('✓');">
-        <input type="email" required data-i18n-placeholder="newsletter.placeholder" placeholder="Your email address" style="color:#fff">
-        <button type="submit" data-i18n="newsletter.button">Subscribe</button>
-      </form>
+      <!-- This was an email capture that discarded every address it was given.
+           The shop has no mailing list; it has a WhatsApp it already answers
+           and an Instagram it already posts to, so the section points at
+           those instead of collecting something nobody reads. -->
+      <!-- .visit-ctas, not .hero-actions: the latter starts at opacity:0 and is
+           only ever revealed by the hero's entrance animation, so a button row
+           using it anywhere else stays invisible. -->
+      <div class="visit-ctas" style="margin-top:26px;max-width:520px">
+        <a class="btn btn-primary" data-shop-whatsapp data-i18n="contact.whatsapp"
+           href="https://wa.me/355698576569" target="_blank" rel="noopener">Message us on WhatsApp</a>
+        <a class="btn btn-outline-light" data-shop-instagram data-i18n="newsletter.cta.ig"
+           href="https://www.instagram.com/lule.amelia/" target="_blank" rel="noopener">Follow on Instagram</a>
+      </div>
     </div>
   </div>
 </section>

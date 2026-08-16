@@ -51,6 +51,8 @@ const I18N = {
 
     "section.reviews.kicker": "Testimonials",
     "section.reviews.title": "Loved across Tirana",
+    "section.reviews.note": "Sample reviews, shown as examples of the service while we collect feedback from our first customers.",
+    "quote.note": "Sample review",
     "review1.text": "Ordered in the morning, arrived by noon — and it was even more beautiful than the photo. This is our go-to florist now.",
     "review1.name": "Klaudia M.",
     "review2.text": "The roses lasted almost two weeks. You can tell they're cut fresh, not sitting in a cooler somewhere.",
@@ -59,10 +61,9 @@ const I18N = {
     "review3.name": "Gentiana H.",
 
     "newsletter.kicker": "Stay in bloom",
-    "newsletter.title": "Get first access to seasonal arrangements",
-    "newsletter.sub": "One email a month, no spam — just what's fresh in Tirana.",
-    "newsletter.placeholder": "Your email address",
-    "newsletter.button": "Subscribe",
+    "newsletter.title": "See what came in this morning",
+    "newsletter.sub": "We post each morning's arrangements as we finish them. Message us and we'll tell you what is fresh today.",
+    "newsletter.cta.ig": "Follow on Instagram",
 
     "footer.about.title": "Amelia Flowers",
     "footer.about.text": "A neighbourhood florist in the heart of Tirana, arranging fresh flowers by hand.",
@@ -196,6 +197,8 @@ const I18N = {
 
     "section.reviews.kicker": "Dëshmi",
     "section.reviews.title": "E dashur në gjithë Tiranën",
+    "section.reviews.note": "Vlerësime shembull, të shfaqura si ilustrim i shërbimit derisa të mbledhim përshtypjet e klientëve tanë të parë.",
+    "quote.note": "Vlerësim shembull",
     "review1.text": "Porosita në mëngjes, arriti para dreke — dhe ishte edhe më e bukur se në foto. Ky është floristi ynë tani.",
     "review1.name": "Klaudia M.",
     "review2.text": "Trëndafilat zgjatën pothuajse dy javë. Shihet që janë prerë të freskët, jo duke pritur diku në frigorifer.",
@@ -204,10 +207,9 @@ const I18N = {
     "review3.name": "Gentiana H.",
 
     "newsletter.kicker": "Qëndroni në lulëzim",
-    "newsletter.title": "Merrni qasje të parë në koleksionet sezonale",
-    "newsletter.sub": "Një email në muaj, pa spam — vetëm çfarë është e freskët në Tiranë.",
-    "newsletter.placeholder": "Adresa juaj e email-it",
-    "newsletter.button": "Abonohu",
+    "newsletter.title": "Shihni çfarë erdhi këtë mëngjes",
+    "newsletter.sub": "Publikojmë buqetat e çdo mëngjesi sapo i mbarojmë. Na shkruani dhe ju themi çfarë është e freskët sot.",
+    "newsletter.cta.ig": "Na ndiqni në Instagram",
 
     "footer.about.title": "Amelia Flowers",
     "footer.about.text": "Floristi i lagjes në zemër të Tiranës, që rregullon lule të freskëta me dorë.",
@@ -341,6 +343,8 @@ const I18N = {
 
     "section.reviews.kicker": "Testimonianze",
     "section.reviews.title": "Amati in tutta Tirana",
+    "section.reviews.note": "Recensioni di esempio, mostrate a titolo illustrativo del servizio in attesa dei riscontri dei nostri primi clienti.",
+    "quote.note": "Recensione di esempio",
     "review1.text": "Ordinato la mattina, arrivato a mezzogiorno — ed era ancora più bello della foto. Ora è il nostro fioraio di fiducia.",
     "review1.name": "Klaudia M.",
     "review2.text": "Le rose sono durate quasi due settimane. Si capisce che sono tagliate fresche, non tenute in frigo chissà dove.",
@@ -349,10 +353,9 @@ const I18N = {
     "review3.name": "Gentiana H.",
 
     "newsletter.kicker": "Resta in fiore",
-    "newsletter.title": "Scopri per primo le composizioni di stagione",
-    "newsletter.sub": "Un’email al mese, niente spam — solo ciò che è fresco a Tirana.",
-    "newsletter.placeholder": "Il tuo indirizzo email",
-    "newsletter.button": "Iscriviti",
+    "newsletter.title": "Guarda cosa è arrivato stamattina",
+    "newsletter.sub": "Pubblichiamo le composizioni di ogni mattina appena le finiamo. Scrivici e ti diciamo cosa c’è di fresco oggi.",
+    "newsletter.cta.ig": "Seguici su Instagram",
 
     "footer.about.title": "Amelia Flowers",
     "footer.about.text": "Un fioraio di quartiere nel cuore di Tirana, che compone fiori freschi a mano.",
