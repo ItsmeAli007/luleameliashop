@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amelia Flowers — Fresh flowers, every morning. Tirana.</title>
+<meta name="description" content="Amelia Flowers is a neighbourhood florist on Bulevardi Bajram Curri, Tirana. Hand-arranged fresh flowers, same-day delivery, cash on delivery.">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<meta name="theme-color" content="#300713">
+<!-- Social sharing. og:image must stay an absolute https:// URL —
+     Facebook, WhatsApp and X will not fetch a relative one. -->
+<link rel="canonical" href="https://luleamelia.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luleamelia.com/">
+<meta property="og:site_name" content="Amelia Flowers">
+<meta property="og:title" content="Amelia Flowers — Fresh flowers, every morning. Tirana.">
+<meta property="og:description" content="Amelia Flowers is a neighbourhood florist on Bulevardi Bajram Curri, Tirana. Hand-arranged fresh flowers, same-day delivery, cash on delivery.">
+<meta property="og:image" content="https://luleamelia.com/assets/og-amelia.jpg">
+<meta property="og:image:alt" content="Amelia Flowers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Amelia Flowers — Fresh flowers, every morning. Tirana.">
+<meta name="twitter:description" content="Amelia Flowers is a neighbourhood florist on Bulevardi Bajram Curri, Tirana. Hand-arranged fresh flowers, same-day delivery, cash on delivery.">
+<meta name="twitter:image" content="https://luleamelia.com/assets/og-amelia.jpg">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="css/style.css">
+<!-- The liquid-glass layer sits on top of the base system and is safe
+     to remove: the storefront underneath keeps working without it. -->
+<link rel="stylesheet" href="css/liquid-glass.css">
+<!-- Structured data for the shop. Keep the address, phone and hours here in
+     step with js/config.js — search engines read this copy, customers read
+     the one the page renders. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  "name": "Amelia Flowers",
+  "description": "A neighbourhood florist in the heart of Tirana, arranging fresh flowers by hand.",
+  "image": "https://luleamelia.com/assets/og-amelia.jpg",
+  "logo": "https://luleamelia.com/assets/amelia-lockup.png",
+  "url": "https://luleamelia.com/",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bulevardi Bajram Curri",
+    "addressLocality": "Tirana",
+    "addressCountry": "AL"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "08:00",
+    "closes": "21:00"
+  }]
+}
+</script>
+</head>
+<body class="page-home" data-lang-fade>
+
+<header class="site-header">
+  <a href="index.html" class="brand" aria-label="Amelia Flowers"><img class="brand-lockup" src="assets/amelia-wordmark.png" alt="Amelia Flowers — Florist in Tirana"></a>
+  <div class="header-inner">
+    <nav class="main-nav">
+      <a href="shop.html" data-i18n="nav.shop">Shop</a>
+      <a href="#story" data-i18n="nav.story">Our Story</a>
+      <a href="#reviews" data-i18n="nav.reviews">Reviews</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+    <div class="header-tools">
+      <div class="lang-pill">
+        <button data-lang="en">EN</button>
+        <button data-lang="sq">AL</button>
+        <button data-lang="it">IT</button>
+      </div>
+      <button class="icon-btn" data-cart-open aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 2H2"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="menu-toggle icon-btn" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="shop.html" data-i18n="nav.shop">Shop</a>
+  <a href="#story" data-i18n="nav.story">Our Story</a>
+  <a href="#reviews" data-i18n="nav.reviews">Reviews</a>
+  <a href="#contact" data-i18n="nav.contact">Contact</a>
+  <div class="mm-foot"><span data-shop-address>Bulevardi Bajram Curri, Tirana</span><br><a data-shop-phone data-i18n="contact.whatsapp" href="https://wa.me/355698576569" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
+</nav>
+
+<!-- ─────────── HERO ─────────── -->
+<!-- One photograph, two crops. The wide file is composed with its empty
+     burgundy field on the left, which is where the headline sits; the
+     mobile file is that same frame cropped to the rose cluster, so a
+     portrait viewport is not left cropping two thirds off a 16:9 image.
+     No video: the still carries the composition, and the page loads about
+     a megabyte lighter on a phone. -->
+<section class="hero">
+  <div class="hero-wipe"></div>
+  <div class="hero-media">
+    <picture>
+      <source media="(max-width:720px)" srcset="assets/hero-amelia-mobile.webp" type="image/webp">
+      <source media="(max-width:720px)" srcset="assets/hero-amelia-mobile.jpg" type="image/jpeg">
+      <source srcset="assets/hero-amelia.webp" type="image/webp">
+      <img src="assets/hero-amelia.jpg" fetchpriority="high"
+           alt="A deep burgundy bouquet of garden roses and eucalyptus, arranged by Amelia Flowers in Tirana">
+    </picture>
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <span class="hero-eyebrow" data-i18n="hero.eyebrow">Tirana · Bulevardi Bajram Curri</span>
+      <h1 class="hero-title">
+        <span class="line"><span data-i18n="hero.title1">Fresh flowers,</span></span>
+        <span class="line"><span data-i18n="hero.title2">every morning.</span></span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">Cut and arranged by hand in the heart of Tirana. Same-day delivery across the city, cash on delivery.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="shop.html">
+          <span data-i18n="hero.cta.shop">Shop bouquets</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-outline-light" href="#story"><span data-i18n="hero.cta.story">Our story</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span data-i18n="hero.scroll">Scroll</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ─────────── MARQUEE ─────────── -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span data-i18n="marquee.1">Same-day delivery in Tirana</span>
+    <span data-i18n="marquee.2">Hand-tied, never from cold storage</span>
+    <span data-i18n="marquee.3">Cash on delivery available</span>
+    <span data-i18n="marquee.4">Fresh from the morning market</span>
+  </div>
+</div>
+
+<!-- ─────────── SIGNATURE BOUQUETS ─────────── -->
+<section class="section" id="shop">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <div class="section-tag">
+          <span class="idx">01</span>
+          <span class="kicker" data-i18n="section.signature.kicker">Our bouquets</span>
+        </div>
+        <h2 data-i18n="section.signature.title">Signature bouquets</h2>
+      </div>
+      <a class="btn btn-outline" href="shop.html">
+        <span data-i18n="section.signature.viewall">View all</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="grid-products" id="featuredGrid"></div>
+  </div>
+</section>
+
+<!-- ─────────── STORY ─────────── -->
+<section class="section band-dark" id="story">
+  <div class="container">
+    <div class="split">
+      <div class="split-media" data-reveal="img">
+        <div class="reveal-mask" style="height:100%">
+          <picture>
+            <source srcset="assets/photo-roses-closeup.webp" type="image/webp">
+            <img src="assets/photo-roses-closeup.jpg" alt="Roses arranged by hand in Tirana">
+          </picture>
+        </div>
+      </div>
+      <div class="split-text" data-reveal>
+        <div class="section-tag">
+          <span class="idx" style="color:#7d7979">02</span>
+          <span class="kicker" data-i18n="section.story.kicker">From our garden</span>
+        </div>
+        <h2 style="font-size:clamp(30px,4vw,50px);max-width:16ch" data-i18n="section.story.title">Arranged by hand, in the heart of Tirana</h2>
+        <p style="margin-top:22px;max-width:46ch;font-size:16px;line-height:1.7;color:#bab6b6" data-i18n="section.story.body">Every stem is chosen at the morning market and arranged the same day — never from cold storage, never off the shelf. Our florists have been doing this for twelve years, one bouquet at a time.</p>
+        <div class="stat-row">
+          <div class="stat"><b data-i18n="stat2.n">1K+</b><span data-i18n="stat2.l">Bouquets delivered</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── QUOTE ─────────── -->
+<section class="section-tight">
+  <div class="container">
+    <div class="quote" data-reveal>
+      <blockquote data-i18n="quote.text">“The most beautiful bouquet I've ever received in Tirana.”</blockquote>
+      <cite data-i18n="quote.cite">— Eriona K., Blloku</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── REVIEWS ─────────── -->
+<section class="section" id="reviews" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <div class="section-tag">
+          <span class="idx">03</span>
+          <span class="kicker" data-i18n="section.reviews.kicker">Testimonials</span>
+        </div>
+        <h2 data-i18n="section.reviews.title">Loved across Tirana</h2>
+      </div>
+    </div>
+    <div class="grid-3" data-reveal-stagger>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p data-i18n="review1.text">Ordered in the morning, arrived by noon — and it was even more beautiful than the photo.</p>
+        <div class="t-name" data-i18n="review1.name">Klaudia M.</div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p data-i18n="review2.text">The roses lasted almost two weeks. You can tell they're cut fresh.</p>
+        <div class="t-name" data-i18n="review2.name">Ardit S.</div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p data-i18n="review3.text">Cash on delivery made it so easy to send flowers to my mother.</p>
+        <div class="t-name" data-i18n="review3.name">Gentiana H.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── VISIT ───────────
+     The panel is one of the shop's own photographs with a map pin over it,
+     and the whole thing is the link through to Google Maps. It carries no
+     third-party embed, so nothing here loads Google or sets their cookies
+     until a visitor actually chooses to go. -->
+<section class="section-tight" id="visit">
+  <div class="container">
+    <div class="visit-grid" data-reveal>
+      <div class="visit-text">
+        <div class="section-tag">
+          <span class="idx">04</span>
+          <span class="kicker" data-i18n="section.visit.kicker">Find us</span>
+        </div>
+        <h2 data-i18n="section.visit.title">Come and see them</h2>
+        <p class="visit-body" data-i18n="section.visit.body">Our door is open every day. Step in and choose your stems in person — or send us a message and we will bring them to you.</p>
+        <dl class="visit-facts">
+          <div>
+            <dt data-i18n="visit.label.address">Address</dt>
+            <dd data-shop-address>Bulevardi Bajram Curri, Tirana</dd>
+          </div>
+          <div>
+            <dt data-i18n="visit.label.hours">Hours</dt>
+            <dd data-i18n="footer.visit.hours">Open daily · 08:00–21:00</dd>
+          </div>
+          <div>
+            <dt data-i18n="visit.label.phone">Phone</dt>
+            <dd><a data-shop-phone data-i18n="contact.whatsapp" href="https://wa.me/355698576569" target="_blank" rel="noopener">Message us on WhatsApp</a></dd>
+          </div>
+          <div>
+            <dt data-i18n="visit.label.instagram">Instagram</dt>
+            <dd><a data-shop-instagram data-shop-instagram-text
+                   href="https://www.instagram.com/lule.amelia/" target="_blank" rel="noopener">@lule.amelia</a></dd>
+          </div>
+        </dl>
+        <!-- Both are shown to everyone rather than sniffing the device: an
+             iPhone user may still prefer Google, and a guess that goes wrong
+             leaves someone with the one app they do not use. -->
+        <div class="visit-ctas">
+          <a class="btn btn-primary" data-shop-directions
+             href="https://www.google.com/maps/search/?api=1&amp;query=41.32195131457588%2C19.80943619473869"
+             target="_blank" rel="noopener">
+            <span data-i18n="visit.cta">Google Maps</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-outline" data-shop-directions-apple
+             href="https://maps.apple.com/?ll=41.32195131457588%2C19.80943619473869&amp;q=Amelia%20Flowers&amp;z=17"
+             target="_blank" rel="noopener">
+            <span data-i18n="visit.cta.apple">Apple Maps</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- Swap the photograph for any other in assets/ to change the panel.
+           The pin and the caption sit on top of whatever is behind them. -->
+      <a class="visit-map" data-shop-directions
+         href="https://www.google.com/maps/search/?api=1&amp;query=41.32195131457588%2C19.80943619473869"
+         target="_blank" rel="noopener"
+         aria-label="Open the Amelia Flowers shop location in Google Maps">
+        <picture>
+          <source srcset="assets/photo-hero-woman.webp" type="image/webp">
+          <img src="assets/photo-hero-woman.jpg" alt="A customer with roses from Amelia Flowers in Tirana" loading="lazy">
+        </picture>
+        <span class="visit-map-chip">
+          <span data-shop-address>Bulevardi Bajram Curri, Tirana</span>
+          <!-- Outlined rather than solid, so the pin holds up both on the
+               dark chip and on the red one it becomes on hover. -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+            <path d="M12 21.2s6.8-6.3 6.8-11.4A6.8 6.8 0 0 0 5.2 9.8c0 5.1 6.8 11.4 6.8 11.4z"/>
+            <circle cx="12" cy="9.6" r="2.5"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── NEWSLETTER ─────────── -->
+<section class="section band-dark">
+  <div class="container">
+    <div style="max-width:640px" data-reveal>
+      <span class="kicker" data-i18n="newsletter.kicker">Stay in bloom</span>
+      <h2 style="font-size:clamp(28px,3.6vw,44px);margin-top:16px" data-i18n="newsletter.title">Get first access to seasonal arrangements</h2>
+      <p style="color:#bab6b6;margin-top:14px" data-i18n="newsletter.sub">One email a month, no spam — just what's fresh in Tirana.</p>
+      <form class="newsletter" style="margin-top:26px;border-color:rgba(255,255,255,.35)" onsubmit="event.preventDefault();this.reset();showToast('✓');">
+        <input type="email" required data-i18n-placeholder="newsletter.placeholder" placeholder="Your email address" style="color:#fff">
+        <button type="submit" data-i18n="newsletter.button">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <img class="foot-lockup" src="assets/amelia-wordmark.png" alt="Amelia Flowers">
+        <p style="margin-top:14px;max-width:32ch" data-i18n="footer.about.text">A neighbourhood florist in the heart of Tirana, arranging fresh flowers by hand since 2026.</p>
+        <div class="social-row">
+          <a data-shop-instagram href="https://www.instagram.com/lule.amelia/" target="_blank" rel="noopener" aria-label="Instagram — @lule.amelia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a data-shop-facebook href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14v-1.6c0-.3.2-.4.5-.4z"/></svg></a>
+          <a data-shop-whatsapp href="https://wa.me/355698576569" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 0 1-13.3 7.9L3 21l1.2-4.6A9 9 0 1 1 21 12z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h6 data-i18n="footer.shop.title">Shop</h6>
+        <a href="shop.html?cat=roses" data-i18n="footer.shop.roses">Roses</a>
+        <a href="shop.html?cat=seasonal" data-i18n="footer.shop.seasonal">Seasonal</a>
+        <a href="shop.html?cat=weddings" data-i18n="footer.shop.weddings">Weddings</a>
+        <a href="shop.html?cat=gifts" data-i18n="footer.shop.gifts">Gifts</a>
+      </div>
+      <div class="foot-col">
+        <h6 data-i18n="footer.help.title">Help</h6>
+        <a href="#contact" data-i18n="footer.help.contact">Contact us</a>
+      </div>
+      <div class="foot-col">
+        <h6 data-i18n="footer.visit.title">Visit</h6>
+        <p><a class="foot-directions" data-shop-address data-shop-directions
+             href="https://www.google.com/maps/search/?api=1&amp;query=41.32195131457588%2C19.80943619473869" target="_blank" rel="noopener">Bulevardi Bajram Curri, Tirana</a></p>
+        <p data-i18n="footer.visit.hours">Open daily · 08:00–21:00</p>
+        <a data-shop-phone data-i18n="contact.whatsapp" href="https://wa.me/355698576569" target="_blank" rel="noopener">Message us on WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="footer.rights">© 2026 Amelia Flowers. All rights reserved.</span>
+      <span data-i18n="footer.credit">Made with care in Tirana</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─────────── CART DRAWER ─────────── -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="cart-head">
+    <h3 data-i18n="cart.title">Your cart</h3>
+    <button class="btn-ghost-icon" data-cart-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot">
+    <div class="cart-subtotal">
+      <span data-i18n="cart.subtotal">Subtotal</span>
+      <span id="cartSubtotal">0 L</span>
+    </div>
+    <a class="btn btn-primary btn-block" href="checkout.html">
+      <span data-i18n="cart.checkout">Checkout</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</aside>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/liquid-glass.js"></script>
+</body>
+</html>

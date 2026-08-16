@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# PNG masters and the retired hero video — ~44 MB that the site never serves.
+# Keep them on disk (assets/ is re-encoded from them), out of the repo.
+_original-photos/

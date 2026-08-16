@@ -1,0 +1,711 @@
+/* ==========================================================================
+   Amelia Flowers — liquid glass layer.
+
+   Loads AFTER css/style.css and only ever restyles what is already there:
+   no class in this file is required by any script, and every selector here
+   targets markup style.css already defines. Delete this one <link> and the
+   storefront falls back to the flat editorial system underneath, intact.
+
+   The system has three parts:
+     1. tokens        — the Amelia palette, glass recipe, radii, shadows
+     2. .lg-glass     — one reusable surface, plus the selector lists that
+                        adopt it (nav, cards, panels, fields, drawer…)
+     3. motion hooks  — custom properties js/liquid-glass.js writes into
+                        (--lg-px, --lg-rx, --lg-mx …). With JS off, every
+                        one of them falls back to a resting value.
+   ========================================================================== */
+
+:root{
+  /* ── brand ─────────────────────────────────────────────────────────── */
+  --amelia-wine:#830b25;
+  --amelia-wine-bright:#a9163a;
+  --amelia-wine-dark:#300713;
+  --amelia-ivory:#f7f2ef;
+  --amelia-blush:#ead5d9;
+  --amelia-ink:#170b0f;
+
+  --glass-light:rgba(255,250,248,.68);
+  --glass-dark:rgba(27,5,12,.55);
+  --glass-border-light:rgba(255,255,255,.38);
+  --glass-border-wine:rgba(131,11,37,.18);
+
+  /* ── the glass recipe ──────────────────────────────────────────────────
+     Kept as tokens so a surface is one line of declarations, not eight. */
+  --lg-blur:blur(20px) saturate(140%);
+  --lg-blur-strong:blur(28px) saturate(160%);
+  /* The directional reflection lives in background-image rather than in a
+     pseudo-element: half the elements below already spend ::before/::after
+     on something else (button wipes, kicker rules, photo scrims). */
+  --lg-sheen:linear-gradient(118deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.12) 30%,rgba(255,255,255,0) 58%);
+  --lg-sheen-dark:linear-gradient(118deg,rgba(255,255,255,.20) 0%,rgba(255,255,255,.04) 32%,rgba(255,255,255,0) 60%);
+  /* Highlight along the top edge, shadow along the bottom — the two things
+     that stop a translucent panel reading as a flat transparency. */
+  --lg-inner:inset 0 1px 0 rgba(255,255,255,.62),inset 0 -1px 0 rgba(131,11,37,.07);
+  --lg-inner-dark:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.25);
+  --lg-shadow:0 22px 48px -26px rgba(48,7,19,.55),0 6px 18px -12px rgba(48,7,19,.28);
+  --lg-shadow-lifted:0 34px 70px -28px rgba(48,7,19,.6),0 10px 26px -14px rgba(48,7,19,.32);
+
+  --lg-radius-xl:28px;
+  --lg-radius-l:24px;
+  --lg-radius-m:18px;
+  --lg-radius-s:14px;
+
+  /* ── retuned base tokens ───────────────────────────────────────────────
+     style.css draws everything from these, so the palette swap happens once
+     here instead of in fifty places. */
+  --color-bg:var(--amelia-ivory);
+  --color-surface:#f0e6e4;
+  --color-ink:var(--amelia-ink);
+  --color-text:#241318;
+  --color-accent:#9c0f2e;
+  --color-accent-600:var(--amelia-wine);
+  --color-accent-700:#6c0a1f;
+  --color-accent-100:#fdf4f6;
+  --color-accent-200:#f2dde3;
+  --color-divider:rgba(131,11,37,.14);
+  --color-divider-strong:rgba(48,7,19,.55);
+
+  /* Warm greys. Neutral grey goes muddy against blush and ivory. */
+  --n-100:#faf5f4; --n-200:#f0e6e5; --n-300:#dccdd0; --n-400:#c0a8ae;
+  --n-500:#a1868d; --n-600:#7d5f66; --n-700:#644750; --n-800:#483037; --n-900:#2c1a20;
+
+  --radius-card:var(--lg-radius-l);
+}
+
+/* ── ambience ────────────────────────────────────────────────────────────
+   Two soft wine lights behind everything, fixed so they drift under the
+   content as it scrolls rather than travelling with it. Painted on ::before
+   of the body so no element gains a stacking context it did not have. */
+body{background:var(--amelia-ivory)}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(46vw 46vw at 82% -6%,rgba(169,22,58,.16),transparent 62%),
+    radial-gradient(38vw 38vw at -8% 32%,rgba(234,213,217,.55),transparent 66%),
+    radial-gradient(52vw 40vw at 60% 104%,rgba(131,11,37,.10),transparent 64%);
+}
+body.page-home::before{opacity:.9}
+/* Checkout stays deliberately quiet — see the note at the checkout block. */
+body.page-checkout::before{opacity:.55}
+
+/* ==========================================================================
+   1. The reusable surface
+   ========================================================================== */
+
+/* .lg-glass is the class to reach for in new markup. Everything after it in
+   this file is an existing component adopting the same recipe. */
+.lg-glass,
+.site-header.solid,
+.lang-pill,
+.p-card,
+.chip,
+.t-card,
+.visit-facts,
+.newsletter,
+.summary-card,
+.pd-panel,
+.pay-card,
+.qty-stepper,
+.input,
+.cart-drawer,
+.order-num,
+.breadcrumb.lg-crumb,
+.hero-eyebrow{
+  background-color:var(--glass-light);
+  background-image:var(--lg-sheen);
+  -webkit-backdrop-filter:var(--lg-blur);
+  backdrop-filter:var(--lg-blur);
+  border:1px solid var(--glass-border-light);
+  box-shadow:var(--lg-inner),var(--lg-shadow);
+}
+
+/* Dark twin, for glass sitting on the hero or on a wine band. */
+.lg-glass--dark,
+.mobile-menu,
+.hero-eyebrow,
+.band-dark .newsletter,
+.marquee{
+  background-color:var(--glass-dark);
+  background-image:var(--lg-sheen-dark);
+  border-color:rgba(255,255,255,.16);
+  box-shadow:var(--lg-inner-dark),var(--lg-shadow);
+  color:#fff;
+}
+
+/* Fallback: without backdrop-filter the panels would be plain washes of
+   semi-transparent white with page content legible straight through them.
+   Opaque tints instead — same palette, no transparency. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .lg-glass,.site-header.solid,.lang-pill,.p-card,.chip,.t-card,.visit-facts,
+  .newsletter,.summary-card,.pd-panel,.pay-card,.qty-stepper,.input,.cart-drawer,
+  .order-num,.breadcrumb.lg-crumb{background-color:#fdf9f8}
+  .lg-glass--dark,.mobile-menu,.hero-eyebrow,.band-dark .newsletter,.marquee{background-color:#25060f}
+}
+
+/* ==========================================================================
+   2. Navigation — floating glass bar
+   ========================================================================== */
+.site-header{
+  top:clamp(8px,1.4vw,16px);
+  left:clamp(8px,1.8vw,24px);
+  right:clamp(8px,1.8vw,24px);
+  padding:10px clamp(12px,1.6vw,20px);
+  border:1px solid transparent;border-radius:var(--lg-radius-m);
+  background-color:transparent;background-image:none;box-shadow:none;
+  /* z-index above the mobile menu so the close button stays reachable. */
+  z-index:260;
+  transition:background-color .45s var(--ease-in-out),backdrop-filter .45s var(--ease-in-out),
+             box-shadow .45s var(--ease-in-out),border-color .45s var(--ease-in-out),
+             padding .45s var(--ease-in-out),top .45s var(--ease-in-out);
+}
+.site-header.solid{
+  padding:8px clamp(12px,1.6vw,20px);
+  border-color:var(--glass-border-light);
+  border-radius:var(--lg-radius-m);
+}
+/* On a light page the un-scrolled bar has no dark photo behind it, so it
+   carries a whisper of glass from the start — otherwise the links float on
+   raw background with nothing to sit on. */
+.on-light .site-header:not(.solid){
+  background-color:rgba(255,250,248,.34);
+  -webkit-backdrop-filter:blur(10px) saturate(120%);
+  backdrop-filter:blur(10px) saturate(120%);
+  border-color:rgba(255,255,255,.28);
+}
+/* The bar is a fixed element, so anything too wide for it spills off-screen
+   without ever showing up in the page's scroll width — the cart and menu
+   buttons simply leave the viewport. Every item in the row is therefore
+   allowed to shrink, and the lockup gives way first. */
+.site-header{gap:10px;flex-wrap:nowrap}
+.header-inner{gap:clamp(12px,2.4vw,40px);min-width:0;flex:0 1 auto}
+.header-tools{min-width:0;flex-wrap:nowrap}
+.brand{flex:0 1 auto;min-width:0;display:flex}
+.brand-lockup{max-width:100%;object-fit:contain;object-position:left center}
+.main-nav a{font-weight:600}
+.main-nav a::after{height:1.5px;background:var(--color-accent)}
+/* The scrolled bar is near-white glass, so every piece of it is given its
+   dark colour explicitly rather than relying on the absence of the
+   :not(.solid) rules underneath — during the 0.45s cross-fade both states
+   are briefly on screen, and white-on-white is not a state to pass through. */
+.site-header.solid .main-nav a,
+.site-header.solid .brand,
+.site-header.solid .icon-btn,
+.site-header.solid .lang-pill,
+.site-header.solid .lang-pill button{color:var(--color-text)}
+.site-header.solid .lang-pill button.active{color:#fff}
+.site-header.solid .brand-lockup{filter:none}
+
+/* Language selector + cart + menu button */
+.lang-pill{border-radius:var(--radius-pill);overflow:hidden;padding:2px}
+.lang-pill button{
+  border-radius:var(--radius-pill);padding:6px 12px;transition:background .28s var(--ease-out),color .28s var(--ease-out);
+}
+.lang-pill button.active{
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  color:#fff;box-shadow:0 6px 14px -8px rgba(131,11,37,.9);
+}
+.site-header:not(.solid) .lang-pill{
+  background-color:rgba(255,255,255,.14);background-image:var(--lg-sheen-dark);
+  border-color:rgba(255,255,255,.32);
+}
+.on-light .site-header:not(.solid) .lang-pill{
+  background-color:rgba(255,250,248,.5);border-color:rgba(255,255,255,.5);
+}
+.icon-btn{border-radius:var(--radius-pill)}
+.cart-count{
+  border-radius:var(--radius-pill);
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  box-shadow:0 4px 10px -4px rgba(131,11,37,.8),inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* Mobile navigation — dark glass over the blurred page rather than a slab. */
+.mobile-menu{
+  -webkit-backdrop-filter:var(--lg-blur-strong);
+  backdrop-filter:var(--lg-blur-strong);
+  /* Dark enough that a light page behind it does not read through the
+     panel — the blur alone is not contrast. */
+  background-color:rgba(23,11,15,.92);
+  justify-content:center;
+}
+.mobile-menu a{border-bottom:1px solid rgba(255,255,255,.14)}
+/* While the menu is open the bar itself must not glaze over the panel. */
+body.menu-open .site-header,
+body.menu-open .site-header.solid{
+  background-color:transparent;background-image:none;box-shadow:none;
+  border-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;
+}
+body.menu-open .brand-lockup{filter:brightness(0) invert(1)}
+
+/* ==========================================================================
+   3. Buttons
+   ========================================================================== */
+.btn{
+  border-radius:var(--radius-pill);border-width:1px;
+  padding:15px 26px;min-height:48px;
+  transition:transform .35s var(--ease-out),box-shadow .35s var(--ease-out),
+             background-color .3s var(--ease-out),border-color .3s var(--ease-out),color .3s var(--ease-out);
+}
+.btn-primary{
+  background:linear-gradient(140deg,var(--amelia-wine-bright) 0%,var(--amelia-wine) 58%,#6d0a1e 100%);
+  border-color:rgba(255,255,255,.18);
+  box-shadow:0 16px 30px -18px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.32);
+}
+/* style.css slides an ink panel across on hover; keep the mechanic, change
+   the colour so it deepens the wine instead of going black. */
+.btn-primary::after{background:linear-gradient(140deg,#6d0a1e,var(--amelia-wine-dark))}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 22px 38px -18px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.32)}
+.btn-outline,.btn-outline-light{
+  background-color:rgba(255,250,248,.34);background-image:var(--lg-sheen);
+  -webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur);
+  border-color:var(--glass-border-wine);
+  box-shadow:var(--lg-inner),0 12px 26px -20px rgba(48,7,19,.5);
+}
+.btn-outline:hover{transform:translateY(-2px);border-color:var(--amelia-wine);color:var(--amelia-wine)}
+.btn-outline-light{
+  background-color:rgba(255,255,255,.12);background-image:var(--lg-sheen-dark);
+  border-color:rgba(255,255,255,.45);color:#fff;
+}
+.btn-outline-light:hover{transform:translateY(-2px);background-color:rgba(255,255,255,.2);border-color:#fff}
+.btn-dark{border-radius:var(--radius-pill);background:linear-gradient(140deg,#2b1219,var(--amelia-ink))}
+.btn-wa{border-radius:var(--radius-pill)}
+.add-btn{
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  box-shadow:0 12px 22px -14px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out),background .25s;
+}
+.add-btn:hover{background:linear-gradient(140deg,var(--amelia-wine),#6d0a1e);transform:translateY(-2px) scale(1.04)}
+
+/* One visible focus treatment for everything that takes focus. */
+.btn:focus-visible,.chip:focus-visible,.add-btn:focus-visible,.icon-btn:focus-visible,
+.lang-pill button:focus-visible,.qty-stepper button:focus-visible,.input:focus-visible,
+.main-nav a:focus-visible,.foot-col a:focus-visible,.social-row a:focus-visible,
+.p-name a:focus-visible,.newsletter button:focus-visible,.cart-remove:focus-visible{
+  outline:2px solid var(--amelia-wine-bright);outline-offset:3px;border-radius:var(--radius-pill);
+}
+.input:focus-visible{border-radius:var(--lg-radius-s)}
+
+/* Thumb-sized targets on phones. */
+@media (max-width:900px){
+  .btn{min-height:52px}
+  .add-btn{width:46px;height:46px}
+  .chip{min-height:44px;display:inline-flex;align-items:center}
+}
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero{
+  min-height:100svh;height:auto;
+  /* Falls back to the wine-dark of the photograph itself while it loads. */
+  background:var(--amelia-wine-dark);
+  isolation:isolate;
+}
+.hero-media{
+  /* Slightly oversized so the parallax can move without exposing an edge. */
+  inset:-2.5%;
+  transform:translate3d(calc(var(--lg-px,0) * 14px),calc(var(--lg-py,0) * 12px),0);
+  transition:transform .9s cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
+}
+.hero-media img{
+  /* Anchored left of centre: the emptier burgundy half of the frame is the
+     half the headline sits on, and a centred crop is the first thing to eat
+     it as the window narrows. */
+  width:100%;height:100%;object-fit:cover;object-position:26% 50%;
+  transform:scale(1.14);
+  transition:transform 2.4s cubic-bezier(.16,1,.3,1);
+}
+/* Rests at 1: the media box is already 5% oversized for the parallax, and
+   any further zoom eats into the empty field the headline needs. */
+.hero.loaded .hero-media img{transform:scale(1)}
+
+/* Two overlays, both required by the composition: a deep burgundy column on
+   the left where the text sits, and a light veil over the flowers so the
+   glass chips read against them without dulling the roses. */
+.hero-scrim{
+  background:
+    linear-gradient(96deg,rgba(30,4,12,.92) 0%,rgba(35,5,14,.78) 26%,rgba(40,6,16,.42) 48%,rgba(40,6,16,.12) 68%,rgba(40,6,16,.05) 100%),
+    linear-gradient(180deg,rgba(23,11,15,.5) 0%,rgba(23,11,15,0) 26%,rgba(23,11,15,0) 62%,rgba(23,11,15,.6) 100%);
+}
+/* A slow floating light, so the frame is never completely still. */
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(38vw 38vw at 22% 32%,rgba(169,22,58,.20),transparent 68%);
+  animation:lg-float 16s ease-in-out infinite alternate;
+}
+@keyframes lg-float{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(3%,-4%,0) scale(1.12)}
+}
+.hero-content{
+  justify-content:center;
+  max-width:min(1320px,100%);margin:0 auto;width:100%;
+  padding:clamp(120px,16vh,180px) var(--gutter) clamp(90px,12vh,130px);
+}
+.hero-inner{max-width:min(620px,52vw)}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:9px 18px;border-radius:var(--radius-pill);
+  font-size:11px;letter-spacing:.16em;color:#fbeef1;
+}
+.hero-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amelia-wine-bright);box-shadow:0 0 12px 2px rgba(169,22,58,.9)}
+.hero-title{font-size:clamp(42px,7.4vw,104px);max-width:13ch;letter-spacing:-.02em}
+/* background-clip:text paints the gradient only where it covers the box, and
+   Playfair hangs ç, ë and gj well below it — Albanian sets those constantly,
+   so the tails were being cut off. The span is padded so its painting area
+   reaches under the descenders and the reveal mask is padded so it does not
+   clip them; both are taken back with negative margins, leaving the line
+   spacing exactly as it was. */
+.hero-title .line{padding-bottom:.3em;margin-bottom:-.3em}
+.hero-title .line span{
+  background:linear-gradient(180deg,#fff 30%,#f3d7de 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding-bottom:.24em;margin-bottom:-.24em;
+}
+.hero-sub{color:rgba(255,248,248,.9);max-width:42ch;font-size:clamp(15px,1.2vw,17.5px)}
+.hero-actions{margin-top:34px}
+.hero-scroll{color:rgba(255,255,255,.78)}
+.hero-scroll .line{background:rgba(255,255,255,.3)}
+
+@media (max-width:720px){
+  .hero{min-height:680px}
+  /* The mobile file is already cropped to the rose cluster; nudged right of
+     centre so the stems stay in frame and the headline lands on the darker
+     lower band rather than across the open roses. */
+  .hero-media img{object-position:58% 42%}
+  .hero-content{justify-content:flex-end;padding-bottom:56px;padding-top:120px}
+  .hero-scrim{
+    background:
+      linear-gradient(180deg,rgba(23,11,15,.62) 0%,rgba(23,11,15,.12) 22%,rgba(30,4,12,.55) 58%,rgba(24,3,10,.92) 100%);
+  }
+  .hero-title{font-size:clamp(40px,10.5vw,58px);max-width:11ch}
+  .hero-sub{font-size:15px;max-width:34ch}
+}
+@media (max-width:360px){
+  .hero-actions{gap:10px}
+  .hero-actions .btn{padding:14px 18px;font-size:12px}
+}
+
+/* Scroll progress — built by js/liquid-glass.js, 3px, never taller. */
+.lg-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:400;pointer-events:none;
+  transform:scaleX(var(--lg-progress,0));transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--amelia-wine),var(--amelia-wine-bright));
+  box-shadow:0 1px 8px rgba(131,11,37,.5);
+}
+
+/* ==========================================================================
+   5. Product cards
+   ========================================================================== */
+.grid-products{gap:clamp(16px,2vw,26px)}
+.p-card{
+  border-radius:var(--lg-radius-xl);padding:10px;overflow:visible;
+  transform-style:preserve-3d;
+  transform:
+    perspective(1100px)
+    rotateX(var(--lg-rx,0deg))
+    rotateY(var(--lg-ry,0deg))
+    translateY(var(--lg-lift,0px));
+  transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out),border-color .3s var(--ease-out);
+}
+.p-card:hover{--lg-lift:-6px;border-color:rgba(255,255,255,.55);box-shadow:var(--lg-inner),var(--lg-shadow-lifted)}
+/* The reflection that follows the pointer. Sits above the card content but
+   takes no clicks; --lg-mx/--lg-my rest in the middle when JS is off. */
+.p-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:3;pointer-events:none;
+  background:radial-gradient(38% 46% at var(--lg-mx,50%) var(--lg-my,50%),rgba(255,255,255,.34),rgba(255,255,255,0) 72%);
+  opacity:0;transition:opacity .4s var(--ease-out);
+}
+.p-card:hover::after{opacity:1}
+.p-card .p-media{
+  border-radius:var(--lg-radius-m);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(131,11,37,.10),0 10px 24px -18px rgba(48,7,19,.7);
+}
+.p-card:hover .p-media img{transform:scale(1.05)}
+.p-body{padding:18px 14px 14px}
+.p-name{font-size:20px}
+.p-price{font-size:17px;color:var(--color-accent-700)}
+.p-cat{color:var(--n-600)}
+.p-desc{color:var(--n-700)}
+.p-tag{
+  top:12px;left:12px;padding:6px 13px;
+  background-color:rgba(131,11,37,.62);background-image:var(--lg-sheen-dark);
+  -webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:0 8px 18px -12px rgba(48,7,19,.9),inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+/* Category filter chips */
+.chip{
+  border-radius:var(--radius-pill);padding:11px 20px;
+  border-color:var(--glass-border-wine);color:var(--n-800);
+  transition:transform .25s var(--ease-out),background-color .25s var(--ease-out),
+             color .25s var(--ease-out),border-color .25s var(--ease-out),box-shadow .25s var(--ease-out);
+}
+.chip:hover{transform:translateY(-2px);border-color:rgba(131,11,37,.4);color:var(--amelia-wine)}
+.chip.active{
+  background-color:transparent;
+  background-image:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  border-color:rgba(255,255,255,.28);color:#fff;
+  box-shadow:0 14px 26px -16px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+/* ==========================================================================
+   6. Sections — story, quote, testimonials, visit, newsletter, footer
+   ========================================================================== */
+.band-dark{
+  background:linear-gradient(150deg,var(--amelia-wine-dark) 0%,var(--amelia-ink) 55%,#210610 100%);
+  color:#f6ecec;position:relative;overflow:hidden;
+}
+.band-dark::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(40vw 40vw at 88% 12%,rgba(169,22,58,.22),transparent 66%);
+}
+.band-dark > *{position:relative;z-index:1}
+.band-dark .kicker{color:#f0bcc8}
+.split-media{border-radius:var(--lg-radius-xl);overflow:hidden;box-shadow:var(--lg-shadow)}
+.split-media .reveal-mask{border-radius:inherit;overflow:hidden}
+.stat b{background:linear-gradient(140deg,#f6c9d3,var(--amelia-wine-bright));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.quote blockquote{color:var(--color-text)}
+.marquee{
+  border:0;border-radius:0;
+  background-color:rgba(23,11,15,.9);
+  color:#f6ecec;
+}
+.marquee span::after{color:var(--amelia-wine-bright)}
+
+/* Testimonials: real gaps between glass cards, not hairlines over a slab. */
+.grid-3{gap:clamp(14px,1.6vw,22px);background:transparent}
+.t-card{
+  border-radius:var(--lg-radius-l);padding:30px 28px;
+  transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out);
+}
+.t-card:hover{transform:translateY(-5px);box-shadow:var(--lg-inner),var(--lg-shadow-lifted)}
+.t-stars{color:var(--amelia-wine-bright)}
+.t-card p{color:var(--n-800)}
+
+/* Visit / location panel */
+.visit-facts{
+  border-radius:var(--lg-radius-l);padding:6px 24px;margin-top:30px;
+}
+.visit-facts > div{border-bottom:1px solid var(--color-divider)}
+.visit-facts > div:last-child{border-bottom:0}
+.visit-map{
+  border-radius:var(--lg-radius-xl);overflow:hidden;border:1px solid var(--glass-border-light);
+  box-shadow:var(--lg-shadow);
+}
+.visit-map-chip{
+  left:14px;bottom:14px;border-radius:var(--radius-pill);
+  background-color:rgba(27,5,12,.55);background-image:var(--lg-sheen-dark);
+  -webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:var(--lg-inner-dark),0 14px 30px -18px rgba(48,7,19,.9);
+}
+.visit-map:hover .visit-map-chip{background-color:rgba(131,11,37,.72)}
+
+/* Newsletter */
+.newsletter{border-radius:var(--radius-pill);padding:5px 5px 5px 6px;max-width:540px}
+.newsletter input{background:transparent;padding:14px 18px}
+.newsletter input::placeholder{color:rgba(255,255,255,.55)}
+.newsletter button{
+  border-radius:var(--radius-pill);padding:14px 24px;
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));color:#fff;
+  box-shadow:0 12px 24px -14px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out);
+}
+.newsletter button:hover{transform:translateY(-1px);background:linear-gradient(140deg,var(--amelia-wine),#6d0a1e)}
+@media (max-width:520px){
+  .newsletter{border-radius:var(--lg-radius-l);flex-wrap:wrap;padding:8px}
+  .newsletter input{flex:1 1 100%}
+  .newsletter button{flex:1 1 100%;justify-content:center}
+}
+
+.site-footer{
+  background:linear-gradient(170deg,var(--amelia-ink) 0%,var(--amelia-wine-dark) 100%);
+  color:var(--n-300);
+}
+.social-row a{
+  border-radius:var(--radius-pill);border-color:rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);transition:transform .28s var(--ease-out),background .28s,border-color .28s,color .28s;
+}
+.social-row a:hover{transform:translateY(-2px);background:rgba(169,22,58,.35);border-color:rgba(255,255,255,.5);color:#fff}
+
+/* ==========================================================================
+   7. Interior page heroes — shop, product, checkout
+   ========================================================================== */
+.page-hero,#pdRoot{position:relative;overflow:hidden}
+.page-hero{border-bottom:0;padding-bottom:44px}
+/* A blurred wine light plus two restrained orbital rings. Both are drawn on
+   pseudo-elements of the section, so no page gains extra markup. */
+.page-hero::before,#pdRoot::before{
+  content:"";position:absolute;top:-32%;right:-14%;width:min(760px,86vw);aspect-ratio:1;
+  border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(169,22,58,.20) 0%,rgba(234,213,217,.28) 42%,transparent 68%);
+  filter:blur(28px);
+}
+.page-hero::after{
+  content:"";position:absolute;top:-46%;right:-8%;width:min(680px,78vw);aspect-ratio:1;
+  border:1px solid rgba(131,11,37,.16);border-radius:50%;pointer-events:none;z-index:0;
+  box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,-70px 60px 0 -1px rgba(131,11,37,.08);
+}
+.page-hero > *,#pdRoot > *{position:relative;z-index:1}
+.page-hero h1{letter-spacing:-.02em}
+.page-hero .container > p{color:var(--n-700)}
+/* Glass breadcrumb — .lg-crumb is added in the markup of the interior pages. */
+.breadcrumb.lg-crumb{
+  display:inline-flex;border-radius:var(--radius-pill);padding:8px 16px;margin-bottom:22px;
+  color:var(--n-700);
+}
+.breadcrumb.lg-crumb a:hover{color:var(--amelia-wine)}
+@media (max-width:420px){
+  .breadcrumb.lg-crumb{padding:7px 12px;font-size:11.5px}
+}
+
+/* Product detail */
+.pd-media{border-radius:var(--lg-radius-xl);overflow:hidden;box-shadow:var(--lg-shadow)}
+.pd-media .reveal-mask{border-radius:inherit;overflow:hidden}
+/* The information column becomes one panel, so the page reads as photo +
+   card rather than photo + loose text. */
+.pd-panel{
+  border-radius:var(--lg-radius-xl);padding:clamp(22px,3vw,38px);
+}
+.pd-price{color:var(--color-accent-700)}
+/* On a phone the stepper leaves the add button about 145px, which breaks
+   "Shto në shportë" over two lines. Give it its own row instead. */
+@media (max-width:520px){
+  .pd-qty-row .btn{flex:1 1 100%}
+}
+.qty-stepper{border-radius:var(--radius-pill);overflow:hidden;padding:3px}
+.qty-stepper button{border-radius:var(--radius-pill);transition:background .25s,color .25s}
+.qty-stepper button:hover{background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));color:#fff}
+.pd-meta{border-top:1px solid var(--color-divider)}
+.pay-card{
+  border-radius:var(--lg-radius-l);border-color:var(--glass-border-wine);
+  background-color:rgba(253,244,246,.72);
+}
+.pay-card .pay-icon{
+  border-radius:14px;background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  box-shadow:0 10px 20px -12px rgba(131,11,37,.9);
+}
+.pay-check{background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine))}
+
+/* ==========================================================================
+   8. Cart drawer, checkout, confirmation
+   ========================================================================== */
+.overlay{background:rgba(23,11,15,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.cart-drawer{
+  border-radius:var(--lg-radius-xl) 0 0 var(--lg-radius-xl);
+  background-color:rgba(255,250,248,.9);
+  -webkit-backdrop-filter:var(--lg-blur-strong);backdrop-filter:var(--lg-blur-strong);
+  box-shadow:-30px 0 60px -30px rgba(48,7,19,.5),var(--lg-inner);
+  transition:transform .55s cubic-bezier(.22,1,.36,1);
+}
+.cart-head{border-bottom:1px solid var(--color-divider)}
+.cart-foot{border-top:1px solid var(--color-divider)}
+.cart-row{border-bottom:1px solid var(--color-divider)}
+.thumb{border-radius:var(--lg-radius-s)}
+@media (max-width:520px){.cart-drawer{border-radius:0}}
+
+/* Checkout is the calmest surface on the site: same glass, less of it, no
+   pointer tricks and no floating lights. Clarity beats decoration once the
+   customer has decided to buy. */
+.page-checkout .p-card::after{display:none}
+.input{
+  border-radius:var(--lg-radius-s);border-color:var(--glass-border-wine);
+  background-color:rgba(255,252,251,.8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+  transition:border-color .25s,box-shadow .25s,background-color .25s;
+}
+.input:focus{
+  border-color:var(--amelia-wine-bright);background-color:#fff;
+  box-shadow:0 0 0 3px rgba(169,22,58,.14),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.field.invalid .input{border-color:var(--amelia-wine-bright);box-shadow:0 0 0 3px rgba(169,22,58,.12)}
+.field label{color:var(--n-700)}
+.summary-card{border-radius:var(--lg-radius-xl);padding:clamp(22px,2.6vw,30px);position:sticky;top:96px}
+@media (max-width:900px){.summary-card{position:static}}
+.summary-row{border-bottom:1px solid var(--color-divider)}
+.mini-cart-item{border-bottom:1px solid var(--color-divider)}
+.mini-cart-item .thumb{border-radius:10px}
+
+.confirm-wrap .container{
+  max-width:760px;border-radius:var(--lg-radius-xl);
+  padding:clamp(34px,5vw,60px) clamp(22px,4vw,54px);
+  background-color:var(--glass-light);background-image:var(--lg-sheen);
+  -webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur);
+  border:1px solid var(--glass-border-light);
+  box-shadow:var(--lg-inner),var(--lg-shadow);
+}
+.confirm-check{
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));
+  box-shadow:0 22px 44px -22px rgba(131,11,37,.95),inset 0 1px 0 rgba(255,255,255,.35);
+}
+/* The tick draws itself in, but its resting state is *drawn* rather than
+   erased: if the animation never runs, the customer still sees a tick and
+   not an empty wine disc. */
+.confirm-check svg path{stroke-dashoffset:0;animation:lg-draw .7s var(--ease-out) .25s both}
+@keyframes lg-draw{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+.order-num{border-radius:var(--radius-pill);border-color:var(--glass-border-wine)}
+
+/* Toast */
+.toast{
+  border-radius:var(--radius-pill);
+  background-color:rgba(27,5,12,.72);background-image:var(--lg-sheen-dark);
+  -webkit-backdrop-filter:var(--lg-blur);backdrop-filter:var(--lg-blur);
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:var(--lg-inner-dark),0 20px 40px -20px rgba(48,7,19,.8);
+}
+.toast svg{color:#f0bcc8}
+
+/* Missing-photo placeholder, in the new palette. */
+.img-slot{border-width:1px;border-radius:inherit}
+
+/* ==========================================================================
+   9. Motion, entrance, and the reduced-motion contract
+   ========================================================================== */
+/* Page entrance: opacity only, so nothing shifts under a click. */
+.js body{animation:lg-enter .7s var(--ease-out) both}
+@keyframes lg-enter{from{opacity:0}to{opacity:1}}
+
+@media (hover:none){
+  /* No tilt, no pointer sheen on touch — both need a pointer to make sense
+     and both cost frames on a mid-range phone. */
+  .p-card{transform:none}
+  .p-card::after{display:none}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .js body{animation:none}
+  .hero-media,.hero-media img,.hero.loaded .hero-media img{transform:none;transition:none}
+  .hero::after{animation:none}
+  .p-card{transform:none}
+  .p-card::after{display:none}
+  .p-card:hover{--lg-lift:0px}
+  .lg-progress{display:none}
+  .marquee-track{animation:none}
+  .btn:hover,.chip:hover,.t-card:hover,.add-btn:hover,.social-row a:hover{transform:none}
+}
+
+/* ==========================================================================
+   10. Narrow-screen safety
+   ========================================================================== */
+/* Phones: the three language buttons, the cart and the menu have to share a
+   bar with the lockup. Tap targets stay at 44px tall; only the horizontal
+   padding gives. */
+@media (max-width:430px){
+  .site-header{padding-left:12px;padding-right:12px;gap:8px}
+  .header-inner{gap:10px}
+  .header-tools{gap:8px}
+  .lang-pill button{padding:11px 9px;font-size:10.5px;letter-spacing:.04em}
+}
+@media (max-width:360px){
+  .site-header{left:6px;right:6px;padding-left:10px;padding-right:10px}
+  .lang-pill button{padding:11px 6px;font-size:10px}
+  .header-tools{gap:6px}
+  .p-card{padding:8px}
+  .p-body{padding:16px 10px 12px}
+  .visit-facts{padding:4px 16px}
+  .visit-facts > div{grid-template-columns:88px 1fr;gap:12px}
+  .confirm-wrap .container{padding-left:18px;padding-right:18px}
+}

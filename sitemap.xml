@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Only the two pages worth indexing are listed.
+
+  product.html is deliberately absent: every bouquet is the same URL with a
+  different ?id=, and the page builds itself in the browser, so a crawler
+  fetching product.html sees one empty template rather than six products.
+  If the catalogue ever needs to rank on its own, those become real pages.
+
+  checkout.html is absent for the same reason robots.txt disallows it.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://luleamelia.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/shop.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
