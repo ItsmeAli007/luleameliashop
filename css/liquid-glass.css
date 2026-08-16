@@ -709,3 +709,21 @@ body.menu-open .brand-lockup{filter:brightness(0) invert(1)}
   .visit-facts > div{grid-template-columns:88px 1fr;gap:12px}
   .confirm-wrap .container{padding-left:18px;padding-right:18px}
 }
+
+/* ── Confirmation, pending state ──────────────────────────────────────
+   Shown when the order has not actually reached the shop yet — no order
+   endpoint configured, or the post failed — and the customer still has to
+   press send in WhatsApp. The success green would be a lie here, so the
+   badge takes the accent colour and the WhatsApp button is emphasised as
+   the thing still to do rather than an afterthought. */
+.confirm-wrap.is-pending .confirm-check{
+  background:var(--color-accent,#8d1330);
+}
+.confirm-wrap.is-pending .wa-block{
+  border:2px solid var(--color-accent,#8d1330);
+  padding:22px;
+  margin-top:30px;
+}
+.confirm-wrap.is-pending .wa-note{
+  font-weight:600;
+}

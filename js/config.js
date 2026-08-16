@@ -80,6 +80,34 @@ const SHOP = {
      The customer still has to press send — see README. */
   autoOpenWhatsApp: true,
 
+  /* ── Where orders are actually recorded ──────────────────────────
+     The WhatsApp hand-off is fast but not reliable: the message is
+     composed in the customer's WhatsApp, and only they can press send.
+     Close the tab at that moment and the order is gone, and no amount
+     of code on this page can prevent it — once the hand-off happens the
+     message is inside another app, out of the browser's reach.
+
+     So the order is ALSO posted from this page the instant the form is
+     submitted, which needs nothing from the customer at all. Fill these
+     in and that becomes the record; WhatsApp stays as the fast ping.
+
+     Leave orderEndpoint empty and nothing is posted anywhere — the site
+     falls back to WhatsApp only, and the confirmation screen tells the
+     customer honestly that their order is not confirmed until they send
+     it. Do not leave it empty for long: that screen is the difference
+     between a lost order and a customer who thinks flowers are coming.
+
+     Any service that accepts a JSON POST works. Web3Forms and Formspree
+     are both fine — see README for which fields each expects. */
+  orderEndpoint: "",
+
+  /* Submission key, if the service uses one. Web3Forms calls this an
+     access key and it is designed to be public — it can only submit to
+     your own form, it cannot read anything back. Do NOT put a secret
+     API token here: everything in this file is visible to any visitor
+     who opens developer tools. */
+  orderEndpointKey: "",
+
   /* ── Abuse limits ────────────────────────────────────────────────
      These stop honest mistakes and casual repeat-clicking. They are
      enforced in the visitor's own browser, so anyone determined can

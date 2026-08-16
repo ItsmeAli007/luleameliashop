@@ -450,6 +450,84 @@ function buildWhatsAppUrl(data) {
   return "https://wa.me/" + SHOP.whatsapp + "?text=" + encodeURIComponent(buildWhatsAppText(data));
 }
 
+/* ---------------- posting the order ----------------
+   Fires from this page the moment the form is submitted, so the order is
+   recorded whether or not the customer ever presses send in WhatsApp.
+   This is the half of the hand-off that does not depend on them.
+
+   Returns a promise for true/false rather than throwing: a failed post
+   must not cost the customer their confirmation screen, it just means the
+   WhatsApp message becomes the only route and the screen says so. */
+function postOrder(data) {
+  const url = (typeof SHOP !== "undefined" && SHOP.orderEndpoint || "").trim();
+  if (!url) return Promise.resolve(false);
+
+  const body = {
+    subject: "Porosi e re — Amelia Flowers — " + data.orderNumber,
+    order_number: data.orderNumber,
+    name: data.name,
+    phone: data.phone,
+    address: data.address + ", " + data.city,
+    notes: data.notes || "—",
+    /* The same text the shop would have read on WhatsApp, so the record
+       and the ping say exactly the same thing. */
+    order: buildWhatsAppText(data),
+    total: formatLek(data.total),
+    date: data.date
+  };
+  if (SHOP.orderEndpointKey) body.access_key = SHOP.orderEndpointKey;
+
+  /* A form service that is slow or down must not hang the confirmation. */
+  const timeout = new Promise(resolve => setTimeout(() => resolve(false), 8000));
+  const post = fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(body)
+  }).then(r => r.ok).catch(() => false);
+
+  return Promise.race([post, timeout]);
+}
+
+/* The confirmation screen has two truthful states, and which one shows
+   depends on whether the order actually reached the shop:
+
+     recorded  — it is on the shop's side; nothing more is needed
+     pending   — nothing has arrived yet; pressing send is what places it
+
+   The wording used to claim "Order received — your flowers are on their
+   way" in both cases. A customer who then closed the tab believed an
+   order existed that never did, which is worse than losing the order. */
+function setConfirmState(recorded) {
+  const lang = LangStore.get();
+  /* [recorded key, pending key] for each slot. The element is found by
+     whichever of the two it is currently carrying — searching only for
+     the one we are switching *to* finds nothing on the way back. */
+  const slots = [
+    ["confirm.kicker", "confirm.pending.kicker"],
+    ["confirm.title",  "confirm.pending.title"],
+    ["confirm.body",   "confirm.pending.body"]
+  ];
+
+  slots.forEach(([doneKey, pendingKey]) => {
+    const el = document.querySelector(`[data-i18n="${doneKey}"], [data-i18n="${pendingKey}"]`);
+    if (!el) return;
+    const key = recorded ? doneKey : pendingKey;
+    el.setAttribute("data-i18n", key);
+    el.textContent = t(key, lang);
+  });
+
+  const wrap = document.getElementById("confirmWrap");
+  if (wrap) wrap.classList.toggle("is-pending", !recorded);
+
+  /* The big tick reads as "done" from across the room — louder than any
+     wording under it. While the order is still pending it becomes an
+     arrow, so the icon and the text say the same thing. */
+  const icon = document.querySelector(".confirm-check svg path");
+  if (icon) {
+    icon.setAttribute("d", recorded ? "M20 6 9 17l-5-5" : "M5 12h14M13 6l6 6-6 6");
+  }
+}
+
 /* ---------------- order rate limiting ----------------
    Browser-side only. Stops double-clicks and casual repeat ordering;
    a determined visitor can clear storage and start again. The real
@@ -626,20 +704,41 @@ function initCheckoutPage() {
       waOpened = !!win;
     }
 
+    /* Assume the worst until the post says otherwise: if the endpoint is
+       not configured, or is slow, or fails, the honest state is "not
+       placed yet". Upgrading later is safe; starting optimistic is not. */
+    setConfirmState(false);
+
     const waBtn = document.getElementById("waSendBtn");
-    if (waBtn) {
-      if (waUrl) {
-        waBtn.href = waUrl;
-        waBtn.classList.remove("va-none");
-        /* If the popup got through, the button is a re-send; if it was
-           blocked, it is the only route — so lead with it. */
-        document.getElementById("waNote").textContent =
-          t(waOpened ? "confirm.wa.sent" : "confirm.wa.blocked", LangStore.get());
-      } else {
+    const waNote = document.getElementById("waNote");
+    const showWa = (recorded) => {
+      if (!waBtn) return;
+      if (!waUrl) {
         waBtn.classList.add("va-none");
-        document.getElementById("waNote").textContent = "";
+        if (waNote) waNote.textContent = "";
+        return;
       }
-    }
+      waBtn.href = waUrl;
+      waBtn.classList.remove("va-none");
+      if (!waNote) return;
+      /* Three different things to say, and the difference matters:
+         recorded  — WhatsApp is optional, the order is already in
+         opened    — the message is waiting in their WhatsApp, unsent
+         blocked   — the popup never opened, this button is the only way */
+      waNote.textContent = t(
+        recorded ? "confirm.wa.optional" : (waOpened ? "confirm.wa.sent" : "confirm.wa.blocked"),
+        LangStore.get()
+      );
+    };
+    showWa(false);
+
+    /* Post after opening WhatsApp, never before: window.open has to run
+       inside the click gesture or the popup blocker eats it, and an
+       awaited fetch would hand the gesture back first. */
+    postOrder(data).then(recorded => {
+      setConfirmState(recorded);
+      showWa(recorded);
+    });
 
     /* Show the confirmation before emptying the cart: Cart.clear() fires
        pf:cartchange synchronously, and the handler above bows out only once

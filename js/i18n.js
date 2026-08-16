@@ -142,6 +142,11 @@ const I18N = {
     "confirm.wa.button": "Send order via WhatsApp",
     "confirm.wa.sent": "WhatsApp should have opened with your order — press send to confirm it with our florists.",
     "confirm.wa.blocked": "One last step: tap below to send your order to our florists on WhatsApp.",
+    "confirm.wa.optional": "Your order is already with our florists. You can also send it on WhatsApp if you would like to add anything.",
+
+    "confirm.pending.kicker": "One step left",
+    "confirm.pending.title": "Almost there — send your order to confirm it.",
+    "confirm.pending.body": "Your order is not placed until it reaches our florists. Press send in WhatsApp and we will start preparing it straight away. Nothing has been charged — you pay the courier in cash on delivery.",
 
     "cart.item.remove": "Remove"
   },
@@ -288,6 +293,11 @@ const I18N = {
     "confirm.wa.button": "Dërgo porosinë me WhatsApp",
     "confirm.wa.sent": "WhatsApp duhet të jetë hapur me porosinë tuaj — shtypni dërgo për ta konfirmuar te floristët tanë.",
     "confirm.wa.blocked": "Një hap i fundit: shtypni më poshtë për t'ua dërguar porosinë floristëve tanë në WhatsApp.",
+    "confirm.wa.optional": "Porosia juaj është tashmë te floristët tanë. Mund ta dërgoni edhe në WhatsApp nëse doni të shtoni diçka.",
+
+    "confirm.pending.kicker": "Edhe një hap",
+    "confirm.pending.title": "Gati — dërgoni porosinë për ta konfirmuar.",
+    "confirm.pending.body": "Porosia nuk është e vendosur derisa t'u mbërrijë floristëve tanë. Shtypni dërgo në WhatsApp dhe fillojmë menjëherë përgatitjen. Nuk është bërë asnjë pagesë — paguani korrierin cash në dorëzim.",
 
     "cart.item.remove": "Hiq"
   },
@@ -434,6 +444,11 @@ const I18N = {
     "confirm.wa.button": "Invia l’ordine su WhatsApp",
     "confirm.wa.sent": "WhatsApp dovrebbe essersi aperto con il tuo ordine — premi invia per confermarlo ai nostri fioristi.",
     "confirm.wa.blocked": "Un ultimo passo: tocca qui sotto per inviare il tuo ordine ai nostri fioristi su WhatsApp.",
+    "confirm.wa.optional": "Il tuo ordine è già dai nostri fioristi. Puoi inviarlo anche su WhatsApp se vuoi aggiungere qualcosa.",
+
+    "confirm.pending.kicker": "Manca un passo",
+    "confirm.pending.title": "Ci siamo quasi — invia l\u2019ordine per confermarlo.",
+    "confirm.pending.body": "L\u2019ordine non è effettuato finché non arriva ai nostri fioristi. Premi invia su WhatsApp e iniziamo subito a prepararlo. Non è stato addebitato nulla — paghi in contanti al corriere alla consegna.",
 
     "cart.item.remove": "Rimuovi"
   }

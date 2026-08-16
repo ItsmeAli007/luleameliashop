@@ -191,11 +191,49 @@ Pagesa: Cash në dorëzim
 The message is always Albanian, even when the customer browsed in English —
 you are the one reading it.
 
-**The limitation, stated plainly:** the customer has to press send. If they close
-the tab at that moment, the order never reaches you. The confirmation screen
-shows a green WhatsApp button as a second chance, and a copy stays in their
-browser under `pf_orders`, but this is a hand-off, not a server. For orders that
-arrive no matter what, you need a backend or a form service such as Formspree.
+**The limitation, stated plainly:** the customer has to press send, and no code
+on this page can make them. Once `wa.me` opens, the message is inside WhatsApp —
+the browser cannot see whether it was sent, cannot send it, and is not told
+either way. That is a security boundary, not a missing feature.
+
+So the order is *also* posted directly from the checkout page the moment the
+form is submitted. See **Receiving orders reliably** below.
+
+### Receiving orders reliably
+
+Set `orderEndpoint` in `js/config.js` to any service that accepts a JSON POST,
+and every order is recorded without the customer doing anything:
+
+```js
+orderEndpoint:    "https://api.web3forms.com/submit",
+orderEndpointKey: "your-access-key",
+```
+
+The POST carries `order_number`, `name`, `phone`, `address`, `notes`, `total`,
+`date`, and `order` — the last being the same Albanian message WhatsApp would
+have shown you, so the record and the ping read identically.
+
+**The confirmation screen tells the truth about which happened.** It has two
+states:
+
+| State | When | What the customer sees |
+|---|---|---|
+| Recorded | the POST succeeded | Tick, "Order received", WhatsApp offered as optional |
+| Pending | no endpoint set, or the POST failed | Arrow, "One step left", WhatsApp emphasised as the thing still to do |
+
+It starts in Pending and only upgrades once the POST actually returns ok, with
+an 8-second timeout so a slow service cannot hang the screen. Being optimistic
+first would mean telling someone their flowers are coming when nothing had
+reached you — worse than losing the order, because they wait instead of
+reordering.
+
+**While `orderEndpoint` is empty every order is Pending**, which is honest but
+still loses orders. Fill it in.
+
+**A note on the key.** Everything in `config.js` is readable by any visitor.
+Web3Forms access keys are designed for this — submit-only, cannot read your
+submissions. Never put a secret API token there; if a service needs one, it
+needs a server, not this file.
 
 Set `whatsapp: ""` to switch the hand-off off — the button hides and checkout
 falls back to the plain confirmation screen.
@@ -283,12 +321,18 @@ Done in the pre-launch pass:
 
 Still open, and deliberately left to a decision:
 
-- [ ] **Testimonials.** The three reviews and the pull-quote are written, not
-      collected. Fabricated reviews are a consumer-protection problem under
-      EU-aligned law. Replace with real ones or remove the section.
-- [ ] **Newsletter.** The form on the homepage discards every address it is
-      given — it calls `preventDefault()` and shows a tick. Wire it to a real
-      service or remove the section; do not ship it as it is.
+- [x] **Testimonials** labelled as samples in all three languages. Replace them
+      with real messages once the first customers write in — the label comes
+      out with them.
+- [x] **Newsletter** replaced with WhatsApp and Instagram links, so the section
+      no longer collects addresses nobody reads.
+
+Still open:
+
+- [ ] **Set `orderEndpoint`.** The single most valuable thing left. Until it is
+      set, every order depends on the customer pressing send in WhatsApp, and
+      the confirmation screen has to tell them so. See *Receiving orders
+      reliably*.
 - [ ] **Delivery & Payment / FAQ pages.** The footer links to them were removed
       because the pages do not exist. Worth writing — they are the two things
       customers ask before a first order.
