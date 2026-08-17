@@ -29,7 +29,8 @@ js/i18n.js      EN/SQ/IT dictionary, language switcher (defaults to Albanian)
 js/cart.js      Cart state (localStorage) and drawer
 js/main.js      Header, reveals, page controllers, checkout, WhatsApp hand-off
 js/liquid-glass.js    Scroll progress, hero parallax, card tilt — motion only
-assets/         Photography and logos from the design project
+assets/         Photography and logos, at the sizes the pages serve
+_original-photos/     PNG masters — gitignored, see the readme inside
 ```
 
 ### The liquid-glass layer
@@ -55,7 +56,7 @@ were resized to their maximum rendered width and re-encoded, bringing the whole
 
 ### Hero photograph
 
-The homepage hero is a single still, cropped from `_original-photos/HeroRoseFlowers.png`
+The homepage hero is a single still, cropped from `_original-photos/hero/heroroseflowers.png`
 into two files:
 
 | File | Served to | Size |
@@ -97,19 +98,24 @@ shop catalogue, the product page, the cart and the checkout summary.
 `photo-bouquet-marble.*`, `photo-giftbox.*` and the old `hero-roses.*` video
 files have been deleted — nothing referenced them. `assets/` is now 3.0 MB.
 
-A `.webp` sits beside each photo, 40-50% smaller than the JPEG on the newer
-product shots. Nothing references them yet: the markup uses `.jpg` for
-maximum compatibility. To use them, wrap the images in `<picture>` elements
-with the `.jpg` as fallback rather than swapping the extensions outright.
+A `.webp` sits beside each photo, 40-50% smaller than the JPEG. These are not
+decorative: `photoPicture()` in `js/main.js` swaps the extension at runtime and
+offers the WebP first, so on any current browser the `.webp` is the file that
+actually loads and the `.jpg` is only the fallback. Replacing a photograph
+means replacing **both** — a rebuilt JPEG beside a stale WebP looks correct in
+the folder and wrong on the site.
 
-The JPEGs are quality 85, optimised and progressive, re-encoded from the PNG
-masters in `_original-photos/`. Re-run from those if you want different
-settings — do not re-encode a JPEG from a JPEG.
+The JPEGs are re-encoded from the PNG masters in `_original-photos/`; the
+product shots are quality 65. Re-run from those if you want different
+settings — do not re-encode a JPEG from a JPEG. `_original-photos/readme.md`
+carries the master → asset table and the two commands, including the reason
+WebP cannot be built with `sips`.
 
 If an image is ever missing, the slot renders a labelled placeholder panel
 instead of a broken icon, and clears itself once a real file loads.
 
-PNG masters are preserved in `_original-photos/`.
+PNG masters are preserved in `_original-photos/`, sorted into `products/`,
+`hero/` and `brand/`.
 
 ## Adding or editing products
 
@@ -286,19 +292,23 @@ service with server-side rate limiting and a CAPTCHA. Ask for it then, not now.
 
 ## Brand assets
 
-The logo is supplied as `_original-photos/AmeliaLogoWebsite.png` — wine-red
+The logo is supplied as `_original-photos/brand/amelialogowebsite.png` — wine-red
 artwork on a white background. The two files in `assets/` are cut from it:
 the white is removed so the mark carries an alpha channel, which is what lets
 the header knock it out to white over the hero (`filter:brightness(0)
 invert(1)` in `css/style.css`).
 
-`amelia-wordmark.*` is the one the site uses. It stops above the FLOWER SHOP
+`amelia-wordmark.png` is the one the site uses. It stops above the FLOWER SHOP
 subline: at the 27–30px the header and footer set, that subline would render
-about 3px tall and turn to mush. `amelia-lockup.*` keeps it, for anywhere the
-mark is shown large — the social card, print, a supplier's directory listing.
+about 3px tall and turn to mush. `amelia-lockup.png` keeps it, and is what the
+structured-data `logo` field points at — for anywhere the mark is shown large:
+print, a supplier's directory listing.
 
-The previous PrimaFlowers files are in `_original-photos/old-brand/` rather
-than deleted.
+Both are served as PNG rather than WebP, because the alpha channel is the whole
+point of them; the WebP siblings nothing ever requested have been deleted.
+
+The photographs were re-shot with the Amelia mark on the wrap, the box and the
+card. No PrimaFlowers artwork remains in the project.
 
 `og:image` is absolute (`https://luleamelia.com/assets/og-amelia.jpg`) in all
 four heads, alongside a `canonical` and an `og:url`. If the domain ever
