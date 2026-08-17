@@ -154,6 +154,11 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;letter-spacing:-.012em;
   padding:16px 22px;border:2px solid transparent;cursor:pointer;position:relative;overflow:hidden;
 }
 .btn svg{width:15px;height:15px;flex:none;transition:transform .35s var(--ease-out)}
+/* Brand marks sit a little larger than the arrow glyphs — at 15px the
+   Instagram frame and the WhatsApp bubble lose their outline — and they
+   stay put on hover, since only an arrow has a direction to slide in. */
+.btn svg.icon-brand{width:18px;height:18px}
+.btn-primary:hover svg.icon-brand{transform:none}
 .btn span{position:relative;z-index:1}
 .btn-primary{background:var(--color-accent);color:#fff}
 .btn-primary::after{content:"";position:absolute;inset:0;background:var(--color-ink);transform:translateX(-101%);transition:transform .4s var(--ease-in-out);z-index:0}
@@ -619,7 +624,18 @@ textarea.input{resize:vertical;min-height:90px}
    wider Google label onto a second line, leaving buttons of unequal height.
    The basis is the width the longer label needs; below that they wrap. */
 .visit-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
-.visit-ctas .btn{flex:1 1 170px;white-space:nowrap}
+/* min-width:max-content, not a fixed basis: wrapping is decided from the
+   basis, so a 170px basis kept both buttons on one line and then let the
+   labels run past their own borders — the Albanian ones are far longer
+   than the English they were measured against. */
+.visit-ctas .btn{flex:1 1 0;min-width:max-content;white-space:nowrap}
+/* On a phone the pair is stacked outright rather than left to chance: two
+   full-width rows read better than two squeezed ones, and the labels stay
+   whole in every language. */
+@media (max-width:640px){
+  .visit-ctas{flex-direction:column;align-items:stretch}
+  .visit-ctas .btn{width:100%;min-width:0;white-space:normal;text-align:center}
+}
 
 /* The photo panel holds a fixed ratio so the section never reflows as the
    image loads. Squarer on a phone, where a wide strip crops to nothing. */
