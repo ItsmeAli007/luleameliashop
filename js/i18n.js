@@ -80,7 +80,7 @@ const I18N = {
     "footer.visit.title": "Visit",
     "footer.visit.hours": "Open daily · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. All rights reserved.",
-    "footer.credit": "Made with care in Tirana",
+    "footer.credit": "Made by Alti Media",
 
     "shop.hero.kicker": "Catalogue",
     "shop.hero.title": "Shop bouquets",
@@ -231,7 +231,7 @@ const I18N = {
     "footer.visit.title": "Na vizitoni",
     "footer.visit.hours": "Hapur çdo ditë · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. Të gjitha të drejtat e rezervuara.",
-    "footer.credit": "Bërë me kujdes në Tiranë",
+    "footer.credit": "Bërë nga Alti Media",
 
     "shop.hero.kicker": "Katalogu",
     "shop.hero.title": "Shiko buqetat",
@@ -382,7 +382,7 @@ const I18N = {
     "footer.visit.title": "Vieni a trovarci",
     "footer.visit.hours": "Aperto tutti i giorni · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. Tutti i diritti riservati.",
-    "footer.credit": "Fatto con cura a Tirana",
+    "footer.credit": "Realizzato da Alti Media",
 
     "shop.hero.kicker": "Catalogo",
     "shop.hero.title": "I nostri bouquet",
