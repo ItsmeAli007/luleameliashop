@@ -186,15 +186,19 @@ function initShopDetails() {
   const contact = (SHOP.contactWhatsapp || "").replace(/\D/g, "");
 
   document.querySelectorAll("[data-shop-phone]").forEach(el => {
+    /* Some of these links carry an icon beside the words, so the text goes
+       into the labelled span when there is one — writing over the link
+       itself would take the icon with it. */
+    const label = el.querySelector("[data-phone-label]") || el;
     if (SHOP.phoneDisplay) {
-      el.textContent = SHOP.phoneDisplay;
+      label.textContent = SHOP.phoneDisplay;
       /* tel: wants the dialable form — digits and a leading +, nothing else. */
       if (el.tagName === "A") el.href = "tel:" + SHOP.phoneDisplay.replace(/[^\d+]/g, "");
       return;
     }
     if (!contact) { el.remove(); return; }
-    el.textContent = t("contact.whatsapp");
-    el.setAttribute("data-i18n", "contact.whatsapp");
+    label.textContent = t("contact.whatsapp");
+    label.setAttribute("data-i18n", "contact.whatsapp");
     if (el.tagName === "A") {
       el.href = "https://wa.me/" + contact;
       el.target = "_blank";

@@ -222,17 +222,39 @@ body.page-checkout::before{opacity:.55}
 .mobile-menu{
   -webkit-backdrop-filter:var(--lg-blur-strong);
   backdrop-filter:var(--lg-blur-strong);
-  /* Dark enough that a light page behind it does not read through the
-     panel — the blur alone is not contrast. */
-  background-color:rgba(23,11,15,.92);
+  /* Opaque, not merely dark: at 92% the marquee band behind it was still
+     legible through the panel. Two wine glows over the ink give the sheet
+     some depth without letting the page read through. */
+  background-color:#170b0f;
+  background-image:
+    radial-gradient(120% 78% at 82% -6%, rgba(159,20,45,.42), transparent 58%),
+    radial-gradient(96% 68% at -10% 104%, rgba(159,20,45,.26), transparent 62%),
+    var(--lg-sheen-dark);
   justify-content:center;
 }
-.mobile-menu a{border-bottom:1px solid rgba(255,255,255,.14)}
+/* Only the menu's own links — the WhatsApp button in the footer is not one. */
+.mobile-menu > a{border-bottom:1px solid rgba(255,255,255,.14)}
+.mobile-menu .mm-foot a{border-bottom:0}
 /* While the menu is open the bar itself must not glaze over the panel. */
 body.menu-open .site-header,
-body.menu-open .site-header.solid{
+body.menu-open .site-header.solid,
+body.menu-open.on-light .site-header:not(.solid){
   background-color:transparent;background-image:none;box-shadow:none;
   border-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;
+}
+/* The language pill is light glass by default; over the open menu it takes
+   the dark treatment so the bar reads as one thing. */
+body.menu-open .site-header .lang-pill,
+body.menu-open.on-light .site-header:not(.solid) .lang-pill,
+body.menu-open .site-header.solid .lang-pill{
+  background-color:rgba(255,255,255,.12);background-image:var(--lg-sheen-dark);box-shadow:none;
+  border-color:rgba(255,255,255,.5);
+}
+body.menu-open .site-header .lang-pill button,
+body.menu-open .site-header.solid .lang-pill button{color:#fff}
+body.menu-open .site-header .lang-pill button.active,
+body.menu-open .site-header.solid .lang-pill button.active{
+  background:linear-gradient(140deg,var(--amelia-wine-bright),var(--amelia-wine));color:#fff;
 }
 body.menu-open .brand-lockup{filter:brightness(0) invert(1)}
 
