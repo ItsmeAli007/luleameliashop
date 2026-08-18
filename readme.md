@@ -155,12 +155,13 @@ collected anywhere in the flow.
 **Two numbers, two jobs.** Both live in `js/config.js`:
 
 ```js
-whatsapp:        "355696017072",   // receives orders from checkout
-contactWhatsapp: "355698576569",   // the public "Message us" links
+whatsapp:        "355XXXXXXXXX",   // receives orders from checkout
+contactWhatsapp: "355XXXXXXXXX",   // the public "Message us" links
 ```
 
 International format, digits only — no `+`, no spaces. Albania is `355`, and you
-**drop the leading 0**: `069 601 7072` becomes `355696017072`.
+**drop the leading 0**: `069 123 4567` becomes `355691234567`. The live numbers
+are in `js/config.js`, not here.
 
 They are separate on purpose: the order line stays clear of general enquiries,
 and the public one can change without touching checkout.
@@ -168,7 +169,7 @@ and the public one can change without touching checkout.
 **The public number is never printed as digits.** `phoneDisplay` is `""`, so
 everywhere the site would show a phone number — footer, Visit panel, mobile
 menu, checkout — it renders a *Message us on WhatsApp* link instead. Set
-`phoneDisplay` to a string such as `"+355 69 857 6569"` if you ever want the
+`phoneDisplay` to a string such as `"+355 69 123 4567"` if you ever want the
 dialable number shown in plain text; the site switches to `tel:` links on its
 own. It is also deliberately absent from the structured data in `index.html`,
 which is what stops it appearing in a Google result.
@@ -181,10 +182,10 @@ The customer presses send and it arrives on your phone:
 Nr: PF-20260807-4112
 
 KLIENTI
-Emri: Elira Hoxha
-Tel: +355 68 555 1234
-Adresa: Rruga Myslym Shyri 18, Ap. 5, Tiranë
-Shënime: Kati 3, zilja Hoxha
+Emri: <emri i klientit>
+Tel: <numri i klientit>
+Adresa: <adresa e dorëzimit>
+Shënime: <shënime>
 
 POROSIA
 2 × Dy Duzina Trëndafila të Kuq — 9 000 L
