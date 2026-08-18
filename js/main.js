@@ -283,8 +283,8 @@ function initReveal() {
    Shown once per session, on the homepage only: a returning visitor and
    anyone moving between pages gets the site immediately. The panel lifts as
    soon as the hero photograph is decoded — the wait is the image, not a
-   fixed timer — with a floor so it cannot flash past, and a cap so a slow
-   connection cannot hold the page hostage. */
+   fixed timer — with a floor so the rose is never half-drawn when it goes,
+   and a cap so a slow connection cannot hold the page hostage. */
 function initPreloader() {
   const pl = document.getElementById("preloader");
   if (!pl) return;
@@ -298,10 +298,10 @@ function initPreloader() {
 
   document.documentElement.classList.add("intro", "no-scroll");
 
-  const MIN = 1150;   /* the rose finishes drawing at about 1.1s */
-  const CAP = 2600;   /* past this the photograph is not worth waiting for */
-  const started = Date.now();
-  let done = false;
+  /* The rose is complete about 1.25s after it starts drawing. */
+  const DRAW = 1350;
+  const CAP  = 2800;   /* past this the photograph is not worth waiting for */
+  let drawnAt = 0, imageReady = false, done = false;
 
   const lift = () => {
     if (done) return;
@@ -312,15 +312,39 @@ function initPreloader() {
     document.dispatchEvent(new Event("amelia:intro-out"));
     setTimeout(() => pl.remove(), 1000);
   };
-  const liftWhenDrawn = () => setTimeout(lift, Math.max(0, MIN - (Date.now() - started)));
+
+  /* Lift once the photograph is ready AND the rose has had its full draw —
+     whichever of the two is slower. */
+  const maybeLift = () => {
+    if (!imageReady || !drawnAt) return;
+    setTimeout(lift, Math.max(0, drawnAt + DRAW - performance.now()));
+  };
+
+  /* CSS starts the rose the moment the panel is styled, which on a phone can
+     be several hundred milliseconds before the first paint — the visitor then
+     opens the page onto a rose that has already finished drawing. Rewinding
+     every animation on the first frame that is genuinely on screen is what
+     makes the draw something you watch rather than something you missed, and
+     it is also where the floor above starts counting. */
+  const startDrawing = () => {
+    const list = pl.getAnimations
+      ? pl.getAnimations({ subtree: true })
+      : (document.getAnimations ? document.getAnimations().filter(a => a.effect && pl.contains(a.effect.target)) : []);
+    list.forEach(a => { try { a.currentTime = 0; } catch (e) {} });
+    drawnAt = performance.now();
+    maybeLift();
+  };
+  requestAnimationFrame(() => requestAnimationFrame(startDrawing));
 
   const img = document.querySelector(".hero-media img");
+  const imageDone = () => { imageReady = true; maybeLift(); };
   if (img && !img.complete) {
-    img.addEventListener("load", liftWhenDrawn, { once: true });
-    img.addEventListener("error", liftWhenDrawn, { once: true });
+    img.addEventListener("load", imageDone, { once: true });
+    img.addEventListener("error", imageDone, { once: true });
   } else {
-    liftWhenDrawn();
+    imageDone();
   }
+  /* Nothing above is trusted to be the only way out. */
   setTimeout(lift, CAP);
 }
 
