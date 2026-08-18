@@ -183,6 +183,73 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;letter-spacing:-.012em;
 .btn-ghost-icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;position:relative}
 .btn-ghost-icon svg{width:20px;height:20px}
 
+/* ---------------- first-visit intro ---------------- */
+/* Hidden entirely without JS: a visitor whose scripts fail must never be left
+   looking at a wine panel with no way past it. For the same reason the exit is
+   a delayed CSS animation as well as a class js/main.js adds — if anything
+   between here and initPreloader() throws, the panel still lifts on its own. */
+.preloader{display:none}
+.js .preloader{
+  display:grid;place-items:center;position:fixed;inset:0;z-index:400;
+  background:
+    radial-gradient(120% 86% at 50% 4%,#33101d,transparent 60%),
+    radial-gradient(90% 62% at 50% 108%,rgba(159,20,45,.34),transparent 62%),
+    #170b0f;
+  animation:pl-out .85s var(--ease-in-out) 1.45s forwards;
+}
+/* js/main.js lifts it the moment the hero photograph is ready; this overrides
+   the delay above rather than adding a second animation. */
+.js .preloader.is-out{animation:pl-out .85s var(--ease-in-out) forwards}
+@keyframes pl-out{
+  to{opacity:0;visibility:hidden;transform:translateY(-3%);pointer-events:none}
+}
+
+.preloader-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px}
+/* The glow behind the bloom, arriving as the last stroke lands. */
+.preloader-inner::before{
+  content:"";position:absolute;left:50%;top:38%;width:210px;height:210px;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(159,20,45,.5),transparent 66%);
+  opacity:0;animation:pl-glow .9s var(--ease-out) .5s forwards;
+}
+.pl-rose{width:clamp(126px,30vw,172px);height:auto;color:#eaa4b4;overflow:visible}
+/* pathLength="1" normalises every path, so one dash rule draws them all
+   regardless of how long each outline actually is. */
+.pl-rose path{
+  stroke-dasharray:1;stroke-dashoffset:1;
+  animation:pl-draw .6s var(--ease-out) forwards;
+}
+/* Stem first, then the leaves, then the bloom opens and the fold lines and
+   the coil at its centre arrive last — the order a rose would be drawn in. */
+.pl-rose path:nth-of-type(1){animation-delay:0s}
+.pl-rose path:nth-of-type(2){animation-delay:.08s}
+.pl-rose path:nth-of-type(3){animation-delay:.14s}
+.pl-rose path:nth-of-type(5){animation-delay:.5s}
+.pl-rose path:nth-of-type(6){animation-delay:.62s}
+.pl-rose .pl-coil{stroke-width:1.7}
+/* The bloom is the one that carries colour: drawn from .22s, washed in after
+   its own outline closes. */
+.pl-rose .pl-petal{
+  animation:pl-draw .62s var(--ease-out) .22s forwards,
+            pl-fill .8s var(--ease-out) .84s forwards;
+}
+@keyframes pl-draw{to{stroke-dashoffset:0}}
+@keyframes pl-fill{to{fill:rgba(234,164,180,.12)}}
+@keyframes pl-glow{to{opacity:1}}
+
+.pl-rule{
+  display:block;height:1px;width:0;
+  background:linear-gradient(90deg,transparent,rgba(234,164,180,.7),transparent);
+  animation:pl-rule .8s var(--ease-out) .62s forwards;
+}
+@keyframes pl-rule{to{width:132px}}
+
+/* Nothing to draw for a visitor who asked for stillness — js/main.js removes
+   the panel outright, and this covers the frame before that runs. */
+@media (prefers-reduced-motion:reduce){
+  .js .preloader{display:none}
+}
+
 /* ---------------- header ---------------- */
 .site-header{
   position:fixed;top:0;left:0;right:0;z-index:200;

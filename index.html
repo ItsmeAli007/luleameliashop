@@ -58,6 +58,28 @@
 </head>
 <body class="page-home" data-lang-fade>
 
+<!-- ─────────── FIRST-VISIT INTRO ───────────
+     A rose that draws itself, once per session, on the homepage only. The
+     panel lifts straight into the hero's own wine wipe, so the two read as
+     one entrance rather than two curtains in a row.
+
+     Three ways it can never trap a visitor: it is display:none until
+     html.js, its exit runs on a CSS timer as well as from js/main.js, and
+     prefers-reduced-motion removes it outright. -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-inner">
+    <svg class="pl-rose" viewBox="0 0 120 170" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path class="pl-stem"  pathLength="1" d="M60 84C60 106 60 128 60 156"/>
+      <path class="pl-leaf"  pathLength="1" d="M60 118C47 119 36 112 31 99 45 95 56 104 60 118Z"/>
+      <path class="pl-leaf"  pathLength="1" d="M60 134C73 135 84 128 89 115 75 111 64 120 60 134Z"/>
+      <path class="pl-petal" pathLength="1" d="M60 85C43 85 30 71 30 53 30 43 34 34 41 28 45 18 52 12 60 12 68 12 75 18 79 28 86 34 90 43 90 53 90 71 77 85 60 85Z"/>
+      <path class="pl-coil"  pathLength="1" d="M42 55C38 42 46 29 59 28 71 27 79 36 78 46 77 55 69 61 61 59"/>
+      <path class="pl-coil"  pathLength="1" d="M51 50C50 43 55 38 61 39 67 40 70 46 66 51"/>
+    </svg>
+    <span class="pl-rule"></span>
+  </div>
+</div>
+
 <header class="site-header">
   <a href="index.html" class="brand" aria-label="Amelia Flowers"><img class="brand-lockup" src="assets/amelia-wordmark.png" alt="Amelia Flowers — Florist in Tirana"></a>
   <div class="header-inner">

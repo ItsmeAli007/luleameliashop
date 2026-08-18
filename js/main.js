@@ -279,10 +279,61 @@ function initReveal() {
    js/liquid-glass.js. */
 
 /* ---------------- hero entrance ---------------- */
+/* ---------------- first-visit intro ----------------
+   Shown once per session, on the homepage only: a returning visitor and
+   anyone moving between pages gets the site immediately. The panel lifts as
+   soon as the hero photograph is decoded — the wait is the image, not a
+   fixed timer — with a floor so it cannot flash past, and a cap so a slow
+   connection cannot hold the page hostage. */
+function initPreloader() {
+  const pl = document.getElementById("preloader");
+  if (!pl) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let seen = false;
+  /* Private mode can throw on both of these rather than return null. */
+  try { seen = sessionStorage.getItem("amelia:intro") === "1"; } catch (e) {}
+  if (reduced || seen) { pl.remove(); return; }
+  try { sessionStorage.setItem("amelia:intro", "1"); } catch (e) {}
+
+  document.documentElement.classList.add("intro", "no-scroll");
+
+  const MIN = 1150;   /* the rose finishes drawing at about 1.1s */
+  const CAP = 2600;   /* past this the photograph is not worth waiting for */
+  const started = Date.now();
+  let done = false;
+
+  const lift = () => {
+    if (done) return;
+    done = true;
+    document.documentElement.classList.remove("intro", "no-scroll");
+    pl.classList.add("is-out");
+    /* The hero starts its own wipe now, so the two run as one movement. */
+    document.dispatchEvent(new Event("amelia:intro-out"));
+    setTimeout(() => pl.remove(), 1000);
+  };
+  const liftWhenDrawn = () => setTimeout(lift, Math.max(0, MIN - (Date.now() - started)));
+
+  const img = document.querySelector(".hero-media img");
+  if (img && !img.complete) {
+    img.addEventListener("load", liftWhenDrawn, { once: true });
+    img.addEventListener("error", liftWhenDrawn, { once: true });
+  } else {
+    liftWhenDrawn();
+  }
+  setTimeout(lift, CAP);
+}
+
 function initHero() {
   const hero = document.querySelector(".hero");
   if (!hero) return;
-  setTimeout(() => hero.classList.add("loaded"), 60);
+  const start = () => setTimeout(() => hero.classList.add("loaded"), 60);
+  if (!document.documentElement.classList.contains("intro")) { start(); return; }
+  /* Wait for the intro to lift — but never on the intro alone: the hero's
+     text sits at opacity:0 until .loaded, so a failure there would leave the
+     page blank. The floor fires regardless. */
+  document.addEventListener("amelia:intro-out", start, { once: true });
+  setTimeout(start, 2800);
 }
 
 /* ---------------- product cards ---------------- */
@@ -771,6 +822,7 @@ function initMarquee() {
 
 /* ---------------- boot ---------------- */
 document.addEventListener("DOMContentLoaded", () => {
+  initPreloader();
   initImageFallbacks();
   initShopDetails();
   initHeader();
