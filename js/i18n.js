@@ -81,6 +81,19 @@ const I18N = {
     "footer.visit.hours": "Open daily · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. All rights reserved.",
     "footer.credit": "Made by Alti Media",
+    /* ── SEO: one title and description per page, per language. The
+       generator in tools/build-i18n.py writes these into the <head> of the
+       rendered pages; nothing reads them at runtime. ── */
+    "seo.home.title": "Send Flowers to Albania — Same-Day Delivery in Tirana",
+    "seo.home.desc": "Send flowers to someone in Tirana today. A real florist on Bulevardi Bajram Curri arranges every bouquet by hand and delivers it the same day — not a relay network passing your order on.",
+    "seo.shop.title": "Bouquets to Send to Tirana — Shop | Amelia Flowers",
+    "seo.shop.desc": "Red roses, seasonal bouquets, wedding flowers and orchids, arranged by hand in Tirana and delivered the same day — whether you are in the city or sending from abroad.",
+    "seo.product.title": "Bouquet delivered in Tirana — Amelia Flowers",
+    "seo.product.desc": "A hand-arranged bouquet from Amelia Flowers on Bulevardi Bajram Curri, Tirana. Same-day delivery across the city.",
+    "seo.pd.suffix": "flower delivery in Tirana",
+    "seo.pd.tail": "Arranged by hand in Tirana and delivered the same day.",
+    "seo.checkout.title": "Checkout — Amelia Flowers, Tirana",
+    "seo.checkout.desc": "Complete your Amelia Flowers order. Same-day delivery across Tirana, cash on delivery.",
 
     "shop.hero.kicker": "Catalogue",
     "shop.hero.title": "Shop bouquets",
@@ -232,6 +245,16 @@ const I18N = {
     "footer.visit.hours": "Hapur çdo ditë · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. Të gjitha të drejtat e rezervuara.",
     "footer.credit": "Bërë nga Alti Media",
+    "seo.home.title": "Lule Amelia — Dyqan lulesh në Tiranë · Dërgesa brenda ditës",
+    "seo.home.desc": "Buqeta të punuara me dorë çdo mëngjes në Bulevardin Bajram Curri, Tiranë. Dërgesa brenda ditës në gjithë qytetin, pagesë në dorëzim.",
+    "seo.shop.title": "Buqeta dhe trëndafila në Tiranë — Dyqani | Lule Amelia",
+    "seo.shop.desc": "Trëndafila të kuq, buqeta sezonale, lule dasme dhe orkide, të rregulluara me dorë në Tiranë. Dërgesa brenda ditës, pagesë në dorëzim.",
+    "seo.product.title": "Buqetë lulesh — Lule Amelia, Tiranë",
+    "seo.product.desc": "Buqetë e punuar me dorë nga Lule Amelia, Bulevardi Bajram Curri, Tiranë. Dërgesa brenda ditës në gjithë qytetin.",
+    "seo.pd.suffix": "dërgesë lulesh në Tiranë",
+    "seo.pd.tail": "E punuar me dorë në Tiranë, dërguar brenda ditës.",
+    "seo.checkout.title": "Përfundo porosinë — Lule Amelia, Tiranë",
+    "seo.checkout.desc": "Përfundo porosinë tënde te Lule Amelia. Dërgesa brenda ditës në Tiranë, pagesë në dorëzim.",
 
     "shop.hero.kicker": "Katalogu",
     "shop.hero.title": "Shiko buqetat",
@@ -383,6 +406,16 @@ const I18N = {
     "footer.visit.hours": "Aperto tutti i giorni · 08:00–21:00",
     "footer.rights": "© 2026 Amelia Flowers. Tutti i diritti riservati.",
     "footer.credit": "Realizzato da Alti Media",
+    "seo.home.title": "Invia Fiori in Albania — Consegna a Tirana in Giornata",
+    "seo.home.desc": "Invia fiori a Tirana oggi stesso. Un fioraio vero sul Bulevardi Bajram Curri compone ogni bouquet a mano e lo consegna in giornata — non una rete che passa il tuo ordine ad altri.",
+    "seo.shop.title": "Bouquet da inviare a Tirana — Negozio | Amelia Flowers",
+    "seo.shop.desc": "Rose rosse, bouquet di stagione, fiori da matrimonio e orchidee, composti a mano a Tirana. Consegna fiori in Albania in giornata, anche ordinando dall'estero.",
+    "seo.product.title": "Bouquet consegnato a Tirana — Amelia Flowers",
+    "seo.product.desc": "Un bouquet composto a mano da Amelia Flowers, Bulevardi Bajram Curri, Tirana. Consegna in giornata in tutta la città.",
+    "seo.pd.suffix": "consegna fiori a Tirana",
+    "seo.pd.tail": "Composto a mano a Tirana e consegnato in giornata.",
+    "seo.checkout.title": "Completa l'ordine — Amelia Flowers, Tirana",
+    "seo.checkout.desc": "Completa il tuo ordine Amelia Flowers. Consegna in giornata a Tirana, pagamento alla consegna.",
 
     "shop.hero.kicker": "Catalogo",
     "shop.hero.title": "I nostri bouquet",
@@ -458,17 +491,30 @@ const LANGS = ["en", "sq", "it"];
 
 const LangStore = {
   /* Albanian is the default: the shop is in Tirana and most of its customers
-     are. English and Italian are one tap away in the header, and the choice
-     is remembered from then on. */
+     are. It lives at the root; English and Italian live under /en/ and /it/.
+
+     The URL is the whole answer, deliberately. Each of the three has its own
+     title, description and hreflang block written into the HTML at build
+     time, and a stored preference that could override that would mean
+     /en/shop.html serving Albanian text under an English title — with
+     hreflang tags pointing at an English page nobody ever sees. The language
+     a visitor picks is remembered by being in the address bar. */
   DEFAULT: "sq",
   get() {
-    const v = localStorage.getItem("pf_lang");
-    /* Anything not in LANGS reaches product lookups as name[undefined] and
-       renders "undefined" across the catalogue — so it never gets that far. */
-    return LANGS.indexOf(v) > -1 ? v : this.DEFAULT;
+    const m = location.pathname.match(/^\/(en|it)(\/|$)/);
+    return m && LANGS.indexOf(m[1]) > -1 ? m[1] : this.DEFAULT;
   },
-  set(v) { if (LANGS.indexOf(v) > -1) localStorage.setItem("pf_lang", v); }
+  set() { /* nothing to store — see above */ }
 };
+
+/* This page, in another language. The path after the language prefix is the
+   same in all three, so the query string and hash come along: switching
+   language on a bouquet keeps you on that bouquet. */
+function langHref(lang) {
+  const path = location.pathname.replace(/^\/(en|it)(?=\/|$)/, "") || "/";
+  const prefix = lang === "sq" ? "" : "/" + lang;
+  return prefix + path + location.search + location.hash;
+}
 
 function t(key, lang) {
   lang = lang || LangStore.get();
@@ -483,7 +529,7 @@ function applyLanguage(lang) {
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
     el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder"), lang));
   });
-  document.querySelectorAll(".lang-pill button").forEach(btn => {
+  document.querySelectorAll(".lang-pill [data-lang]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
   document.querySelectorAll("[data-i18n-dyn]").forEach(el => {
@@ -495,21 +541,22 @@ function applyLanguage(lang) {
 
 function initLangSwitcher() {
   const current = LangStore.get();
-  document.body.classList.add("fading");
+  /* The static HTML is already in this language — applyLanguage is here for
+     the parts JavaScript renders (the catalogue, the cart, the toasts), not
+     to translate the page out from under itself. */
   applyLanguage(current);
-  requestAnimationFrame(() => document.body.classList.remove("fading"));
 
-  document.querySelectorAll(".lang-pill button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const lang = btn.dataset.lang;
-      if (lang === LangStore.get()) return;
-      const root = document.querySelector("[data-lang-fade]") || document.body;
-      root.classList.add("fading");
-      setTimeout(() => {
-        applyLanguage(lang);
-        root.classList.remove("fading");
-      }, 220);
-    });
+  /* The pill ships as three plain links so a crawler can follow them; this
+     only sharpens each href with the query string and hash of wherever the
+     visitor actually is. */
+  document.querySelectorAll(".lang-pill [data-lang]").forEach(el => {
+    const lang = el.dataset.lang;
+    /* A page that exists in one language only carries data-lang-fixed and
+       already points somewhere sensible — leave those hrefs alone. */
+    if (el.tagName === "A" && !el.closest(".lang-pill").hasAttribute("data-lang-fixed")) {
+      el.setAttribute("href", langHref(lang));
+    }
+    el.classList.toggle("active", lang === current);
   });
 }
 

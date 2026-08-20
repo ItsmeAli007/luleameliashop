@@ -278,18 +278,18 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;letter-spacing:-.012em;
 .site-header:not(.solid) .lang-pill{border-color:rgba(255,255,255,.5)}
 
 .lang-pill{display:inline-flex;border:2px solid var(--color-divider-strong);overflow:hidden}
-.lang-pill button{padding:6px 12px;font:700 11px var(--font-body);letter-spacing:.06em}
-@media (max-width:900px){.lang-pill button{padding:11px 14px}}
+.lang-pill button,.lang-pill a{padding:6px 12px;font:700 11px var(--font-body);letter-spacing:.06em;display:inline-flex;align-items:center;text-decoration:none;color:inherit}
+@media (max-width:900px){.lang-pill button,.lang-pill a{padding:11px 14px}}
 /* Three language buttons at the touch-size padding, a cart, a menu button and
    the lockup do not all fit across a 320px bar — the row pushed the page into
    a horizontal scroll. Narrowing the pill (its height, and so its tap target,
    is unchanged) is what gives the row back. */
 @media (max-width:360px){
-  .lang-pill button{padding:11px 8px}
+  .lang-pill button,.lang-pill a{padding:11px 8px}
   .header-tools{gap:8px}
   .site-header{padding-left:16px;padding-right:16px}
 }
-.lang-pill button.active{background:var(--color-accent);color:#fff}
+.lang-pill button.active,.lang-pill a.active{background:var(--color-accent);color:#fff}
 
 .icon-btn{position:relative;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center}
 /* Extends the tappable box to 44px around the 26px icon without moving it:

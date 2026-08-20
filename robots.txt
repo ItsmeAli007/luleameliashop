@@ -2,7 +2,17 @@ User-agent: *
 Allow: /
 
 # Nothing useful to a search engine, and not a page anyone should land on
-# from a result: it only makes sense with a cart already filled.
+# from a result: it only makes sense with a cart already filled. One line
+# per language, because /en/ and /it/ are real separate URLs.
 Disallow: /checkout.html
+Disallow: /en/checkout.html
+Disallow: /it/checkout.html
+
+# Tracking parameters make a near-copy of whatever page they are stuck to.
+# /product.html?id= is deliberately NOT blocked: every bouquet now has a real
+# URL, and those old links redirect to it. The template carries noindex so it
+# cannot compete, and stays crawlable so the redirect is followed.
+Disallow: /*?*utm_
+Disallow: /*?*fbclid
 
 Sitemap: https://luleamelia.com/sitemap.xml

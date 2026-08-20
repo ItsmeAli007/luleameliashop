@@ -24,10 +24,16 @@ const SLOT_LABELS = {
    Every photo in assets/ ships with a .webp sibling, 40-50% smaller than the
    JPEG at the same quality. The <img> keeps the .jpg, so a browser that
    cannot read WebP still gets the photograph rather than nothing. */
+/* Root-absolute, always. These cards are rendered into /shop.html and into
+   /en/shop.html from the same array of relative paths, and a relative srcset
+   on the English page points at /en/assets/, which is not where the photos
+   live. The intrinsic size goes on every card for the same reason the static
+   images carry one: it reserves the box before the bytes land. */
 function pictureHTML(src, attrs) {
-  const webp = src.replace(/\.(jpe?g|png)$/i, ".webp");
+  const abs = "/" + src.replace(/^\//, "");
+  const webp = abs.replace(/\.(jpe?g|png)$/i, ".webp");
   return `<picture><source srcset="${webp}" type="image/webp">` +
-         `<img src="${src}" ${attrs}></picture>`;
+         `<img src="${abs}" width="1126" height="1397" decoding="async" ${attrs}></picture>`;
 }
 
 /* A <source> that 404s is not something the browser recovers from on its own
@@ -363,15 +369,16 @@ function initHero() {
 /* ---------------- product cards ---------------- */
 function productCardHTML(p, lang) {
   const tag = p.tag ? `<span class="p-tag">${p.tag[lang]}</span>` : "";
+  const href = productPath(p, lang);
   return `
   <article class="p-card" data-reveal>
-    <a href="product.html?id=${p.id}" class="p-media">
+    <a href="${href}" class="p-media">
       ${tag}
       ${pictureHTML(p.img, `alt="${p.name[lang]}" loading="lazy"`)}
     </a>
     <div class="p-body">
       <span class="p-cat">${t("footer.shop." + p.cat, lang)}</span>
-      <h3 class="p-name"><a href="product.html?id=${p.id}">${p.name[lang]}</a></h3>
+      <h3 class="p-name"><a href="${href}">${p.name[lang]}</a></h3>
       <p class="p-desc">${p.desc[lang]}</p>
       <div class="p-foot">
         <span class="p-price">${formatLek(p.price)}</span>
@@ -409,6 +416,110 @@ function renderGrid(container, products) {
   initReveal();
 }
 
+/* ---------------- structured data ----------------
+   The catalogue lives in js/products.js and nowhere else, so the Product
+   and ItemList markup a search engine reads is built from that same array
+   rather than hand-written into the HTML — one list, no drift.
+
+   These are written after render, which means a crawler has to execute the
+   page to see them. Google does; most others do not. The durable fix is a
+   real URL per bouquet with its markup already in the HTML — see the SEO
+   punch list. Until then this is strictly better than nothing.
+   ------------------------------------------------------------------- */
+const SHOP_ID = "https://luleamelia.com/#shop";
+
+/* /en/shop.html -> "/en", /shop.html -> "". Every generated link has to
+   stay inside the language the visitor is actually reading. */
+function langPrefix() {
+  const m = location.pathname.match(/^\/(en|it)\//);
+  return m ? "/" + m[1] : "";
+}
+
+function absUrl(path) {
+  return new URL(path, location.origin).href;
+}
+
+function productUrl(p, lang) {
+  return absUrl(productPath(p, lang));
+}
+
+function setMeta(selectorAttr, content) {
+  const el = document.head.querySelector("meta[" + selectorAttr + "]");
+  if (el) el.setAttribute("content", content);
+}
+
+function setCanonical(url) {
+  const el = document.head.querySelector('link[rel="canonical"]');
+  if (el) el.href = url;
+}
+
+function jsonLd(id, data) {
+  let el = document.getElementById(id);
+  if (!el) {
+    el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.id = id;
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(data, null, 2);
+}
+
+/* One bouquet, as an offer. The delivery block is the part that matters for
+   the send-to-Albania audience: it says, in machine-readable form, that the
+   thing is delivered inside Tirana on the same day — which is the whole
+   question someone in Milan or Munich is asking. */
+function productSchema(p, lang) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": productUrl(p, lang) + "#product",
+    "name": p.name[lang],
+    "description": p.desc[lang],
+    "sku": p.id,
+    "image": absUrl("/" + p.img.replace(/^\//, "")),
+    "url": productUrl(p, lang),
+    "category": t("footer.shop." + p.cat, lang),
+    "brand": { "@type": "Brand", "name": "Amelia Flowers" },
+    "offers": {
+      "@type": "Offer",
+      "url": productUrl(p, lang),
+      "priceCurrency": "ALL",
+      "price": p.price,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": { "@id": SHOP_ID },
+      "areaServed": { "@type": "City", "name": "Tirana" },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": { "@type": "MonetaryAmount", "value": 0, "currency": "ALL" },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "AL",
+          "addressRegion": "Tirana"
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY" },
+          "transitTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" }
+        }
+      }
+    }
+  };
+}
+
+function breadcrumbSchema(trail) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": trail.map((step, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": step.name,
+      "item": step.url
+    }))
+  };
+}
+
 /* ---------------- home: featured grid ---------------- */
 function initHomeGrid() {
   const el = document.getElementById("featuredGrid");
@@ -439,6 +550,29 @@ function initShopPage() {
       });
     });
   }
+  /* The whole catalogue, not the active filter: the list describes what the
+     shop sells, and a visitor clicking "weddings" does not change that. */
+  function publishItemList() {
+    const lang = LangStore.get();
+    jsonLd("ld-itemlist", {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": t("seo.shop.title", lang),
+      "numberOfItems": PRODUCTS.length,
+      "itemListElement": PRODUCTS.map((p, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": productSchema(p, lang)
+      }))
+    });
+    jsonLd("ld-breadcrumb", breadcrumbSchema([
+      { name: "Amelia Flowers", url: absUrl(langPrefix() + "/") },
+      { name: t("nav.shop", lang), url: absUrl(langPrefix() + "/shop.html") }
+    ]));
+  }
+  publishItemList();
+  document.addEventListener("pf:langchange", publishItemList);
+
   function renderFiltered() {
     const list = active === "all" ? PRODUCTS : PRODUCTS.filter(p => p.cat === active);
     renderGrid(grid, list);
@@ -452,17 +586,44 @@ function initShopPage() {
 function initProductDetail() {
   const root = document.getElementById("pdRoot");
   if (!root) return;
-  const params = new URLSearchParams(location.search);
-  const p = getProduct(params.get("id")) || PRODUCTS[0];
+  const p = productFromLocation() || PRODUCTS[0];
   let qty = 1;
+
+  /* Every bouquet now has a real URL. /product.html?id= is kept alive only
+     because those links are already sitting in WhatsApp threads and in
+     Instagram bios — send them on, replacing the history entry so Back
+     still goes where the visitor came from. */
+  if (/\/product\.html$/.test(location.pathname)) {
+    location.replace(productPath(p, LangStore.get()) + location.hash);
+    return;
+  }
 
   function render() {
     const lang = LangStore.get();
-    document.title = `${p.name[lang]} — Amelia Flowers`;
-    root.querySelector("[data-pd-img]").src = p.img;
+    /* The six bouquets share one template, so everything a search engine
+       reads off this page — title, description, canonical, structured data
+       — has to be rewritten per bouquet, or all six collapse into one
+       result for the generic "Bouquet — Amelia Flowers" template. */
+    document.title = `${p.name[lang]} — ${t("seo.pd.suffix", lang)}`;
+    setMeta('name="description"', p.desc[lang] + " " + t("seo.pd.tail", lang));
+    setMeta('property="og:title"', document.title);
+    setMeta('property="og:description"', p.desc[lang]);
+    setMeta('property="og:image"', absUrl("/" + p.img.replace(/^\//, "")));
+    setCanonical(productUrl(p, lang));
+    jsonLd("ld-product", productSchema(p, lang));
+    jsonLd("ld-breadcrumb", breadcrumbSchema([
+      { name: "Amelia Flowers", url: absUrl(langPrefix() + "/") },
+      { name: t("nav.shop", lang), url: absUrl(langPrefix() + "/shop.html") },
+      { name: p.name[lang], url: productUrl(p, lang) }
+    ]));
+    /* Root-absolute: on /en/product.html a bare "assets/..." would resolve
+       to /en/assets/ and 404 — including the WebP, which is why the English
+       and Italian pages were quietly serving the heavier JPEG. */
+    const imgAbs = "/" + p.img.replace(/^\//, "");
+    root.querySelector("[data-pd-img]").src = imgAbs;
     root.querySelector("[data-pd-img]").alt = p.name[lang];
     const pdSource = root.querySelector("[data-pd-source]");
-    if (pdSource) pdSource.srcset = p.img.replace(/\.(jpe?g|png)$/i, ".webp");
+    if (pdSource) pdSource.srcset = imgAbs.replace(/\.(jpe?g|png)$/i, ".webp");
     /* Both the breadcrumb and the kicker above the title carry this hook —
        querySelector would fill the first and leave the other blank. */
     root.querySelectorAll("[data-pd-cat]").forEach(el => {

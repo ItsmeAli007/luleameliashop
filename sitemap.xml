@@ -1,22 +1,241 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Only the two pages worth indexing are listed.
+  Written by tools/build-i18n.py — do not edit by hand.
 
-  product.html is deliberately absent: every bouquet is the same URL with a
-  different ?id=, and the page builds itself in the browser, so a crawler
-  fetching product.html sees one empty template rather than six products.
-  If the catalogue ever needs to rank on its own, those become real pages.
+  Every page, in every language, each entry carrying its own alternates so
+  Google can pair the language versions from the sitemap alone and not only
+  from the <link rel="alternate"> tags in the page head. Two independent
+  signals saying the same thing.
 
-  checkout.html is absent for the same reason robots.txt disallows it.
+  checkout.html is absent for the same reason robots.txt disallows it, and
+  the legacy /product.html template is absent because it is a redirect to a
+  real bouquet URL rather than a page in its own right.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://luleamelia.com/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://luleamelia.com/shop.html</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/shop.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/shop.html</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/shop.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/shop.html</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/shop.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/dergese-lulesh-tirane/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/rasti/dasma/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/trendafila-te-kuq/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/red-roses/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-rosse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/red-roses/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/red-roses/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-rosse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/rose-rosse/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/red-roses/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-rosse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-kuq/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/trendafila-ne-kuti/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/roses-in-a-box/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-in-scatola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/roses-in-a-box/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/roses-in-a-box/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-in-scatola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/rose-in-scatola/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/roses-in-a-box/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-in-scatola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/buqete-sezonale/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/seasonal-garden-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-stagione/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/seasonal-garden-bouquet/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/seasonal-garden-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-stagione/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/bouquet-di-stagione/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/seasonal-garden-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-stagione/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-sezonale/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/buqete-nuserie/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/bridal-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-da-sposa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/bridal-bouquet/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/bridal-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-da-sposa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/bouquet-da-sposa/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/bridal-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-da-sposa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-nuserie/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/orkide-ne-vazo/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/potted-orchid/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/orchidea-in-vaso/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/potted-orchid/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/potted-orchid/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/orchidea-in-vaso/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/orchidea-in-vaso/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/potted-orchid/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/orchidea-in-vaso/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/orkide-ne-vazo/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/lule/buqete-ditelindjeje/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/birthday-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-compleanno/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/birthday-bouquet/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/birthday-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-compleanno/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/bouquet-di-compleanno/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/birthday-bouquet/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/bouquet-di-compleanno/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/buqete-ditelindjeje/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
