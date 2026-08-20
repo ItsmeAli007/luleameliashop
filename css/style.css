@@ -134,7 +134,23 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;letter-spacing:-.012em;
    letterforms thinner than the hairline rules around them.
    Over the hero the mark is knocked out to white; on a light page and on
    the solid header it stays the wine red it was drawn in. */
-.brand-lockup{height:30px;width:auto;display:block;transition:height .4s var(--ease-in-out)}
+/* The wordmark has a tulip growing out of the "I", and it occupies the top
+   43% of the PNG. Centring the file in the header therefore centres the
+   tulip, not the word, and "AMELIA" reads as sitting low against the nav
+   links beside it — which are centred on their own text.
+
+   Measured on the file: the letterforms run from row 143 to row 329 of
+   336, so their centre is 20.2% of the image height below the middle.
+   Lifting by that much puts the word itself on the header's midline. A
+   percentage rather than a pixel value because the lockup is 30px, 27px
+   or 23px depending on scroll state and viewport, and the correction has
+   to scale with it.
+
+   This is optical alignment: the layout box stays exactly where flexbox
+   put it, and only the painted mark moves. Redo the measurement if the
+   wordmark file is ever replaced. */
+.brand-lockup{height:30px;width:auto;display:block;transform:translateY(-20.2%);
+  transition:height .4s var(--ease-in-out)}
 .site-header:not(.solid) .brand-lockup{filter:brightness(0) invert(1)}
 .on-light .site-header:not(.solid) .brand-lockup{filter:none}
 /* The header shrinks on scroll; the mark comes with it so the lockup never
