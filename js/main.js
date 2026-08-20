@@ -663,6 +663,68 @@ function initProductDetail() {
    Builds the order as a pre-filled WhatsApp message to the shop.
    Always written in Albanian: the recipient is the shop, regardless of
    which language the customer browsed in. */
+/* ---------------- where the order came from ----------------
+   The order is placed in WhatsApp, not on this site, so no analytics tool
+   can close the loop: it can say four hundred people read the wedding page,
+   and never say that eleven of them bought a bouquet. This can. It records
+   the first page of the visit and the site the visitor arrived from, and
+   prints both at the foot of the order the shop receives.
+
+   sessionStorage, not localStorage: a new visit is a new source, and the
+   answer to "which page earned this order" is the page that started *this*
+   visit, not one from a fortnight ago.
+
+   Nothing here is a tracker. It is stored in the visitor's own browser,
+   never sent anywhere by this site, and reaches the shop only inside the
+   order the customer sends themselves — so there is no third party in it
+   and nothing to ask consent for. */
+const SOURCE_KEY = "pf_src";
+
+/* google.al, google.co.uk, l.instagram.com, m.facebook.com — the shop wants
+   to know the family, not the exact hostname it was redirected through. */
+const SOURCE_FAMILIES = ["instagram", "facebook", "google", "tiktok",
+                         "youtube", "bing", "pinterest", "whatsapp"];
+
+function referrerName() {
+  if (!document.referrer) return "direkt";
+  let host;
+  try {
+    host = new URL(document.referrer).hostname.replace(/^www\./, "");
+  } catch (e) {
+    return "direkt";
+  }
+  if (host === location.hostname) return "direkt";
+  return SOURCE_FAMILIES.find(name => host.includes(name)) || host;
+}
+
+function initOrderSource() {
+  /* Only the first page of the visit. Every page after it would report
+     this site as the referrer and overwrite the answer with "direkt". */
+  try {
+    if (sessionStorage.getItem(SOURCE_KEY)) return;
+    sessionStorage.setItem(SOURCE_KEY, JSON.stringify({
+      landing: location.pathname + location.search,
+      ref: referrerName()
+    }));
+  } catch (e) {
+    /* Private mode refuses storage. An order without a source line is
+       still an order — never let this stop a sale. */
+  }
+}
+
+function orderSource() {
+  try {
+    return JSON.parse(sessionStorage.getItem(SOURCE_KEY) || "null");
+  } catch (e) {
+    return null;
+  }
+}
+
+function sourceLine() {
+  const src = orderSource();
+  return src ? "Erdhi nga: " + src.landing + " · " + src.ref : "";
+}
+
 function buildWhatsAppText(data) {
   const L = [];
   L.push("🌹 *POROSI E RE — Amelia Flowers*");
@@ -682,6 +744,11 @@ function buildWhatsAppText(data) {
   L.push("");
   L.push("*TOTALI: " + formatLek(data.total) + "*");
   L.push("Pagesa: Cash në dorëzim");
+  const source = sourceLine();
+  if (source) {
+    L.push("");
+    L.push("_" + source + "_");
+  }
   return L.join("\n");
 }
 
@@ -713,7 +780,8 @@ function postOrder(data) {
        and the ping say exactly the same thing. */
     order: buildWhatsAppText(data),
     total: formatLek(data.total),
-    date: data.date
+    date: data.date,
+    source: sourceLine() || "—"
   };
   if (SHOP.orderEndpointKey) body.access_key = SHOP.orderEndpointKey;
 
@@ -1007,6 +1075,7 @@ function initMarquee() {
 
 /* ---------------- boot ---------------- */
 document.addEventListener("DOMContentLoaded", () => {
+  initOrderSource();
   initPreloader();
   initImageFallbacks();
   initShopDetails();
