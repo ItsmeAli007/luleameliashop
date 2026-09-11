@@ -456,7 +456,11 @@ def head(html, lang, title, desc, urls, image=None, robots=None):
 CONTENT_DIR = os.path.join(ROOT, "tools", "pages")
 
 META_BLOCK = re.compile(r'<!--meta\n(.*?)\n-->', re.S)
-FAQ_ITEM = re.compile(r'<div data-faq><b>(.*?)</b><span>(.*?)</span></div>', re.S)
+# The homepage asks its questions through data-i18n, so the tags carry
+# attributes there and none on the Albanian-only content pages. Both shapes
+# have to parse, or the language a question is printed in decides whether it
+# reaches the schema.
+FAQ_ITEM = re.compile(r'<div data-faq><b[^>]*>(.*?)</b><span[^>]*>(.*?)</span></div>', re.S)
 PRODUCT_SLOT = re.compile(r'<div class="grid-products" data-products="([^"]*)"></div>')
 
 # Where the reusable chrome ends and a page's own content begins. Every page
@@ -636,6 +640,11 @@ def main():
             if page == "index.html":
                 html = fill_container(html, "featuredGrid",
                                       "".join(product_card(p, lang, w) for p in products[:6]))
+                # Read after localize_text, so each language's schema quotes
+                # the questions that language actually prints.
+                faq = faq_schema(html)
+                if faq:
+                    html = inject_ld(html, [ld_block("ld-faq", faq)])
             elif page == "shop.html":
                 html = fill_container(html, "chipRow", chips_html(cats, lang))
                 html = fill_container(html, "shopGrid",
@@ -680,9 +689,13 @@ def main():
                 ])),
             ])
 
-            related = [x for x in products if x["cat"] == p["cat"] and x["id"] != p["id"]][:3]
-            if not related:
-                related = [x for x in products if x["id"] != p["id"]][:3]
+            # Its own category first, because that is the closest match, then
+            # anything else to top the row up. A category of two would other-
+            # wise leave a single card sitting alone in a three-wide grid.
+            related = [x for x in products if x["cat"] == p["cat"] and x["id"] != p["id"]]
+            related += [x for x in products
+                        if x["id"] != p["id"] and x not in related]
+            related = related[:3]
             html = fill_container(html, "relatedGrid",
                                   "".join(product_card(x, lang, w) for x in related))
 
