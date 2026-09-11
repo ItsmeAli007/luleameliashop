@@ -80,7 +80,7 @@ To change the hero, replace those four files — or point the `<picture>` in
 | `hero-amelia-mobile.jpg` | Hero, 720 px and below | 719 × 941 |
 | `photo-hero-woman.jpg` | Visit panel | 1718 × 915 |
 | `photo-roses-closeup.jpg` | Story band | 1600 × 581 |
-| `photo-red-roses.jpg` | Two Dozen Red Roses | 1127 × 1396 |
+| `photo-red-roses.jpg` | Bouquet of 20 Red Roses | 1127 × 1396 |
 | `photo-rose-box.jpg` | Roses in a Keepsake Box | 1127 × 1396 |
 | `photo-seasonal-bouquet.jpg` | Seasonal Garden Bouquet | 1127 × 1396 |
 | `photo-wedding-bouquet.jpg` | Bridal Wedding Bouquet | 1127 × 1396 |
@@ -127,7 +127,7 @@ both languages:
   id: "red-roses",              // used in the URL and cart
   img: "assets/photo-....png",
   cat: "roses",                 // must match a key in CATEGORIES
-  price: 4500,                  // whole Lek
+  price: 5000,                  // whole Lek
   name: { en: "...", sq: "..." },
   desc: { en: "...", sq: "..." },
   tag:  { en: "Bestseller", sq: "Më i shituri" }   // or null
@@ -188,10 +188,10 @@ Adresa: <adresa e dorëzimit>
 Shënime: <shënime>
 
 POROSIA
-2 × Dy Duzina Trëndafila të Kuq — 9 000 L
-1 × Trëndafila në Kuti Kujtimi — 3 200 L
+2 × Buqetë me 20 Trëndafila të Kuq — 10 000 L
+1 × Trëndafila në Kuti Kujtimi — 4 500 L
 
-TOTALI: 12 200 L
+TOTALI: 14 500 L
 Pagesa: Cash në dorëzim
 ```
 

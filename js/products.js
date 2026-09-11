@@ -5,12 +5,12 @@ const PRODUCTS = [
     slug: { en: "red-roses", sq: "trendafila-te-kuq", it: "rose-rosse" },
     img: "assets/photo-red-roses.jpg",
     cat: "roses",
-    price: 4500,
-    name: { en: "Two Dozen Red Roses", sq: "Dy Duzina Trëndafila të Kuq", it: "Due Dozzine di Rose Rosse" },
+    price: 5000,
+    name: { en: "Bouquet of 20 Red Roses", sq: "Buqetë me 20 Trëndafila të Kuq", it: "Bouquet di 20 Rose Rosse" },
     desc: {
-      en: "Twenty-four long-stem roses, hand-tied with eucalyptus and kraft wrap.",
-      sq: "Njëzet e katër trëndafila kërcell të gjatë, lidhur me dorë me eukalipt.",
-      it: "Ventiquattro rose a stelo lungo, legate a mano con eucalipto e carta kraft."
+      en: "Twenty long-stem roses, hand-tied with eucalyptus and kraft wrap.",
+      sq: "Njëzet trëndafila kërcell të gjatë, lidhur me dorë me eukalipt.",
+      it: "Venti rose a stelo lungo, legate a mano con eucalipto e carta kraft."
     },
     tag: { en: "Bestseller", sq: "Më i shituri", it: "Più venduto" }
   },
@@ -19,12 +19,12 @@ const PRODUCTS = [
     slug: { en: "roses-in-a-box", sq: "trendafila-ne-kuti", it: "rose-in-scatola" },
     img: "assets/photo-rose-box.jpg",
     cat: "gifts",
-    price: 3200,
+    price: 4500,
     name: { en: "Roses in a Keepsake Box", sq: "Trëndafila në Kuti Kujtimi", it: "Rose in Scatola Regalo" },
     desc: {
-      en: "A dozen roses arranged flat in our signature box — arrives ready to display.",
-      sq: "Një duzinë trëndafila të renditur në kutinë tonë — gati për t'u ekspozuar.",
-      it: "Una dozzina di rose disposte nella nostra scatola esclusiva — pronta da esporre."
+      en: "Fifteen roses set one by one into our signature keepsake box — a gift that arrives ready to display.",
+      sq: "Pesëmbëdhjetë trëndafila të renditur një nga një me dorë në kutinë tonë të firmosur — një dhuratë gati për t'u ekspozuar.",
+      it: "Quindici rose disposte a una a una nella nostra scatola esclusiva — un regalo pronto da esporre."
     },
     tag: { en: "Gift", sq: "Dhuratë", it: "Regalo" }
   },
@@ -61,7 +61,7 @@ const PRODUCTS = [
     slug: { en: "potted-orchid", sq: "orkide-ne-vazo", it: "orchidea-in-vaso" },
     img: "assets/photo-orchid.jpg",
     cat: "plants",
-    price: 5200,
+    price: 4500,
     name: { en: "Elegant Potted Orchid", sq: "Orkide Elegante në Vazo", it: "Orchidea Elegante in Vaso" },
     desc: {
       en: "A long-blooming phalaenopsis orchid in a ceramic pot — low maintenance luxury.",
