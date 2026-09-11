@@ -4,3 +4,6 @@
 # PNG masters and the retired hero video — ~44 MB that the site never serves.
 # Keep them on disk (assets/ is re-encoded from them), out of the repo.
 _original-photos/
+
+# Personal Claude Code permissions — not shared with the repo
+.claude/settings.local.json

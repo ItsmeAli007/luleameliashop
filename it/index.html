@@ -30,10 +30,10 @@
       media="(max-width:720px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/hero-amelia.webp"
       media="(min-width:721px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/style.css?v=20260820e">
+<link rel="stylesheet" href="/css/style.css?v=20260911a">
 <!-- The liquid-glass layer sits on top of the base system and is safe
      to remove: the storefront underneath keeps working without it. -->
-<link rel="stylesheet" href="/css/liquid-glass.css?v=20260820e">
+<link rel="stylesheet" href="/css/liquid-glass.css?v=20260911a">
 <!-- Structured data for the shop. Keep the address, phone and hours here in
      step with js/config.js — search engines read this copy, customers read
      the one the page renders. -->
@@ -117,6 +117,46 @@
 <meta property="og:locale:alternate" content="sq_AL">
 <meta property="og:locale:alternate" content="en_GB">
 <!-- /i18n:head -->
+<script type="application/ld+json" id="ld-faq">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quanto sono freschi i fiori?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tagliati e composti a mano ogni mattina nel nostro negozio sul Bulevardi Bajram Curri. Niente resta sullo scaffale ad aspettare il giorno dopo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Consegnate in giornata?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sì, in tutta Tirana, e la consegna è gratuita. Prima ordinate nella giornata, più facilmente arriviamo all'ora che desiderate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Come si paga?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In contanti al corriere, quando i fiori arrivano. Non si paga nulla in anticipo e al momento non accettiamo carte."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quando siete aperti?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tutti i giorni, dalle 08:00 alle 21:00. Venite a scegliere i fiori di persona, oppure scriveteci e ve li portiamo noi."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body class="page-home" data-lang-fade>
 
@@ -504,6 +544,21 @@
   </div>
 </section>
 
+<!-- ─────────── FAQ ─────────── -->
+<section class="section-tight" id="faq">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2 style="font-size:clamp(24px,3vw,38px)" data-i18n="faq.title">Le domande che ci fanno più spesso</h2>
+    </div>
+    <div class="faq-list" data-reveal style="margin-top:8px">
+      <div data-faq><b data-i18n="faq.q1">Quanto sono freschi i fiori?</b><span data-i18n="faq.a1">Tagliati e composti a mano ogni mattina nel nostro negozio sul Bulevardi Bajram Curri. Niente resta sullo scaffale ad aspettare il giorno dopo.</span></div>
+      <div data-faq><b data-i18n="faq.q2">Consegnate in giornata?</b><span data-i18n="faq.a2">Sì, in tutta Tirana, e la consegna è gratuita. Prima ordinate nella giornata, più facilmente arriviamo all'ora che desiderate.</span></div>
+      <div data-faq><b data-i18n="faq.q3">Come si paga?</b><span data-i18n="faq.a3">In contanti al corriere, quando i fiori arrivano. Non si paga nulla in anticipo e al momento non accettiamo carte.</span></div>
+      <div data-faq><b data-i18n="faq.q4">Quando siete aperti?</b><span data-i18n="faq.a4">Tutti i giorni, dalle 08:00 alle 21:00. Venite a scegliere i fiori di persona, oppure scriveteci e ve li portiamo noi.</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- ─────────── NEWSLETTER ─────────── -->
 <section class="section band-dark">
   <div class="container">
@@ -598,11 +653,11 @@
   </div>
 </aside>
 
-<script src="/js/config.js?v=20260820e" defer></script>
-<script src="/js/products.js?v=20260820e" defer></script>
-<script src="/js/i18n.js?v=20260820e" defer></script>
-<script src="/js/cart.js?v=20260820e" defer></script>
-<script src="/js/main.js?v=20260820e" defer></script>
-<script src="/js/liquid-glass.js?v=20260820e" defer></script>
+<script src="/js/config.js?v=20260911a" defer></script>
+<script src="/js/products.js?v=20260911a" defer></script>
+<script src="/js/i18n.js?v=20260911a" defer></script>
+<script src="/js/cart.js?v=20260911a" defer></script>
+<script src="/js/main.js?v=20260911a" defer></script>
+<script src="/js/liquid-glass.js?v=20260911a" defer></script>
 </body>
 </html>

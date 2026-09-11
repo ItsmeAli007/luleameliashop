@@ -30,10 +30,10 @@
       media="(max-width:720px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/hero-amelia.webp"
       media="(min-width:721px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/style.css?v=20260820e">
+<link rel="stylesheet" href="/css/style.css?v=20260911a">
 <!-- The liquid-glass layer sits on top of the base system and is safe
      to remove: the storefront underneath keeps working without it. -->
-<link rel="stylesheet" href="/css/liquid-glass.css?v=20260820e">
+<link rel="stylesheet" href="/css/liquid-glass.css?v=20260911a">
 <!-- Structured data for the shop. Keep the address, phone and hours here in
      step with js/config.js — search engines read this copy, customers read
      the one the page renders. -->
@@ -117,6 +117,46 @@
 <meta property="og:locale:alternate" content="sq_AL">
 <meta property="og:locale:alternate" content="it_IT">
 <!-- /i18n:head -->
+<script type="application/ld+json" id="ld-faq">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How fresh are the flowers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cut and arranged by hand every morning at our shop on Bulevardi Bajram Curri. Nothing sits on a shelf waiting for tomorrow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you deliver the same day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, anywhere in Tirana, and delivery is free. The earlier in the day you order, the easier it is for us to get there when you want."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cash to the courier when the flowers arrive. Nothing is charged up front, and we do not take cards at the moment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When are you open?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every day, 08:00 to 21:00. Come and choose your stems in person, or send us a message and we will bring them to you."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body class="page-home" data-lang-fade>
 
@@ -504,6 +544,21 @@
   </div>
 </section>
 
+<!-- ─────────── FAQ ─────────── -->
+<section class="section-tight" id="faq">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2 style="font-size:clamp(24px,3vw,38px)" data-i18n="faq.title">Questions we are asked most</h2>
+    </div>
+    <div class="faq-list" data-reveal style="margin-top:8px">
+      <div data-faq><b data-i18n="faq.q1">How fresh are the flowers?</b><span data-i18n="faq.a1">Cut and arranged by hand every morning at our shop on Bulevardi Bajram Curri. Nothing sits on a shelf waiting for tomorrow.</span></div>
+      <div data-faq><b data-i18n="faq.q2">Do you deliver the same day?</b><span data-i18n="faq.a2">Yes, anywhere in Tirana, and delivery is free. The earlier in the day you order, the easier it is for us to get there when you want.</span></div>
+      <div data-faq><b data-i18n="faq.q3">How do I pay?</b><span data-i18n="faq.a3">Cash to the courier when the flowers arrive. Nothing is charged up front, and we do not take cards at the moment.</span></div>
+      <div data-faq><b data-i18n="faq.q4">When are you open?</b><span data-i18n="faq.a4">Every day, 08:00 to 21:00. Come and choose your stems in person, or send us a message and we will bring them to you.</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- ─────────── NEWSLETTER ─────────── -->
 <section class="section band-dark">
   <div class="container">
@@ -598,11 +653,11 @@
   </div>
 </aside>
 
-<script src="/js/config.js?v=20260820e" defer></script>
-<script src="/js/products.js?v=20260820e" defer></script>
-<script src="/js/i18n.js?v=20260820e" defer></script>
-<script src="/js/cart.js?v=20260820e" defer></script>
-<script src="/js/main.js?v=20260820e" defer></script>
-<script src="/js/liquid-glass.js?v=20260820e" defer></script>
+<script src="/js/config.js?v=20260911a" defer></script>
+<script src="/js/products.js?v=20260911a" defer></script>
+<script src="/js/i18n.js?v=20260911a" defer></script>
+<script src="/js/cart.js?v=20260911a" defer></script>
+<script src="/js/main.js?v=20260911a" defer></script>
+<script src="/js/liquid-glass.js?v=20260911a" defer></script>
 </body>
 </html>
