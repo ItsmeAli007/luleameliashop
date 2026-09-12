@@ -15,6 +15,24 @@ const PRODUCTS = [
     tag: { en: "Bestseller", sq: "Më i shituri", it: "Più venduto" }
   },
   {
+    id: "eternal-dome",
+    slug: { en: "eternal-roses-dome", sq: "trendafila-te-perjetshem-ne-kupole", it: "rose-eterne-in-cupola" },
+    img: "assets/photo-dome-black.jpg",
+    cat: "gifts",
+    price: 5000,
+    name: { en: "Eternal Roses in a Glass Dome", sq: "Trëndafila të Përjetshëm në Kupolë Qelqi", it: "Rose Eterne in Cupola di Vetro" },
+    desc: {
+      en: "Three preserved roses under glass on a crystal base, with a butterfly, fern and moss — they keep for years, with no water.",
+      sq: "Tre trëndafila të ruajtur nën qelq, mbi bazë kristali, me flutur, fier dhe myshk — zgjasin me vite, pa ujë.",
+      it: "Tre rose stabilizzate sotto vetro su base di cristallo, con farfalla, felce e muschio — durano anni, senza acqua."
+    },
+    variants: [
+      { id: "black", img: "assets/photo-dome-black.jpg", name: { en: "Black", sq: "E zezë", it: "Nera" } },
+      { id: "blue", img: "assets/photo-dome-blue.jpg", name: { en: "Blue", sq: "Blu", it: "Blu" } }
+    ],
+    tag: { en: "Lasts for years", sq: "Zgjat me vite", it: "Dura anni" }
+  },
+  {
     id: "rose-box",
     slug: { en: "roses-in-a-box", sq: "trendafila-ne-kuti", it: "rose-in-scatola" },
     img: "assets/photo-rose-box.jpg",
@@ -61,12 +79,17 @@ const PRODUCTS = [
     slug: { en: "potted-orchid", sq: "orkide-ne-vazo", it: "orchidea-in-vaso" },
     img: "assets/photo-orchid.jpg",
     cat: "plants",
-    price: 4500,
+    price: 3500,
     name: { en: "Elegant Potted Orchid", sq: "Orkide Elegante në Vazo", it: "Orchidea Elegante in Vaso" },
     desc: {
       en: "A long-blooming phalaenopsis orchid in a ceramic pot — low maintenance luxury.",
       sq: "Orkide phalaenopsis me lulëzim të gjatë, në vazo qeramike.",
       it: "Un’orchidea phalaenopsis dalla lunga fioritura, in vaso di ceramica — lusso senza pensieri."
+    },
+    note: {
+      en: "The vase may not be the one in the photograph, but it will be a similar one in the same ceramic.",
+      sq: "Vazoja mund të mos jetë e njëjta me atë në fotografi, por do të jetë e ngjashme dhe prej së njëjtës qeramikë.",
+      it: "Il vaso potrebbe non essere quello della fotografia, ma sarà simile e nella stessa ceramica."
     },
     tag: null
   },
@@ -103,6 +126,33 @@ const PRODUCT_DIR = { sq: "lule", en: "flowers", it: "fiori" };
 
 function getProduct(id) {
   return PRODUCTS.find(p => p.id === id);
+}
+
+/* Some products are sold in more than one colour and keep them in
+   `variants` — one card in the grid, one page, a choice on the page. A cart
+   line is then a product plus which colour, so everything a customer reads
+   — the cart row, the checkout summary, the WhatsApp order — is asked for by
+   line rather than by product. An unknown or missing colour falls back to
+   the first, which is the one the photograph on the card shows. */
+function getVariant(p, variantId) {
+  if (!p || !p.variants || !p.variants.length) return null;
+  return p.variants.find(v => v.id === variantId) || p.variants[0];
+}
+
+function lineName(p, item, lang) {
+  const v = getVariant(p, item && item.variant);
+  return v ? p.name[lang] + " (" + v.name[lang] + ")" : p.name[lang];
+}
+
+function lineImg(p, item) {
+  const v = getVariant(p, item && item.variant);
+  return v ? v.img : p.img;
+}
+
+/* Two lines are the same line only if they are the same colour of the same
+   product — otherwise the blue dome would increment the black one. */
+function sameLine(item, id, variant) {
+  return item.id === id && (item.variant || null) === (variant || null);
 }
 
 /* The path this bouquet lives at in a given language, ready to use as an

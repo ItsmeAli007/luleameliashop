@@ -151,6 +151,14 @@ def picture_html(src, extra):
             % (webp, abs_src, extra))
 
 
+def variant_attr(p):
+    """The colour a card's add button puts in the cart — the first one, which
+    is the colour the photograph on the card shows."""
+    if not p.get("variants"):
+        return ""
+    return ' data-variant="%s"' % attr(p["variants"][0]["id"])
+
+
 def product_card(p, lang, words):
     """Mirrors productCardHTML() in js/main.js."""
     tag = ('<span class="p-tag">%s</span>' % esc(p["tag"][lang])) if p.get("tag") else ""
@@ -168,7 +176,7 @@ def product_card(p, lang, words):
       <p class="p-desc">%s</p>
       <div class="p-foot">
         <span class="p-price">%s</span>
-        <button class="add-btn" data-add="%s" aria-label="Add to cart">
+        <button class="add-btn" data-add="%s"%s aria-label="Add to cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         </button>
       </div>
@@ -176,7 +184,32 @@ def product_card(p, lang, words):
   </article>''' % (href, tag,
                    picture_html(p["img"], 'alt="%s" loading="lazy"' % attr(p["name"][lang])),
                    esc(cat), href, esc(p["name"][lang]), esc(p["desc"][lang]),
-                   format_lek(p["price"]), attr(p["id"]))
+                   format_lek(p["price"]), attr(p["id"]),
+                   variant_attr(p))
+
+
+def variants_html(p, lang, words):
+    """Mirrors renderVariants() in js/main.js. A product sold in a single
+    colour gets no strip, and its placeholder stays hidden."""
+    if len(p.get("variants") or []) < 2:
+        return ""
+    label = words.get("pd.colour", "")
+    pick = (
+        "\n        <button type=\"button\" class=\"pd-swatch%s\"\n"
+        "                data-variant-pick=\"%s\" aria-pressed=\"%s\"\n"
+        "                title=\"%s\">\n"
+        "          %s\n"
+        "          <span>%s</span>\n"
+        "        </button>")
+    picks = "".join(
+        pick % (" is-on" if i == 0 else "", attr(v["id"]), "true" if i == 0 else "false",
+                attr(v["name"][lang]),
+                picture_html(v["img"], 'alt="%s" loading="lazy"' % attr(v["name"][lang])),
+                esc(v["name"][lang]))
+        for i, v in enumerate(p["variants"]))
+    return ('\n      <span class="pd-swatch-label">%s</span>\n'
+            '      <div class="pd-swatches" role="group" aria-label="%s">%s\n'
+            '      </div>\n    ' % (esc(label), attr(label), picks))
 
 
 BUILD_OPEN = "<!--build:start-->"
@@ -216,7 +249,7 @@ def chips_html(cats, lang):
 
 # --------------------------------------------------------------- product page
 PD_TEXT = re.compile(
-    r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*\sdata-pd-(?P<key>name|price|desc|cat)(?=[\s>])[^>]*)>)'
+    r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*\sdata-pd-(?P<key>name|price|desc|note|cat)(?=[\s>])[^>]*)>)'
     r'(?P<body>[^<]*)'
     r'(?P<close></(?P=tag)>)'
 )
@@ -234,11 +267,19 @@ def fill_product(html, p, lang, words):
         "name": p["name"][lang],
         "price": format_lek(p["price"]),
         "desc": p["desc"][lang],
+        "note": (p.get("note") or {}).get(lang, ""),
         "cat": words.get("footer.shop." + p["cat"], p["cat"]),
     }
     html = PD_TEXT.sub(lambda m: m.group(1) + esc(values[m.group("key")]) + m.group("close"), html)
+    strip = variants_html(p, lang, words)
+    html = re.sub(r'(<div[^>]*\sdata-pd-variants[^>]*?)(\s+hidden)?([^>]*>).*?(</div>)',
+                  lambda m: m.group(1) + ("" if strip else " hidden") + m.group(3) + strip + m.group(4),
+                  html, count=1, flags=re.S)
+    # The note paragraph ships hidden; only a bouquet that has one shows it.
+    html = re.sub(r'(<p[^>]*\sdata-pd-note)\s+hidden([^>]*>)',
+                  r'\1\2' if values["note"] else r'\1 hidden\2', html, count=1)
 
-    img = asset(p["img"])
+    img = asset(p["variants"][0]["img"] if p.get("variants") else p["img"])
     webp = re.sub(r'\.(jpe?g|png)$', '.webp', img, flags=re.I)
     html = re.sub(r'(<source[^>]*\sdata-pd-source[^>]*\ssrcset=")[^"]*(")',
                   lambda m: m.group(1) + webp + m.group(2), html, count=1)

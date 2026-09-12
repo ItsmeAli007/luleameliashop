@@ -716,9 +716,24 @@ textarea.input{resize:vertical;min-height:90px}
 .pd-media img{width:100%;height:100%;object-fit:cover}
 .pd-price{font-family:var(--font-head);font-weight:700;font-size:30px;color:var(--color-accent-700);margin:14px 0 22px}
 .pd-desc{font-size:15px;line-height:1.7;color:var(--n-800);max-width:52ch}
+/* A caveat, not a selling point — smaller and quieter than the description,
+   set off by the same 2px rule the rest of the page uses. */
+.pd-note{font-size:13px;line-height:1.65;color:var(--n-700);max-width:52ch;margin-top:14px;padding-left:14px;border-left:2px solid var(--color-divider)}
 /* The stepper is 136px of fixed 42px squares, so on a 320px phone the add
    button had nowhere to shrink to — together they were wider than the column
    and pushed the whole page sideways. Let the button drop to its own row. */
+/* The colour picker: the photographs themselves, since the difference
+   between these is the whole photograph and not a dot of colour. Square,
+   flush-left, 2px rules — the chosen one carries the accent. */
+.pd-variants{margin-top:26px}
+.pd-swatch-label{display:block;font:700 11px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--n-900);margin-bottom:10px}
+.pd-swatches{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.pd-swatch{display:block;width:92px;padding:0;background:none;border:2px solid var(--color-divider);cursor:pointer;text-align:left;transition:border-color .2s ease}
+.pd-swatch img{width:100%;height:92px;object-fit:cover}
+.pd-swatch span{display:block;font-size:12px;line-height:1.3;padding:7px 8px;color:var(--n-700)}
+.pd-swatch:hover{border-color:var(--n-900)}
+.pd-swatch.is-on{border-color:var(--color-accent)}
+.pd-swatch.is-on span{color:var(--n-900);font-weight:700}
 .pd-qty-row{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0}
 .pd-qty-row .btn{flex:1 1 150px;min-width:0}
 .pd-meta{display:flex;gap:28px;margin-top:34px;padding-top:26px;border-top:2px solid var(--color-divider)}

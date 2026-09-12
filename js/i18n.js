@@ -112,6 +112,7 @@ const I18N = {
 
     "pd.back": "Back to shop",
     "pd.add": "Add to cart",
+    "pd.colour": "Choose a colour",
     "pd.added": "Added to cart",
     "pd.qty": "Quantity",
     "pd.meta.delivery.t": "Delivery",
@@ -283,6 +284,7 @@ const I18N = {
 
     "pd.back": "Kthehu te dyqani",
     "pd.add": "Shto në shportë",
+    "pd.colour": "Zgjidhni ngjyrën",
     "pd.added": "U shtua në shportë",
     "pd.qty": "Sasia",
     "pd.meta.delivery.t": "Dërgesa",
@@ -454,6 +456,7 @@ const I18N = {
 
     "pd.back": "Torna al negozio",
     "pd.add": "Aggiungi al carrello",
+    "pd.colour": "Scegli il colore",
     "pd.added": "Aggiunto al carrello",
     "pd.qty": "Quantità",
     "pd.meta.delivery.t": "Consegna",
