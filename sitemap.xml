@@ -105,6 +105,33 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/eternal-roses-dome/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-eterne-in-cupola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/en/flowers/eternal-roses-dome/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/eternal-roses-dome/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-eterne-in-cupola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luleamelia.com/it/fiori/rose-eterne-in-cupola/</loc>
+    <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/eternal-roses-dome/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://luleamelia.com/it/fiori/rose-eterne-in-cupola/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://luleamelia.com/lule/trendafila-te-perjetshem-ne-kupole/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://luleamelia.com/lule/trendafila-ne-kuti/</loc>
     <xhtml:link rel="alternate" hreflang="sq-AL" href="https://luleamelia.com/lule/trendafila-ne-kuti/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://luleamelia.com/en/flowers/roses-in-a-box/"/>

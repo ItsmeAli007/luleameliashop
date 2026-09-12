@@ -382,7 +382,7 @@ function productCardHTML(p, lang) {
       <p class="p-desc">${p.desc[lang]}</p>
       <div class="p-foot">
         <span class="p-price">${formatLek(p.price)}</span>
-        <button class="add-btn" data-add="${p.id}" aria-label="Add to cart">
+        <button class="add-btn" data-add="${p.id}"${p.variants ? ` data-variant="${p.variants[0].id}"` : ""} aria-label="Add to cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         </button>
       </div>
@@ -396,12 +396,16 @@ function wireAddButtons(scope) {
       e.preventDefault();
       const id = btn.dataset.add;
       const qty = parseInt(btn.dataset.qty || "1", 10);
+      /* Grid cards add the colour on the card — the first one, which is the
+         colour the photograph shows. The product page sets this to whichever
+         one the visitor picked. */
+      const variant = btn.dataset.variant;
       const lang = LangStore.get();
-      if (Cart.atCap(id)) { showToast(t("error.maxqty", lang)); return; }
-      Cart.add(id, qty);
+      if (Cart.atCap(id, variant)) { showToast(t("error.maxqty", lang)); return; }
+      Cart.add(id, qty, variant);
       btn.classList.remove("bump"); void btn.offsetWidth; btn.classList.add("bump");
       const p = getProduct(id);
-      showToast(`${t("pd.added", lang)} — ${p.name[lang]}`);
+      showToast(`${t("pd.added", lang)} — ${lineName(p, { variant }, lang)}`);
     });
   });
 }
@@ -588,6 +592,9 @@ function initProductDetail() {
   if (!root) return;
   const p = productFromLocation() || PRODUCTS[0];
   let qty = 1;
+  /* Which colour the page is showing. One product, one page, one photograph
+     at a time — the strip under the image swaps it. */
+  let variant = p.variants ? p.variants[0].id : null;
 
   /* Every bouquet now has a real URL. /product.html?id= is kept alive only
      because those links are already sitting in WhatsApp threads and in
@@ -619,9 +626,9 @@ function initProductDetail() {
     /* Root-absolute: on /en/product.html a bare "assets/..." would resolve
        to /en/assets/ and 404 — including the WebP, which is why the English
        and Italian pages were quietly serving the heavier JPEG. */
-    const imgAbs = "/" + p.img.replace(/^\//, "");
+    const imgAbs = "/" + lineImg(p, { variant }).replace(/^\//, "");
     root.querySelector("[data-pd-img]").src = imgAbs;
-    root.querySelector("[data-pd-img]").alt = p.name[lang];
+    root.querySelector("[data-pd-img]").alt = lineName(p, { variant }, lang);
     const pdSource = root.querySelector("[data-pd-source]");
     if (pdSource) pdSource.srcset = imgAbs.replace(/\.(jpe?g|png)$/i, ".webp");
     /* Both the breadcrumb and the kicker above the title carry this hook —
@@ -641,7 +648,34 @@ function initProductDetail() {
       pdNote.hidden = !note;
     }
     root.querySelector("[data-pd-qty]").textContent = qty;
-    root.querySelector("[data-pd-add]").dataset.qty = qty;
+    const pdAdd = root.querySelector("[data-pd-add]");
+    pdAdd.dataset.qty = qty;
+    if (variant) pdAdd.dataset.variant = variant;
+    renderVariants(lang);
+  }
+
+  /* The colours, as a row of photographs under the main image. A product
+     with a single colour has no strip at all rather than a strip of one. */
+  const variantWrap = root.querySelector("[data-pd-variants]");
+  function renderVariants(lang) {
+    if (!variantWrap) return;
+    if (!p.variants || p.variants.length < 2) { variantWrap.hidden = true; return; }
+    variantWrap.hidden = false;
+    variantWrap.innerHTML = `
+      <span class="pd-swatch-label">${t("pd.colour", lang)}</span>
+      <div class="pd-swatches" role="group" aria-label="${t("pd.colour", lang)}">
+        ${p.variants.map(v => `
+        <button type="button" class="pd-swatch${v.id === variant ? " is-on" : ""}"
+                data-variant-pick="${v.id}" aria-pressed="${v.id === variant}"
+                title="${v.name[lang]}">
+          ${pictureHTML(v.img, `alt="${v.name[lang]}" loading="lazy"`)}
+          <span>${v.name[lang]}</span>
+        </button>`).join("")}
+      </div>`;
+    initImageFallbacks(variantWrap);
+    variantWrap.querySelectorAll("[data-variant-pick]").forEach(btn => {
+      btn.addEventListener("click", () => { variant = btn.dataset.variantPick; render(); });
+    });
   }
 
   root.querySelector("[data-pd-minus]").addEventListener("click", () => { qty = Math.max(1, qty - 1); render(); });
@@ -747,7 +781,7 @@ function buildWhatsAppText(data) {
   L.push("*POROSIA*");
   data.items.forEach(i => {
     const p = getProduct(i.id);
-    if (p) L.push(`${i.qty} × ${p.name.sq} — ${formatLek(p.price * i.qty)}`);
+    if (p) L.push(`${i.qty} × ${lineName(p, i, "sq")} — ${formatLek(p.price * i.qty)}`);
   });
   L.push("");
   L.push("*TOTALI: " + formatLek(data.total) + "*");
@@ -890,10 +924,11 @@ function renderCheckoutSummary() {
   wrap.innerHTML = items.map(i => {
     const p = getProduct(i.id);
     if (!p) return "";
+    const name = lineName(p, i, lang);
     return `<div class="mini-cart-item">
-      <div class="thumb thumb-mini">${pictureHTML(p.img, `alt="${p.name[lang]}"`)}</div>
+      <div class="thumb thumb-mini">${pictureHTML(lineImg(p, i), `alt="${name}"`)}</div>
       <div>
-        <div class="name">${p.name[lang]}</div>
+        <div class="name">${name}</div>
         <div class="meta">${t("pd.qty", lang)}: ${i.qty} · ${formatLek(p.price * i.qty)}</div>
       </div>
     </div>`;

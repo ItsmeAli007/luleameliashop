@@ -17,25 +17,28 @@ const Cart = {
     if (!isFinite(n) || n < 1) return 1;
     return Math.min(n, max);
   },
-  atCap(id) {
-    const row = this.get().find(i => i.id === id);
+  /* A line is addressed by product and, for a product sold in colours, by
+     which colour — see sameLine() in js/products.js. */
+  atCap(id, variant) {
+    const row = this.get().find(i => sameLine(i, id, variant));
     const max = (typeof SHOP !== "undefined" && SHOP.maxQtyPerItem) || 25;
     return !!row && row.qty >= max;
   },
-  add(id, qty = 1) {
+  add(id, qty = 1, variant) {
     const items = this.get();
-    const row = items.find(i => i.id === id);
-    if (row) row.qty = this.cap(row.qty + qty); else items.push({ id, qty: this.cap(qty) });
+    const row = items.find(i => sameLine(i, id, variant));
+    if (row) row.qty = this.cap(row.qty + qty);
+    else items.push(variant ? { id, qty: this.cap(qty), variant } : { id, qty: this.cap(qty) });
     this.save(items);
   },
-  setQty(id, qty) {
+  setQty(id, variant, qty) {
     let items = this.get();
-    if (qty <= 0) items = items.filter(i => i.id !== id);
-    else { const row = items.find(i => i.id === id); if (row) row.qty = this.cap(qty); }
+    if (qty <= 0) items = items.filter(i => !sameLine(i, id, variant));
+    else { const row = items.find(i => sameLine(i, id, variant)); if (row) row.qty = this.cap(qty); }
     this.save(items);
   },
-  remove(id) {
-    this.save(this.get().filter(i => i.id !== id));
+  remove(id, variant) {
+    this.save(this.get().filter(i => !sameLine(i, id, variant)));
   },
   clear() { this.save([]); },
   count() { return this.get().reduce((s, i) => s + i.qty, 0); },
@@ -58,21 +61,23 @@ function renderCartBadge() {
 function cartRowTemplate(item, lang) {
   const p = getProduct(item.id);
   if (!p) return "";
+  const name = lineName(p, item, lang);
+  const variant = item.variant ? ` data-variant="${item.variant}"` : "";
   return `
-  <div class="cart-row" data-id="${p.id}">
-    <div class="thumb thumb-cart">${pictureHTML(p.img, `alt="${p.name[lang]}"`)}</div>
+  <div class="cart-row" data-id="${p.id}"${variant}>
+    <div class="thumb thumb-cart">${pictureHTML(lineImg(p, item), `alt="${name}"`)}</div>
     <div class="cart-row-body">
       <div class="cart-row-top">
-        <span class="cart-row-name">${p.name[lang]}</span>
+        <span class="cart-row-name">${name}</span>
         <span class="p-price">${formatLek(p.price * item.qty)}</span>
       </div>
       <div class="cart-row-top" style="align-items:center">
-        <div class="qty-stepper" data-id="${p.id}">
+        <div class="qty-stepper" data-id="${p.id}"${variant}>
           <button type="button" data-step="-1" aria-label="Decrease">−</button>
           <span>${item.qty}</span>
           <button type="button" data-step="1" aria-label="Increase">+</button>
         </div>
-        <button type="button" class="cart-remove" data-remove="${p.id}">${t("cart.item.remove", lang)}</button>
+        <button type="button" class="cart-remove" data-remove="${p.id}"${variant}>${t("cart.item.remove", lang)}</button>
       </div>
     </div>
   </div>`;
@@ -101,14 +106,16 @@ function renderCartDrawer() {
 
   wrap.querySelectorAll("[data-step]").forEach(btn => {
     btn.addEventListener("click", () => {
-      const id = btn.closest(".qty-stepper").dataset.id;
-      const cur = Cart.get().find(i => i.id === id);
+      const stepper = btn.closest(".qty-stepper");
+      const id = stepper.dataset.id;
+      const variant = stepper.dataset.variant;
+      const cur = Cart.get().find(i => sameLine(i, id, variant));
       const delta = parseInt(btn.dataset.step, 10);
-      Cart.setQty(id, (cur ? cur.qty : 0) + delta);
+      Cart.setQty(id, variant, (cur ? cur.qty : 0) + delta);
     });
   });
   wrap.querySelectorAll("[data-remove]").forEach(btn => {
-    btn.addEventListener("click", () => Cart.remove(btn.dataset.remove));
+    btn.addEventListener("click", () => Cart.remove(btn.dataset.remove, btn.dataset.variant));
   });
 }
 
