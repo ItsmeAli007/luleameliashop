@@ -61,12 +61,17 @@ const PRODUCTS = [
     slug: { en: "potted-orchid", sq: "orkide-ne-vazo", it: "orchidea-in-vaso" },
     img: "assets/photo-orchid.jpg",
     cat: "plants",
-    price: 4500,
+    price: 3500,
     name: { en: "Elegant Potted Orchid", sq: "Orkide Elegante në Vazo", it: "Orchidea Elegante in Vaso" },
     desc: {
       en: "A long-blooming phalaenopsis orchid in a ceramic pot — low maintenance luxury.",
       sq: "Orkide phalaenopsis me lulëzim të gjatë, në vazo qeramike.",
       it: "Un’orchidea phalaenopsis dalla lunga fioritura, in vaso di ceramica — lusso senza pensieri."
+    },
+    note: {
+      en: "The vase may not be the one in the photograph, but it will be a similar one in the same ceramic.",
+      sq: "Vazoja mund të mos jetë e njëjta me atë në fotografi, por do të jetë e ngjashme dhe prej së njëjtës qeramikë.",
+      it: "Il vaso potrebbe non essere quello della fotografia, ma sarà simile e nella stessa ceramica."
     },
     tag: null
   },

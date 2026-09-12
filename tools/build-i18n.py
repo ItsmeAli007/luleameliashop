@@ -216,7 +216,7 @@ def chips_html(cats, lang):
 
 # --------------------------------------------------------------- product page
 PD_TEXT = re.compile(
-    r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*\sdata-pd-(?P<key>name|price|desc|cat)(?=[\s>])[^>]*)>)'
+    r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*\sdata-pd-(?P<key>name|price|desc|note|cat)(?=[\s>])[^>]*)>)'
     r'(?P<body>[^<]*)'
     r'(?P<close></(?P=tag)>)'
 )
@@ -234,9 +234,13 @@ def fill_product(html, p, lang, words):
         "name": p["name"][lang],
         "price": format_lek(p["price"]),
         "desc": p["desc"][lang],
+        "note": (p.get("note") or {}).get(lang, ""),
         "cat": words.get("footer.shop." + p["cat"], p["cat"]),
     }
     html = PD_TEXT.sub(lambda m: m.group(1) + esc(values[m.group("key")]) + m.group("close"), html)
+    # The note paragraph ships hidden; only a bouquet that has one shows it.
+    html = re.sub(r'(<p[^>]*\sdata-pd-note)\s+hidden([^>]*>)',
+                  r'\1\2' if values["note"] else r'\1 hidden\2', html, count=1)
 
     img = asset(p["img"])
     webp = re.sub(r'\.(jpe?g|png)$', '.webp', img, flags=re.I)

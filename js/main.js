@@ -632,6 +632,14 @@ function initProductDetail() {
     root.querySelector("[data-pd-name]").textContent = p.name[lang];
     root.querySelector("[data-pd-price]").textContent = formatLek(p.price);
     root.querySelector("[data-pd-desc]").textContent = p.desc[lang];
+    /* Only a few products carry a note, so the paragraph stays hidden rather
+       than sitting empty under the description. */
+    const pdNote = root.querySelector("[data-pd-note]");
+    if (pdNote) {
+      const note = p.note && p.note[lang];
+      pdNote.textContent = note || "";
+      pdNote.hidden = !note;
+    }
     root.querySelector("[data-pd-qty]").textContent = qty;
     root.querySelector("[data-pd-add]").dataset.qty = qty;
   }
