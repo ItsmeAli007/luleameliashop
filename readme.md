@@ -56,13 +56,13 @@ were resized to their maximum rendered width and re-encoded, bringing the whole
 
 ### Hero photograph
 
-The homepage hero is a single still, cropped from `_original-photos/hero/heroroseflowers.png`
+The homepage hero is a single still, cropped from `_original-photos/hero/HeroImage.png`
 into two files:
 
 | File | Served to | Size |
 |---|---|---|
-| `hero-amelia.jpg` / `.webp` | 721 px and wider — the full 16:9 frame, its empty burgundy field on the left carrying the headline | 1672 × 941 · 160 KB / 80 KB |
-| `hero-amelia-mobile.jpg` / `.webp` | 720 px and below — the same frame cropped to the rose cluster, so a portrait viewport is not throwing away two thirds of a landscape photo | 719 × 941 · 94 KB / 52 KB |
+| `hero-amelia.jpg` / `.webp` | 721 px and wider — the full 16:9 frame of the sunset flower garden, the headline over the tulip beds at bottom left | 1672 × 941 · 234 KB / 160 KB |
+| `hero-amelia-mobile.jpg` / `.webp` | 720 px and below — the same frame cropped to its centre (mountains, town, roses), so a portrait viewport is not throwing away two thirds of a landscape photo | 719 × 941 · 90 KB / 64 KB |
 
 `<picture>` picks between them on a `media` query, and WebP before JPEG. The
 earlier looping video and its `initHeroVideo()` loader are gone: the hero now
