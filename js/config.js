@@ -114,6 +114,10 @@ const SHOP = {
      bypass them — see the "Spam" section of the README for what
      actually protects you. */
 
+  /* Delivery within Tirana, in lek, added once to every order at
+     checkout. Set to 0 to make delivery free again. */
+  deliveryFee: 300,
+
   /* Most of any single bouquet in one order. Blocks the "9999 roses"
      order that would otherwise look real. */
   maxQtyPerItem: 25,
