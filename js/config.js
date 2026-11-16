@@ -99,14 +99,14 @@ const SHOP = {
 
      Any service that accepts a JSON POST works. Web3Forms and Formspree
      are both fine — see README for which fields each expects. */
-  orderEndpoint: "",
+  orderEndpoint: "https://api.web3forms.com/submit",
 
   /* Submission key, if the service uses one. Web3Forms calls this an
      access key and it is designed to be public — it can only submit to
      your own form, it cannot read anything back. Do NOT put a secret
      API token here: everything in this file is visible to any visitor
      who opens developer tools. */
-  orderEndpointKey: "",
+  orderEndpointKey: "4a40bad2-a01c-470c-9062-055e78f6b531",
 
   /* ── Abuse limits ────────────────────────────────────────────────
      These stop honest mistakes and casual repeat-clicking. They are
