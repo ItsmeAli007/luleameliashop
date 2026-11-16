@@ -76,9 +76,11 @@ const SHOP = {
     mapLabel: "Amelia Flowers"
   },
 
-  /* Opens WhatsApp automatically as soon as the order is placed.
-     The customer still has to press send — see README. */
-  autoOpenWhatsApp: true,
+  /* Opens WhatsApp automatically as soon as the order is placed. Off:
+     orders reach the shop by email (orderEndpoint below), so WhatsApp is
+     only an optional button on the confirmation screen. It becomes the
+     required step again only if the email copy fails to send. */
+  autoOpenWhatsApp: false,
 
   /* ── Where orders are actually recorded ──────────────────────────
      The WhatsApp hand-off is fast but not reliable: the message is
