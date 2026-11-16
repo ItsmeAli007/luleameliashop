@@ -850,34 +850,42 @@ function postOrder(data) {
    The wording used to claim "Order received — your flowers are on their
    way" in both cases. A customer who then closed the tab believed an
    order existed that never did, which is worse than losing the order. */
-function setConfirmState(recorded) {
+/* `state` is true (recorded), false (pending) or "sending" — the moment
+   between submitting and hearing back from the order endpoint, at most a
+   few seconds, when promising either would be a guess. */
+function setConfirmState(state) {
   const lang = LangStore.get();
-  /* [recorded key, pending key] for each slot. The element is found by
-     whichever of the two it is currently carrying — searching only for
-     the one we are switching *to* finds nothing on the way back. */
+  const recorded = state === true;
+  const sending = state === "sending";
+  /* [recorded, pending, sending] keys for each slot. The element is found
+     by whichever one it is currently carrying — searching only for the
+     one we are switching *to* finds nothing on the way back. */
   const slots = [
-    ["confirm.kicker", "confirm.pending.kicker"],
-    ["confirm.title",  "confirm.pending.title"],
-    ["confirm.body",   "confirm.pending.body"]
+    ["confirm.kicker", "confirm.pending.kicker", "confirm.sending.kicker"],
+    ["confirm.title",  "confirm.pending.title",  "confirm.sending.title"],
+    ["confirm.body",   "confirm.pending.body",   "confirm.sending.body"]
   ];
 
-  slots.forEach(([doneKey, pendingKey]) => {
-    const el = document.querySelector(`[data-i18n="${doneKey}"], [data-i18n="${pendingKey}"]`);
+  slots.forEach(keys => {
+    const el = document.querySelector(keys.map(k => `[data-i18n="${k}"]`).join(", "));
     if (!el) return;
-    const key = recorded ? doneKey : pendingKey;
+    const key = keys[recorded ? 0 : sending ? 2 : 1];
     el.setAttribute("data-i18n", key);
     el.textContent = t(key, lang);
   });
 
   const wrap = document.getElementById("confirmWrap");
-  if (wrap) wrap.classList.toggle("is-pending", !recorded);
+  if (wrap) {
+    wrap.classList.toggle("is-pending", !recorded && !sending);
+    wrap.classList.toggle("is-sending", sending);
+  }
 
   /* The big tick reads as "done" from across the room — louder than any
      wording under it. While the order is still pending it becomes an
      arrow, so the icon and the text say the same thing. */
   const icon = document.querySelector(".confirm-check svg path");
   if (icon) {
-    icon.setAttribute("d", recorded ? "M20 6 9 17l-5-5" : "M5 12h14M13 6l6 6-6 6");
+    icon.setAttribute("d", recorded ? "M20 6 9 17l-5-5" : sending ? "M12 6v6l4 2" : "M5 12h14M13 6l6 6-6 6");
   }
 }
 
@@ -1074,22 +1082,31 @@ function initCheckoutPage() {
       waOpened = !!win;
     }
 
-    /* Assume the worst until the post says otherwise: if the endpoint is
-       not configured, or is slow, or fails, the honest state is "not
-       placed yet". Upgrading later is safe; starting optimistic is not. */
-    setConfirmState(false);
+    /* Never claim more than we know. With an endpoint configured, say
+       "sending" until it answers; without one, WhatsApp is the only route
+       and the honest state is "not placed yet" from the start. */
+    const hasEndpoint = !!(SHOP.orderEndpoint || "").trim();
+    setConfirmState(hasEndpoint ? "sending" : false);
 
     const waBtn = document.getElementById("waSendBtn");
     const waNote = document.getElementById("waNote");
     const showWa = (recorded) => {
       if (!waBtn) return;
-      if (!waUrl) {
+      if (!waUrl || recorded === "sending") {
         waBtn.classList.add("va-none");
         if (waNote) waNote.textContent = "";
         return;
       }
       waBtn.href = waUrl;
       waBtn.classList.remove("va-none");
+      /* Once the order is in, WhatsApp is just a way to reach us — the
+         button says so instead of asking them to send the order. */
+      const label = waBtn.querySelector("[data-i18n^='confirm.wa.button']");
+      if (label) {
+        const key = recorded ? "confirm.wa.button.optional" : "confirm.wa.button";
+        label.setAttribute("data-i18n", key);
+        label.textContent = t(key, LangStore.get());
+      }
       if (!waNote) return;
       /* Three different things to say, and the difference matters:
          recorded  — WhatsApp is optional, the order is already in
@@ -1100,7 +1117,7 @@ function initCheckoutPage() {
         LangStore.get()
       );
     };
-    showWa(false);
+    showWa(hasEndpoint ? "sending" : false);
 
     /* Post after opening WhatsApp, never before: window.open has to run
        inside the click gesture or the popup blocker eats it, and an
