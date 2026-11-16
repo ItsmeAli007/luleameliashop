@@ -7,8 +7,8 @@ const I18N = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "Tirana · Bulevardi Bajram Curri",
-    "hero.title1": "Fresh flowers,",
-    "hero.title2": "every morning.",
+    "hero.title1": "Flowers for",
+    "hero.title2": "every occasion.",
     "hero.sub": "Cut and arranged by hand in the heart of Tirana. Same-day delivery across the city, cash on delivery.",
     "hero.cta.shop": "Shop bouquets",
     "hero.cta.story": "Our story",
@@ -182,8 +182,8 @@ const I18N = {
     "nav.contact": "Kontakt",
 
     "hero.eyebrow": "Tiranë · Bulevardi Bajram Curri",
-    "hero.title1": "Lule të freskëta,",
-    "hero.title2": "çdo mëngjes.",
+    "hero.title1": "Lule për",
+    "hero.title2": "çdo rast.",
     "hero.sub": "Prera dhe rregulluara me dorë në zemër të Tiranës. Dërgesë brenda ditës në gjithë qytetin, pagesë në dorëzim.",
     "hero.cta.shop": "Shiko buqetat",
     "hero.cta.story": "Historia jonë",
@@ -354,8 +354,8 @@ const I18N = {
     "nav.contact": "Contatti",
 
     "hero.eyebrow": "Tirana · Bulevardi Bajram Curri",
-    "hero.title1": "Fiori freschi,",
-    "hero.title2": "ogni mattina.",
+    "hero.title1": "Fiori per",
+    "hero.title2": "ogni occasione.",
     "hero.sub": "Tagliati e composti a mano nel cuore di Tirana. Consegna in giornata in tutta la città, pagamento alla consegna.",
     "hero.cta.shop": "Scopri i bouquet",
     "hero.cta.story": "La nostra storia",
