@@ -749,3 +749,7 @@ body.menu-open .brand-lockup{filter:brightness(0) invert(1)}
 .confirm-wrap.is-pending .wa-note{
   font-weight:600;
 }
+
+/* Build your own bouquet — the stage and the panel take the card radius. */
+.bb-stage,.bb-panel{border-radius:var(--lg-radius-l);border-color:var(--glass-border-light);box-shadow:var(--lg-inner),var(--lg-shadow)}
+.bb-actions .btn-primary{border-radius:var(--radius-pill)}

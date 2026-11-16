@@ -633,6 +633,7 @@ section{position:relative}
 .thumb .img-slot::before{position:static;width:14px;height:14px;opacity:.7}
 .cart-row-body{flex:1;display:flex;flex-direction:column;gap:6px}
 .cart-row-top{display:flex;justify-content:space-between;gap:10px}
+.cart-row-top .p-price{white-space:nowrap}
 .cart-row-name{font-weight:700;font-size:14px}
 .cart-remove{font-size:11px;color:var(--n-600);text-decoration:underline;align-self:flex-start}
 .cart-remove:hover{color:var(--color-accent)}
@@ -830,3 +831,77 @@ textarea.input{resize:vertical;min-height:90px}
 .visit-map-chip svg{width:15px;height:15px;flex:none;transition:transform .3s var(--ease-out)}
 .visit-map:hover .visit-map-chip{background:var(--color-accent)}
 .visit-map:hover .visit-map-chip svg{transform:translateY(-2px)}
+
+/* ---------------- build your own bouquet ----------------
+   Stage on the left, flower list on the right. On a phone the stage comes
+   first and sticks under the header while the list scrolls past it, so the
+   bouquet stays in view as each flower is added. */
+.bb{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:start}
+.bb-stage{
+  position:sticky;top:96px;aspect-ratio:4/5;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 38%,#fffaf6 0%,#f4e9e4 55%,#ead5d9 100%);
+  border:2px solid var(--color-divider);
+}
+.bb-stage svg{display:block;width:100%;height:100%}
+.bb-empty{
+  position:absolute;left:0;right:0;top:12%;text-align:center;pointer-events:none;
+  font:600 italic clamp(18px,2vw,22px)/1.3 var(--font-head);color:var(--n-700);
+  transition:opacity .4s var(--ease-out),transform .4s var(--ease-out);
+}
+.bb-empty.is-hidden{opacity:0;transform:translateY(-10px)}
+
+.bb-fit,.bb-bump,.bb-wrap-back,.bb-wrap-front,.bb-head,.bb-leaf,.bb-bloom{transform-box:view-box;transform-origin:0 0}
+.bb-fit,.bb-wrap-back,.bb-wrap-front{transition:transform .7s var(--ease-out)}
+.bb-head,.bb-leaf{transition:transform .65s cubic-bezier(.34,1.4,.5,1),opacity .3s}
+.bb-bloom{animation:bb-bloom .6s cubic-bezier(.34,1.56,.64,1) both}
+.bb-leaf .bb-bloom{animation-delay:.08s}
+.bb-head.is-leaving,.bb-leaf.is-leaving{opacity:0}
+.bb-head.is-leaving .bb-bloom,.bb-leaf.is-leaving .bb-bloom{animation:bb-wilt .3s ease-in both}
+.bb-bump.is-bump{animation:bb-bump .5s var(--ease-out)}
+.bb-shadow{transition:cy .7s var(--ease-out),rx .7s var(--ease-out)}
+@keyframes bb-bloom{0%{transform:scale(0) rotate(-50deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes bb-wilt{to{transform:scale(0) rotate(30deg)}}
+@keyframes bb-bump{0%{transform:scale(1)}35%{transform:scale(1.035)}100%{transform:scale(1)}}
+
+.bb-panel{padding:28px;border:2px solid var(--color-divider)}
+.bb-list{list-style:none;margin:0;padding:0}
+.bb-row{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--color-divider)}
+.bb-row:first-child{padding-top:0}
+.bb-swatch{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:#fff;transition:transform .3s var(--ease-out),box-shadow .3s}
+.bb-swatch svg{width:44px;height:44px}
+.bb-row.is-picked .bb-swatch{box-shadow:0 0 0 2px var(--color-accent)}
+.bb-row:hover .bb-swatch{transform:rotate(-10deg) scale(1.05)}
+.bb-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.bb-info b{font:600 17px/1.25 var(--font-head)}
+.bb-info em{font:400 13px/1.4 var(--font-body);font-style:normal;color:var(--n-700)}
+.bb-stepper button:disabled{opacity:.3;cursor:not-allowed;background:none;color:inherit}
+
+.bb-sum{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:22px}
+.bb-sum span{font:700 11px var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:var(--n-600)}
+.bb-sum b{font:700 28px/1 var(--font-head);color:var(--color-accent)}
+.bb-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.bb-actions .btn-primary{flex:1;justify-content:center}
+.bb-actions .btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.bb-reset{font:700 12px var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--n-700);text-decoration:underline;text-underline-offset:4px}
+.bb-reset:hover{color:var(--color-accent)}
+.bb-msg{min-height:1.4em;margin:12px 0 0;font-size:13px;color:var(--color-accent)}
+.bb-note{margin:6px 0 0;font-size:12.5px;line-height:1.6;color:var(--n-600)}
+
+@media (max-width:900px){
+  .bb{grid-template-columns:1fr;gap:20px}
+  .bb-stage{top:72px;z-index:2;aspect-ratio:auto;height:min(38vh,320px)}
+  .bb-panel{padding:20px}
+}
+@media (max-width:520px){
+  .bb-panel{padding:16px}
+  .bb-row{grid-template-columns:40px 1fr auto;gap:10px}
+  .bb-swatch{width:40px;height:40px}
+  .bb-swatch svg{width:34px;height:34px}
+  .bb-info b{font-size:15.5px;hyphens:auto;overflow-wrap:anywhere}
+  .bb-stepper button{width:34px;height:34px}
+  .bb-stepper span{width:28px}
+}
+@media (prefers-reduced-motion:reduce){
+  .bb-fit,.bb-wrap-back,.bb-wrap-front,.bb-head,.bb-leaf,.bb-shadow{transition:none}
+  .bb-bloom,.bb-bump.is-bump,.bb-head.is-leaving .bb-bloom,.bb-leaf.is-leaving .bb-bloom{animation:none}
+}

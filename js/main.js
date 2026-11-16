@@ -31,6 +31,8 @@ const SLOT_LABELS = {
    images carry one: it reserves the box before the bytes land. */
 function pictureHTML(src, attrs) {
   const abs = "/" + src.replace(/^\//, "");
+  /* A drawing has no WebP twin — offering one would leave an empty box. */
+  if (/\.svg$/i.test(abs)) return `<img src="${abs}" width="1126" height="1397" decoding="async" ${attrs}>`;
   const webp = abs.replace(/\.(jpe?g|png)$/i, ".webp");
   return `<picture><source srcset="${webp}" type="image/webp">` +
          `<img src="${abs}" width="1126" height="1397" decoding="async" ${attrs}></picture>`;
@@ -781,7 +783,7 @@ function buildWhatsAppText(data) {
   L.push("*POROSIA*");
   data.items.forEach(i => {
     const p = getProduct(i.id);
-    if (p) L.push(`${i.qty} × ${lineName(p, i, "sq")} — ${formatLek(p.price * i.qty)}`);
+    if (p) L.push(`${i.qty} × ${lineName(p, i, "sq")} — ${formatLek(linePrice(p, i) * i.qty)}`);
   });
   L.push("");
   L.push("*TOTALI: " + formatLek(data.total) + "*");
@@ -929,7 +931,7 @@ function renderCheckoutSummary() {
       <div class="thumb thumb-mini">${pictureHTML(lineImg(p, i), `alt="${name}"`)}</div>
       <div>
         <div class="name">${name}</div>
-        <div class="meta">${t("pd.qty", lang)}: ${i.qty} · ${formatLek(p.price * i.qty)}</div>
+        <div class="meta">${t("pd.qty", lang)}: ${i.qty} · ${formatLek(linePrice(p, i) * i.qty)}</div>
       </div>
     </div>`;
   }).join("");

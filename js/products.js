@@ -125,7 +125,86 @@ function formatLek(n) {
 const PRODUCT_DIR = { sq: "lule", en: "flowers", it: "fiori" };
 
 function getProduct(id) {
-  return PRODUCTS.find(p => p.id === id);
+  return PRODUCTS.find(p => p.id === id) || (id === CUSTOM_BOUQUET.id ? CUSTOM_BOUQUET : undefined);
+}
+
+/* ---------------- build your own bouquet ----------------
+   The flowers a customer can pick one stem at a time on the homepage, and
+   what each stem costs. `color` is what the drawing paints the flower with;
+   `shape` picks which drawing (see js/bouquet-builder.js). */
+const STEMS = [
+  { id: "rose-red", shape: "rose", color: "#b3122e", price: 250,
+    name: { sq: ["Trëndafil i kuq", "Trëndafila të kuq"], en: ["Red rose", "Red roses"], it: ["Rosa rossa", "Rose rosse"] } },
+  { id: "rose-blue", shape: "rose", color: "#2d5bb0", price: 350,
+    name: { sq: ["Trëndafil blu", "Trëndafila blu"], en: ["Blue rose", "Blue roses"], it: ["Rosa blu", "Rose blu"] } },
+  { id: "rose-white", shape: "rose", color: "#f3ede6", price: 250,
+    name: { sq: ["Trëndafil i bardhë", "Trëndafila të bardhë"], en: ["White rose", "White roses"], it: ["Rosa bianca", "Rose bianche"] } },
+  { id: "chrysanthemum", shape: "mum", color: "#c977a8", price: 250,
+    name: { sq: ["Krizantemë", "Krizantema"], en: ["Chrysanthemum", "Chrysanthemums"], it: ["Crisantemo", "Crisantemi"] } },
+  { id: "tulip", shape: "tulip", color: "#e9577a", price: 250,
+    name: { sq: ["Tulipan", "Tulipanë"], en: ["Tulip", "Tulips"], it: ["Tulipano", "Tulipani"] } },
+  { id: "sunflower", shape: "sunflower", color: "#f2b81c", price: 300,
+    name: { sq: ["Lule dielli", "Lule dielli"], en: ["Sunflower", "Sunflowers"], it: ["Girasole", "Girasoli"] } }
+];
+
+/* A bouquet is at most this many stems — past it the florist would rather
+   talk it through on WhatsApp. */
+const BOUQUET_MAX_STEMS = 50;
+
+/* A built bouquet goes into the cart as one line of this pseudo-product. Its
+   mix rides in the line's `variant` as a key like "rose-red:3|tulip:2", so
+   two identical bouquets stack into one line and every place that already
+   reads lines by product + variant (cart, checkout, WhatsApp) keeps working.
+   It is not in PRODUCTS, so it never gets a card, a page or a sitemap entry. */
+const CUSTOM_BOUQUET = {
+  id: "custom-bouquet",
+  img: "assets/custom-bouquet.svg",
+  price: 0,
+  name: { sq: "Buqeta juaj", en: "Your own bouquet", it: "Il tuo bouquet" }
+};
+
+/* {"rose-red":3,"tulip":2} -> "rose-red:3|tulip:2", always in STEMS order. */
+function mixKey(mix) {
+  return STEMS.filter(s => mix[s.id] > 0).map(s => s.id + ":" + mix[s.id]).join("|");
+}
+
+/* The reverse, trusting nothing: the key comes back out of localStorage, so
+   unknown flowers are dropped and counts are whole numbers within the cap. */
+function mixFromKey(key) {
+  const mix = {};
+  let total = 0;
+  String(key || "").split("|").forEach(part => {
+    const [id, n] = part.split(":");
+    const count = Math.floor(Number(n));
+    if (!STEMS.some(s => s.id === id) || !(count > 0)) return;
+    const room = BOUQUET_MAX_STEMS - total;
+    if (room <= 0) return;
+    mix[id] = Math.min(count, room);
+    total += mix[id];
+  });
+  return mix;
+}
+
+function mixPrice(mix) {
+  return STEMS.reduce((sum, s) => sum + (mix[s.id] || 0) * s.price, 0);
+}
+
+function mixCount(mix) {
+  return STEMS.reduce((sum, s) => sum + (mix[s.id] || 0), 0);
+}
+
+/* "3 Trëndafila të kuq, 1 Tulipan" */
+function mixLabel(mix, lang) {
+  return STEMS.filter(s => mix[s.id] > 0)
+    .map(s => mix[s.id] + " " + s.name[lang][mix[s.id] === 1 ? 0 : 1])
+    .join(", ");
+}
+
+/* What one of this line costs. Every bouquet has a fixed price except the
+   one the customer built, which costs what its stems cost. */
+function linePrice(p, item) {
+  if (p && p.id === CUSTOM_BOUQUET.id) return mixPrice(mixFromKey(item && item.variant));
+  return p ? p.price : 0;
 }
 
 /* Some products are sold in more than one colour and keep them in
@@ -140,6 +219,10 @@ function getVariant(p, variantId) {
 }
 
 function lineName(p, item, lang) {
+  if (p.id === CUSTOM_BOUQUET.id) {
+    const label = mixLabel(mixFromKey(item && item.variant), lang);
+    return label ? p.name[lang] + " (" + label + ")" : p.name[lang];
+  }
   const v = getVariant(p, item && item.variant);
   return v ? p.name[lang] + " (" + v.name[lang] + ")" : p.name[lang];
 }
@@ -172,5 +255,6 @@ function productFromLocation() {
     const hit = PRODUCTS.find(p => Object.keys(p.slug).some(l => p.slug[l] === slug));
     if (hit) return hit;
   }
-  return getProduct(new URLSearchParams(location.search).get("id"));
+  const id = new URLSearchParams(location.search).get("id");
+  return PRODUCTS.find(p => p.id === id);
 }
