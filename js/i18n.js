@@ -47,7 +47,7 @@ const I18N = {
 
     "section.visit.kicker": "Find us",
     "section.visit.title": "Come and see them",
-    "section.visit.body": "Our door is open every day. Step in and choose your stems in person — or send us a message and we will bring them to you.",
+    "section.visit.body": "Our door is open Monday to Saturday. Step in and choose your stems in person — or send us a message and we will bring them to you.",
     "visit.label.address": "Address",
     "visit.label.hours": "Hours",
     "visit.label.phone": "WhatsApp",
@@ -62,7 +62,7 @@ const I18N = {
     "faq.q3": "How do I pay?",
     "faq.a3": "Cash to the courier when the flowers arrive. Nothing is charged up front, and we do not take cards at the moment.",
     "faq.q4": "When are you open?",
-    "faq.a4": "Every day, 08:00 to 21:00. Come and choose your stems in person, or send us a message and we will bring them to you.",
+    "faq.a4": "Monday to Saturday, 09:00–14:30 and 15:00–21:00. We are closed on Sunday. Come and choose your stems in person, or send us a message and we will bring them to you.",
 
     "nf.kicker": "404",
     "nf.title": "This page has wilted.",
@@ -101,7 +101,7 @@ const I18N = {
     "footer.help.contact": "Contact us",
     "footer.help.faq": "FAQ",
     "footer.visit.title": "Visit",
-    "footer.visit.hours": "Open daily · 08:00–21:00",
+    "footer.visit.hours": "Mon–Sat\n09:00–14:30 / 15:00–21:00\nSunday closed",
     "footer.rights": "© 2026 Amelia Flowers. All rights reserved.",
     "footer.credit": "Made by Alti Media",
     /* ── SEO: one title and description per page, per language. The
@@ -240,7 +240,7 @@ const I18N = {
 
     "section.visit.kicker": "Na gjeni",
     "section.visit.title": "Ejani t'i shihni",
-    "section.visit.body": "Dera jonë është e hapur çdo ditë. Hyni dhe zgjidhni lulet vetë — ose na shkruani dhe ua sjellim ne.",
+    "section.visit.body": "Dera jonë është e hapur nga e hëna në të shtunën. Hyni dhe zgjidhni lulet vetë — ose na shkruani dhe ua sjellim ne.",
     "visit.label.address": "Adresa",
     "visit.label.hours": "Orari",
     "visit.label.phone": "WhatsApp",
@@ -255,7 +255,7 @@ const I18N = {
     "faq.q3": "Si paguaj?",
     "faq.a3": "Cash te korrieri, kur lulet mbërrijnë. Nuk paguani asgjë përpara dhe për momentin nuk pranojmë karta.",
     "faq.q4": "Kur jeni hapur?",
-    "faq.a4": "Çdo ditë, nga 08:00 deri në 21:00. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne.",
+    "faq.a4": "Nga e hëna në të shtunën, 09:00–14:30 dhe 15:00–21:00. Të dielën jemi mbyllur. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne.",
 
     "nf.kicker": "404",
     "nf.title": "Kjo faqe është vyshkur.",
@@ -294,7 +294,7 @@ const I18N = {
     "footer.help.contact": "Na kontaktoni",
     "footer.help.faq": "Pyetje të Shpeshta",
     "footer.visit.title": "Na vizitoni",
-    "footer.visit.hours": "Hapur çdo ditë · 08:00–21:00",
+    "footer.visit.hours": "E hënë–e shtunë\n09:00–14:30 / 15:00–21:00\nE diel mbyllur",
     "footer.rights": "© 2026 Amelia Flowers. Të gjitha të drejtat e rezervuara.",
     "footer.credit": "Bërë nga Alti Media",
     "seo.home.title": "Lule Amelia — Dyqan lulesh në Tiranë · Dërgesa brenda ditës",
@@ -430,7 +430,7 @@ const I18N = {
 
     "section.visit.kicker": "Dove siamo",
     "section.visit.title": "Venite a vederli",
-    "section.visit.body": "La nostra porta è aperta tutti i giorni. Entrate e scegliete i fiori di persona — oppure scriveteci e ve li portiamo noi.",
+    "section.visit.body": "La nostra porta è aperta dal lunedì al sabato. Entrate e scegliete i fiori di persona — oppure scriveteci e ve li portiamo noi.",
     "visit.label.address": "Indirizzo",
     "visit.label.hours": "Orari",
     "visit.label.phone": "WhatsApp",
@@ -445,7 +445,7 @@ const I18N = {
     "faq.q3": "Come si paga?",
     "faq.a3": "In contanti al corriere, quando i fiori arrivano. Non si paga nulla in anticipo e al momento non accettiamo carte.",
     "faq.q4": "Quando siete aperti?",
-    "faq.a4": "Tutti i giorni, dalle 08:00 alle 21:00. Venite a scegliere i fiori di persona, oppure scriveteci e ve li portiamo noi.",
+    "faq.a4": "Dal lunedì al sabato, 09:00–14:30 e 15:00–21:00. La domenica siamo chiusi. Venite a scegliere i fiori di persona, oppure scriveteci e ve li portiamo noi.",
 
     "nf.kicker": "404",
     "nf.title": "Questa pagina è appassita.",
@@ -484,7 +484,7 @@ const I18N = {
     "footer.help.contact": "Contattaci",
     "footer.help.faq": "Domande frequenti",
     "footer.visit.title": "Vieni a trovarci",
-    "footer.visit.hours": "Aperto tutti i giorni · 08:00–21:00",
+    "footer.visit.hours": "Lun–Sab\n09:00–14:30 / 15:00–21:00\nDomenica chiuso",
     "footer.rights": "© 2026 Amelia Flowers. Tutti i diritti riservati.",
     "footer.credit": "Realizzato da Alti Media",
     "seo.home.title": "Invia Fiori in Albania — Consegna a Tirana in Giornata",

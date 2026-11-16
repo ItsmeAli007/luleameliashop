@@ -905,3 +905,7 @@ textarea.input{resize:vertical;min-height:90px}
   .bb-fit,.bb-wrap-back,.bb-wrap-front,.bb-head,.bb-leaf,.bb-shadow{transition:none}
   .bb-bloom,.bb-bump.is-bump,.bb-head.is-leaving .bb-bloom,.bb-leaf.is-leaving .bb-bloom{animation:none}
 }
+
+/* Opening hours run over three lines — days, the two sessions, Sunday —
+   written as line breaks in the string so every language breaks alike. */
+[data-i18n="footer.visit.hours"]{white-space:pre-line}
