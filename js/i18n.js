@@ -172,7 +172,7 @@ const I18N = {
     "error.maxqty": "That's the most we can take online — call us for larger orders.",
 
     "confirm.kicker": "Order received",
-    "confirm.title": "Thank you! Your flowers are on their way.",
+    "confirm.title": "Thank you for choosing Amelia Flowers! Your order is confirmed and our florists have started preparing it!",
     "confirm.body": "We've received your order and our florists are already preparing it. Pay in cash to the courier when it arrives at your door.",
     "confirm.orderlabel": "Order number",
     "confirm.backhome": "Back to home",
@@ -362,7 +362,7 @@ const I18N = {
     "error.maxqty": "Kjo është sasia maksimale online — na telefononi për porosi më të mëdha.",
 
     "confirm.kicker": "Porosia u mor",
-    "confirm.title": "Faleminderit! Lulet tuaja janë në rrugë.",
+    "confirm.title": "Faleminderit që zgjodhët Amelia Flowers! Porosia juaj u konfirmua dhe floristët tanë kanë nisur përgatitjen e saj!",
     "confirm.body": "E morëm porosinë tuaj dhe floristët tanë tashmë po e përgatisin. Paguani cash te korrieri kur të mbërrijë te dera juaj.",
     "confirm.orderlabel": "Numri i porosisë",
     "confirm.backhome": "Kthehu në faqen kryesore",
@@ -552,7 +552,7 @@ const I18N = {
     "error.maxqty": "È il massimo che possiamo accettare online — chiamaci per ordini più grandi.",
 
     "confirm.kicker": "Ordine ricevuto",
-    "confirm.title": "Grazie! I tuoi fiori stanno arrivando.",
+    "confirm.title": "Grazie per aver scelto Amelia Flowers! Il tuo ordine è confermato e i nostri fioristi hanno iniziato a prepararlo!",
     "confirm.body": "Abbiamo ricevuto il tuo ordine e i nostri fioristi lo stanno già preparando. Paga in contanti al corriere quando arriva alla tua porta.",
     "confirm.orderlabel": "Numero d’ordine",
     "confirm.backhome": "Torna alla home",
