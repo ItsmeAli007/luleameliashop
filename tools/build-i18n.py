@@ -65,6 +65,16 @@ skipped = []
 
 
 # ---------------------------------------------------------------- dictionaries
+def unescape_js(v):
+    """A JS string body as the browser would read it — \\n, \\u2019, \\" and
+    the rest — so the prerendered HTML matches what i18n.js shows at runtime.
+    JSON has no \\' escape, so that one is undone first."""
+    try:
+        return json.loads('"%s"' % v.replace("\\'", "'"))
+    except ValueError:
+        return v.replace('\\"', '"').replace("\\'", "'")
+
+
 def dictionaries():
     """Pull the three dictionaries straight out of js/i18n.js.
 
@@ -79,7 +89,7 @@ def dictionaries():
         if not m:
             sys.exit("could not find the %s dictionary in js/i18n.js" % lang)
         pairs = re.findall(r'"((?:[^"\\]|\\.)*)":\s*"((?:[^"\\]|\\.)*)"', m.group(1))
-        out[lang] = {k: v.replace('\\"', '"').replace("\\'", "'") for k, v in pairs}
+        out[lang] = {k: unescape_js(v) for k, v in pairs}
     return out
 
 

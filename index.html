@@ -30,10 +30,10 @@
       media="(max-width:720px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/hero-amelia.webp"
       media="(min-width:721px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/style.css?v=20261116f">
+<link rel="stylesheet" href="/css/style.css?v=20261116h">
 <!-- The liquid-glass layer sits on top of the base system and is safe
      to remove: the storefront underneath keeps working without it. -->
-<link rel="stylesheet" href="/css/liquid-glass.css?v=20261116f">
+<link rel="stylesheet" href="/css/liquid-glass.css?v=20261116h">
 <!-- Structured data for the shop. Keep the address, phone and hours here in
      step with js/config.js — search engines read this copy, customers read
      the one the page renders. -->
@@ -72,8 +72,13 @@
   "hasMap": "https://www.google.com/maps/search/?api=1&query=41.32195131457588,19.80943619473869",
   "openingHoursSpecification": [{
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-    "opens": "08:00",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    "opens": "09:00",
+    "closes": "14:30"
+  }, {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    "opens": "15:00",
     "closes": "21:00"
   }],
   "areaServed": [
@@ -151,7 +156,7 @@
       "name": "Kur jeni hapur?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Çdo ditë, nga 08:00 deri në 21:00. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne."
+        "text": "Nga e hëna në të shtunën, 09:00–14:30 dhe 15:00–21:00. Të dielën jemi mbyllur. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne."
       }
     }
   ]
@@ -521,7 +526,7 @@
           <span class="kicker" data-i18n="section.visit.kicker">Na gjeni</span>
         </div>
         <h2 data-i18n="section.visit.title">Ejani t'i shihni</h2>
-        <p class="visit-body" data-i18n="section.visit.body">Dera jonë është e hapur çdo ditë. Hyni dhe zgjidhni lulet vetë — ose na shkruani dhe ua sjellim ne.</p>
+        <p class="visit-body" data-i18n="section.visit.body">Dera jonë është e hapur nga e hëna në të shtunën. Hyni dhe zgjidhni lulet vetë — ose na shkruani dhe ua sjellim ne.</p>
         <dl class="visit-facts">
           <div>
             <dt data-i18n="visit.label.address">Adresa</dt>
@@ -529,7 +534,9 @@
           </div>
           <div>
             <dt data-i18n="visit.label.hours">Orari</dt>
-            <dd data-i18n="footer.visit.hours">Hapur çdo ditë · 08:00–21:00</dd>
+            <dd data-i18n="footer.visit.hours">E hënë–e shtunë
+09:00–14:30 / 15:00–21:00
+E diel mbyllur</dd>
           </div>
           <div>
             <dt data-i18n="visit.label.phone">WhatsApp</dt>
@@ -593,7 +600,7 @@
       <div data-faq><b data-i18n="faq.q1">Sa të freskëta janë lulet?</b><span data-i18n="faq.a1">Priten dhe rregullohen me dorë çdo mëngjes në dyqanin tonë në Bulevardin Bajram Curri. Asgjë nuk qëndron në raft duke pritur nesër.</span></div>
       <div data-faq><b data-i18n="faq.q2">A dërgoni brenda ditës?</b><span data-i18n="faq.a2">Po, kudo në Tiranë, me 300 L dërgesë. Porositë deri në orën 19:00 dërgohen po atë ditë; pas asaj ore, ditën tjetër.</span></div>
       <div data-faq><b data-i18n="faq.q3">Si paguaj?</b><span data-i18n="faq.a3">Cash te korrieri, kur lulet mbërrijnë. Nuk paguani asgjë përpara dhe për momentin nuk pranojmë karta.</span></div>
-      <div data-faq><b data-i18n="faq.q4">Kur jeni hapur?</b><span data-i18n="faq.a4">Çdo ditë, nga 08:00 deri në 21:00. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne.</span></div>
+      <div data-faq><b data-i18n="faq.q4">Kur jeni hapur?</b><span data-i18n="faq.a4">Nga e hëna në të shtunën, 09:00–14:30 dhe 15:00–21:00. Të dielën jemi mbyllur. Ejani t'i zgjidhni vetë lulet, ose na shkruani dhe ua sjellim ne.</span></div>
     </div>
   </div>
 </section>
@@ -659,7 +666,9 @@
         <h6 data-i18n="footer.visit.title">Na vizitoni</h6>
         <p><a class="foot-directions" data-shop-address data-shop-directions
              href="https://www.google.com/maps/search/?api=1&amp;query=41.32195131457588%2C19.80943619473869" target="_blank" rel="noopener">Bulevardi Bajram Curri, Tirana</a></p>
-        <p data-i18n="footer.visit.hours">Hapur çdo ditë · 08:00–21:00</p>
+        <p data-i18n="footer.visit.hours">E hënë–e shtunë
+09:00–14:30 / 15:00–21:00
+E diel mbyllur</p>
         <a data-shop-phone data-i18n="contact.whatsapp" href="https://wa.me/355698576569" target="_blank" rel="noopener">Na shkruani në WhatsApp</a>
       </div>
     </div>
@@ -692,12 +701,12 @@
   </div>
 </aside>
 
-<script src="/js/config.js?v=20261116f" defer></script>
-<script src="/js/products.js?v=20261116f" defer></script>
-<script src="/js/i18n.js?v=20261116f" defer></script>
-<script src="/js/cart.js?v=20261116f" defer></script>
-<script src="/js/main.js?v=20261116f" defer></script>
-<script src="/js/bouquet-builder.js?v=20261116f" defer></script>
-<script src="/js/liquid-glass.js?v=20261116f" defer></script>
+<script src="/js/config.js?v=20261116h" defer></script>
+<script src="/js/products.js?v=20261116h" defer></script>
+<script src="/js/i18n.js?v=20261116h" defer></script>
+<script src="/js/cart.js?v=20261116h" defer></script>
+<script src="/js/main.js?v=20261116h" defer></script>
+<script src="/js/bouquet-builder.js?v=20261116h" defer></script>
+<script src="/js/liquid-glass.js?v=20261116h" defer></script>
 </body>
 </html>
