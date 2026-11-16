@@ -45,7 +45,7 @@ const Cart = {
   subtotal() {
     return this.get().reduce((s, i) => {
       const p = getProduct(i.id);
-      return p ? s + p.price * i.qty : s;
+      return p ? s + linePrice(p, i) * i.qty : s;
     }, 0);
   }
 };
@@ -69,7 +69,7 @@ function cartRowTemplate(item, lang) {
     <div class="cart-row-body">
       <div class="cart-row-top">
         <span class="cart-row-name">${name}</span>
-        <span class="p-price">${formatLek(p.price * item.qty)}</span>
+        <span class="p-price">${formatLek(linePrice(p, item) * item.qty)}</span>
       </div>
       <div class="cart-row-top" style="align-items:center">
         <div class="qty-stepper" data-id="${p.id}"${variant}>
