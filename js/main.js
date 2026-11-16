@@ -497,7 +497,7 @@ function productSchema(p, lang) {
       "areaServed": { "@type": "City", "name": "Tirana" },
       "shippingDetails": {
         "@type": "OfferShippingDetails",
-        "shippingRate": { "@type": "MonetaryAmount", "value": 0, "currency": "ALL" },
+        "shippingRate": { "@type": "MonetaryAmount", "value": deliveryFee(), "currency": "ALL" },
         "shippingDestination": {
           "@type": "DefinedRegion",
           "addressCountry": "AL",
@@ -786,6 +786,7 @@ function buildWhatsAppText(data) {
     if (p) L.push(`${i.qty} × ${lineName(p, i, "sq")} — ${formatLek(linePrice(p, i) * i.qty)}`);
   });
   L.push("");
+  if (data.delivery) L.push("Dërgesa (Tiranë): " + formatLek(data.delivery));
   L.push("*TOTALI: " + formatLek(data.total) + "*");
   L.push("Pagesa: Cash në dorëzim");
   const source = sourceLine();
@@ -911,6 +912,18 @@ const OrderRate = {
 };
 
 /* ---------------- checkout page ---------------- */
+/* One flat fee for delivery within Tirana, from SHOP.deliveryFee in
+   js/config.js. An empty cart pays nothing — there is nothing to deliver. */
+function deliveryFee() {
+  const fee = typeof SHOP !== "undefined" ? Math.floor(Number(SHOP.deliveryFee)) : 0;
+  return fee > 0 ? fee : 0;
+}
+
+function orderTotal() {
+  const sub = Cart.subtotal();
+  return sub > 0 ? sub + deliveryFee() : 0;
+}
+
 function genOrderNumber() {
   const d = new Date();
   const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
@@ -937,8 +950,11 @@ function renderCheckoutSummary() {
   }).join("");
   initImageFallbacks(wrap);
   const sub = Cart.subtotal();
+  const fee = deliveryFee();
   document.getElementById("sumSubtotal").textContent = formatLek(sub);
-  document.getElementById("sumTotal").textContent = formatLek(sub);
+  const del = document.getElementById("sumDelivery");
+  if (del) del.textContent = fee ? formatLek(fee) : t("checkout.summary.delivery.free", lang);
+  document.getElementById("sumTotal").textContent = formatLek(orderTotal());
 }
 
 /* The phone number is the one field an order cannot do without: confirming
@@ -1034,7 +1050,8 @@ function initCheckoutPage() {
       city: form.city.value.trim(),
       notes: form.notes.value.trim(),
       items: Cart.get(),
-      total: Cart.subtotal(),
+      delivery: deliveryFee(),
+      total: orderTotal(),
       orderNumber: genOrderNumber(),
       date: new Date().toISOString()
     };

@@ -105,6 +105,14 @@ def catalogue():
     return block("PRODUCTS"), block("CATEGORIES")
 
 
+def delivery_fee():
+    """SHOP.deliveryFee from js/config.js, so the price search engines read
+    is the one checkout charges. 0 if the setting is missing."""
+    src = open(os.path.join(ROOT, "js", "config.js"), encoding="utf-8").read()
+    m = re.search(r'\bdeliveryFee:\s*(\d+)', src)
+    return int(m.group(1)) if m else 0
+
+
 def esc(text):
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -314,7 +322,7 @@ def product_schema(p, lang, words):
             "areaServed": {"@type": "City", "name": "Tirana"},
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
-                "shippingRate": {"@type": "MonetaryAmount", "value": 0, "currency": "ALL"},
+                "shippingRate": {"@type": "MonetaryAmount", "value": delivery_fee(), "currency": "ALL"},
                 "shippingDestination": {
                     "@type": "DefinedRegion",
                     "addressCountry": "AL",
