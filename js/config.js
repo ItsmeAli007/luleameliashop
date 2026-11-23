@@ -63,8 +63,8 @@ const SHOP = {
        Fill in once the exact doorway is known. */
     plusCode: "",
 
-    lat: 41.32195131457588,
-    lng: 19.80943619473869,
+    lat: 41.3218686,
+    lng: 19.8095146,
 
     /* "pin" opens the map showing the spot; "directions" opens navigation
        straight to it. Directions is the friendlier one on a phone.
