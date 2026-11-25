@@ -141,7 +141,7 @@ const STEMS = [
     name: { sq: ["Trëndafil i bardhë", "Trëndafila të bardhë"], en: ["White rose", "White roses"], it: ["Rosa bianca", "Rose bianche"] } },
   { id: "chrysanthemum", shape: "mum", color: "#c977a8", price: 250,
     name: { sq: ["Krizantemë", "Krizantema"], en: ["Chrysanthemum", "Chrysanthemums"], it: ["Crisantemo", "Crisantemi"] } },
-  { id: "tulip", shape: "tulip", color: "#e9577a", price: 250,
+  { id: "tulip", shape: "tulip", color: "#e9577a", price: 300,
     name: { sq: ["Tulipan", "Tulipanë"], en: ["Tulip", "Tulips"], it: ["Tulipano", "Tulipani"] } },
   { id: "sunflower", shape: "sunflower", color: "#f2b81c", price: 300,
     name: { sq: ["Lule dielli", "Lule dielli"], en: ["Sunflower", "Sunflowers"], it: ["Girasole", "Girasoli"] } }
