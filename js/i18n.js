@@ -73,6 +73,9 @@ const I18N = {
     "visit.cta.apple": "Apple Maps",
 
     "section.reviews.kicker": "Testimonials",
+    "review.cta.title": "Loved your flowers?",
+    "review.cta.body": "Leave us a review on Google — it helps us a lot and tells others what to expect.",
+    "review.cta.button": "Leave a Google review",
     "section.reviews.title": "Loved across Tirana",
     "section.reviews.note": "Sample reviews, shown as examples of the service while we collect feedback from our first customers.",
     "quote.note": "Sample review",
@@ -266,6 +269,9 @@ const I18N = {
     "visit.cta.apple": "Apple Maps",
 
     "section.reviews.kicker": "Dëshmi",
+    "review.cta.title": "Ju pëlqyen lulet tona?",
+    "review.cta.body": "Lini një vlerësim në Google — na ndihmon shumë dhe u tregon të tjerëve se çfarë të presin.",
+    "review.cta.button": "Lini një vlerësim në Google",
     "section.reviews.title": "E dashur në gjithë Tiranën",
     "section.reviews.note": "Vlerësime shembull, të shfaqura si ilustrim i shërbimit derisa të mbledhim përshtypjet e klientëve tanë të parë.",
     "quote.note": "Vlerësim shembull",
@@ -456,6 +462,9 @@ const I18N = {
     "visit.cta.apple": "Apple Maps",
 
     "section.reviews.kicker": "Testimonianze",
+    "review.cta.title": "Vi sono piaciuti i nostri fiori?",
+    "review.cta.body": "Lasciateci una recensione su Google — ci aiuta molto e dice agli altri cosa aspettarsi.",
+    "review.cta.button": "Lascia una recensione su Google",
     "section.reviews.title": "Amati in tutta Tirana",
     "section.reviews.note": "Recensioni di esempio, mostrate a titolo illustrativo del servizio in attesa dei riscontri dei nostri primi clienti.",
     "quote.note": "Recensione di esempio",
