@@ -100,6 +100,7 @@ body.page-checkout::before{opacity:.55}
 .p-card,
 .chip,
 .t-card,
+.review-cta,
 .visit-facts,
 .newsletter,
 .summary-card,
@@ -136,7 +137,7 @@ body.page-checkout::before{opacity:.55}
    semi-transparent white with page content legible straight through them.
    Opaque tints instead — same palette, no transparency. */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .lg-glass,.site-header.solid,.lang-pill,.p-card,.chip,.t-card,.visit-facts,
+  .lg-glass,.site-header.solid,.lang-pill,.p-card,.chip,.t-card,.review-cta,.visit-facts,
   .newsletter,.summary-card,.pd-panel,.pay-card,.qty-stepper,.input,.cart-drawer,
   .order-num,.breadcrumb.lg-crumb{background-color:#fdf9f8}
   .lg-glass--dark,.mobile-menu,.hero-eyebrow,.band-dark .newsletter,.marquee{background-color:#25060f}
@@ -503,6 +504,7 @@ body.menu-open .brand-lockup{filter:brightness(0) invert(1)}
   border-radius:var(--lg-radius-l);padding:30px 28px;
   transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out);
 }
+.review-cta{border-radius:var(--lg-radius-l)}
 .t-card:hover{transform:translateY(-5px);box-shadow:var(--lg-inner),var(--lg-shadow-lifted)}
 .t-stars{color:var(--amelia-wine-bright)}
 .t-card p{color:var(--n-800)}

@@ -579,7 +579,10 @@ section{position:relative}
 .t-stars{color:var(--color-accent);letter-spacing:2px;font-size:14px}
 .t-card p{font-size:14.5px;line-height:1.6;margin:16px 0 0;color:var(--n-800)}
 .t-name{margin-top:20px;font:700 12px var(--font-body);letter-spacing:.03em}
-.review-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:28px;padding:28px;background:var(--color-bg);border:1px solid var(--n-200,rgba(0,0,0,.08))}
+.review-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:clamp(14px,1.6vw,22px);padding:30px 32px}
+/* The CTA closes the reviews, so the section needs less room below it
+   before #visit adds its own top padding. */
+#reviews{padding-bottom:40px}
 .review-cta h3{margin:0 0 6px;font-size:22px}
 .review-cta p{margin:0;max-width:52ch;font-size:14px}
 @media (max-width:600px){.review-cta .btn{width:100%;justify-content:center}}
